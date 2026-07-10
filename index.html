@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rawstate — Practice Anywhere. Fold. Pack. Go.</title>
+  <meta name="description" content="Rawstate The Fold™ — le tapis de yoga pliable premium conçu pour les digital nomads. Ultra léger, compact, stable. Pensé pour ceux qui pratiquent partout." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Announcement bar -->
+  <div class="announce" data-announce>
+    <div class="announce__track" data-announce-track></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" data-header>
+    <div class="container header__inner">
+      <a href="#top" class="logo" aria-label="Rawstate"><img src="assets/logo-dark.svg" alt="Rawstate" /></a>
+      <nav class="nav" aria-label="Navigation principale">
+        <a href="#product">Le tapis</a>
+        <a href="#story">Histoire</a>
+        <a href="#lifestyle">Lifestyle</a>
+        <a href="#reviews">Avis</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="header__actions">
+        <a href="#product" class="btn btn--sm btn--dark">Acheter</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <div class="hero__bg">
+        <img
+          data-parallax
+          src="assets/hero.png"
+          alt="Digital nomad en position de gainage sur son tapis Rawstate dans un jardin tropical"
+          loading="eager" />
+      </div>
+      <div class="hero__overlay" aria-hidden="true"></div>
+
+      <div class="container hero__inner">
+        <div class="hero__content reveal">
+          <h1 class="hero__title">
+            Plus d'excuse pour<br />
+            <span class="hero__title-light">sauter votre séance</span>
+          </h1>
+          <p class="hero__sub">
+            Le tapis de yoga pliable premium qui suit chacun de vos voyages.
+            Ultra léger. Compact. Stable. Pensé pour les travailleurs nomades.
+          </p>
+          <div class="hero__cta">
+            <a href="#product" class="btn btn--white btn--lg">Découvrir le tapis</a>
+          </div>
+          <ul class="hero__meta">
+            <li><strong>700g</strong><span>Ultra léger</span></li>
+            <li><strong>30cm</strong><span>Plié compact</span></li>
+            <li><strong>4.7/5</strong><span>189 avis</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="hero__marquee" aria-hidden="true">
+        <div class="marquee__track" data-marquee></div>
+      </div>
+    </section>
+
+    <!-- ============ PRODUCT ============ -->
+    <section class="product" id="product">
+      <div class="container product__grid">
+
+        <!-- Gallery -->
+        <div class="gallery reveal">
+          <div class="gallery__main" data-gallery-main>
+            <div class="gallery__stage" data-gallery-stage></div>
+            <button class="gallery__nav gallery__nav--prev" data-nav="-1" aria-label="Image précédente">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <button class="gallery__nav gallery__nav--next" data-nav="1" aria-label="Image suivante">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+          <div class="gallery__thumbs" data-gallery-thumbs>
+            <!-- filled by JS -->
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="pinfo reveal">
+          <div class="pinfo__head">
+            <div class="stars" aria-label="Note 4,9 sur 5">
+              <span class="stars__fill" style="--rating:94%"></span>
+            </div>
+            <a href="#reviews" class="pinfo__reviews">4.7 · 189 avis vérifiés</a>
+          </div>
+
+          <h1 class="pinfo__title">Rawstate The Fold™</h1>
+
+          <ul class="pinfo__bullets">
+            <li><span class="ico" data-ico="check"></span> Pliable en 5 secondes</li>
+            <li><span class="ico" data-ico="check"></span> Facile à transporter</li>
+            <li><span class="ico" data-ico="check"></span> Idéal pour les voyages</li>
+          </ul>
+
+          <p class="pinfo__desc">
+            Le seul tapis de yoga qui se plie comme une serviette et se glisse
+            dans votre sac cabine. Adhérence supérieure, matériaux responsables,
+            fini d'exception. Conçu pour ceux qui refusent de sacrifier leur
+            pratique en voyage.
+          </p>
+
+          <!-- Offers -->
+          <div class="offers" id="offers" data-offers>
+            <div class="offer" data-offer="1" role="radio" aria-checked="false" tabindex="0">
+              <div class="offer__main">
+                <span class="offer__radio"></span>
+                <div class="offer__info">
+                  <span class="offer__title">1 tapis</span>
+                  <span class="offer__sub">Le format nomade</span>
+                </div>
+                <div class="offer__price">
+                  <span class="offer__now">69,90&nbsp;€</span>
+                </div>
+              </div>
+              <div class="offer__body">
+                <div class="offer__pick" data-pick="single"></div>
+              </div>
+            </div>
+
+            <div class="offer offer--popular" data-offer="2" role="radio" aria-checked="true" tabindex="0">
+              <span class="offer__badge">Meilleure offre</span>
+              <div class="offer__main">
+                <span class="offer__radio"></span>
+                <div class="offer__info">
+                  <span class="offer__title">2 tapis</span>
+                  <span class="offer__pills"><i>−15&nbsp;%</i><i>Livraison offerte</i></span>
+                </div>
+                <div class="offer__price">
+                  <span class="offer__old">139,80&nbsp;€</span>
+                  <span class="offer__now">118,80&nbsp;€</span>
+                </div>
+              </div>
+              <div class="offer__body">
+                <div class="offer__pick" data-pick="duo"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product accordions -->
+          <div class="accordion pinfo__accordion" data-accordion>
+            <div class="acc">
+              <button class="acc__q">Description<span class="acc__ico"></span></button>
+              <div class="acc__a"><div class="acc__body">
+                <p>Vous ne ratez plus une séance parce que votre tapis est resté à la maison.</p>
+                <p>The Fold™ a été pensé pour celles et ceux qui ne posent jamais leurs valises longtemps. Compact une fois plié, il tient dans un sac à dos, une valise cabine ou un tiroir de bureau et se déroule en quelques secondes partout où vous en avez besoin : chambre d'hôtel, salle de sport, coin de bureau, terrasse d'Airbnb.</p>
+                <p>Fabriqué en TPE écoresponsable, il offre un grip fiable même en pleine transpiration, sans sacrifier le confort articulaire. Pas de compromis entre praticité et qualité : juste un tapis qui suit votre rythme, où qu'il vous emmène.</p>
+              </div></div>
+            </div>
+            <div class="acc">
+              <button class="acc__q">Caractéristiques<span class="acc__ico"></span></button>
+              <div class="acc__a"><div class="acc__body">
+                <ul class="pinfo__specs">
+                  <li><strong>Dimensions dépliées :</strong> 183 × 61 cm</li>
+                  <li><strong>Dimensions pliées :</strong> 36,6 × 30 cm</li>
+                  <li><strong>Épaisseur :</strong> 4 mm</li>
+                  <li><strong>Poids :</strong> 700 g</li>
+                  <li><strong>Matériau :</strong> TPE sans phtalates</li>
+                  <li><strong>Adhérence :</strong> surface texturée double face, grip optimal à sec comme humide</li>
+                  <li><strong>Entretien :</strong> lavable à l'eau savonneuse, séchage à l'air libre</li>
+                </ul>
+              </div></div>
+            </div>
+            <div class="acc">
+              <button class="acc__q">Utilisation<span class="acc__ico"></span></button>
+              <div class="acc__a"><div class="acc__body">
+                <ol class="pinfo__steps">
+                  <li>Dépliez votre tapis sur une surface plane : il retrouve sa forme en quelques secondes, sans odeur ni pli résiduel après les premiers jours d'utilisation.</li>
+                  <li>Pratiquez comme sur un tapis studio classique : yoga, pilates, étirements, renforcement au sol. L'adhérence reste stable même en séance intense.</li>
+                  <li>Repliez en suivant les plis d'origine : l'opération prend moins de 10 secondes.</li>
+                  <li>Rangez-le où vous voulez : sac de sport, valise, sac à dos.</li>
+                </ol>
+              </div></div>
+            </div>
+            <div class="acc">
+              <button class="acc__q">Livraison<span class="acc__ico"></span></button>
+              <div class="acc__a"><div class="acc__body">
+                <p>Votre commande est préparée sous 1 à 2 jours ouvrés puis expédiée dans toute la France. Délai de livraison estimé : 7 à 10 jours ouvrés.</p>
+              </div></div>
+            </div>
+          </div>
+
+          <!-- Buy -->
+          <button class="btn btn--dark btn--block btn--buy" data-buy>
+            <span>Ajouter au panier</span>
+            <span class="btn__price">— 118,80&nbsp;€</span>
+          </button>
+
+          <div class="pinfo__reassure">
+            <div><span class="ico" data-ico="lock"></span> Paiement sécurisé</div>
+            <div><span class="ico" data-ico="return"></span> Retour 30 jours</div>
+            <div><span class="ico" data-ico="shield"></span> Garantie qualité</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="howto">
+      <div class="container">
+        <div class="howto__head reveal">
+          <span class="eyebrow">Simple, à chaque étape</span>
+          <h2>Comment ça fonctionne&nbsp;?</h2>
+        </div>
+        <div class="howto__grid">
+          <article class="step reveal">
+            <div class="step__media">
+              <img src="assets/step1.png" alt="Installez-vous sur le tapis déplié" loading="lazy" />
+              <span class="step__num">01</span>
+            </div>
+            <h3>Installez-vous</h3>
+            <p>Une surface parfaitement plane en un geste, sans pli ni marque. Prêt à pratiquer où que vous soyez.</p>
+          </article>
+          <article class="step reveal">
+            <div class="step__media">
+              <img src="assets/step2.png" alt="Pliez le tapis en quelques secondes" loading="lazy" />
+              <span class="step__num">02</span>
+            </div>
+            <h3>Pliez en quelques secondes</h3>
+            <p>Un pliage net et intuitif, sans effort. Pas besoin de le rouler ni de le sangler.</p>
+          </article>
+          <article class="step reveal">
+            <div class="step__media">
+              <img src="assets/step3.png" alt="Emportez le tapis plié partout dans un sac" loading="lazy" />
+              <span class="step__num">03</span>
+            </div>
+            <h3>Emportez-le partout</h3>
+            <p>Compact comme un ordinateur portable, léger comme une bouteille d'eau. Il vous suit partout, du studio au bout du monde.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STORYTELLING ============ -->
+    <section class="story" id="story">
+      <div class="container story__grid">
+        <div class="story__content reveal">
+        <span class="eyebrow">Notre histoire</span>
+        <h2 class="story__title">Conçu pour vous accompagner</h2>
+        <div class="story__body">
+          <p>
+            Il a quitté son bureau il y a trois ans. Depuis, sa vie tient
+            dans un sac de 40 litres. Un matin à Lisbonne, un après-midi de
+            visio depuis un coworking de Bali, une nuit dans un Airbnb à Mexico.
+          </p>
+          <p>
+            Ce qui n'a jamais changé&nbsp;? Ces vingt minutes, chaque matin, où
+            il déroule son tapis. Sur un rooftop, une plage, le parquet froid
+            d'un hôtel. Son point d'ancrage. Sa constante dans un monde qui
+            défile.
+          </p>
+          <p class="story__lead">
+            Rawstate n'est pas un accessoire. C'est un compagnon de voyage —
+            celui qui transforme n'importe quel lieu en espace de pratique,
+            et n'importe quel matin en rituel.
+          </p>
+        </div>
+        </div>
+        <div class="story__media reveal">
+          <img src="assets/story.png" alt="Un digital nomad souriant dans les rues de Lisbonne, casque autour du cou et ordinateur sous le bras" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BENEFITS CARDS ============ -->
+    <section class="benefits">
+      <div class="container">
+        <div class="benefits__grid">
+          <article class="bcard reveal">
+            <span class="ico ico--lg" data-ico="fold"></span>
+            <h3>Ultra pliable</h3>
+            <p>Se plie comme une serviette, en trois secondes, sans plis marqués.</p>
+          </article>
+          <article class="bcard reveal">
+            <span class="ico ico--lg" data-ico="bag"></span>
+            <h3>Prêt à voyager</h3>
+            <p>Se glisse dans n'importe quel sac. Format cabine, 700 grammes.</p>
+          </article>
+          <article class="bcard reveal">
+            <span class="ico ico--lg" data-ico="grip"></span>
+            <h3>Adhérence supérieure</h3>
+            <p>Adhérence maximale, même en yoga dynamique et transpiration.</p>
+          </article>
+          <article class="bcard reveal">
+            <span class="ico ico--lg" data-ico="leaf"></span>
+            <h3>Matériaux responsables</h3>
+            <p>Caoutchouc naturel et microfibre recyclée. Sans PVC, sans toxines.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LIFESTYLE EDITORIAL ============ -->
+    <section class="lifestyle" id="lifestyle">
+      <div class="container">
+        <div class="lifestyle__head reveal">
+          <span class="eyebrow">Partout où vous allez</span>
+          <h2>Une pratique sans frontières</h2>
+        </div>
+
+        <div class="edito reveal">
+          <div class="edito__media">
+            <img src="assets/life-bali.png" alt="Femme en méditation sur son tapis Rawstate face au coucher de soleil à Bali" loading="lazy" />
+          </div>
+          <div class="edito__text">
+            <span class="edito__num">01</span>
+            <h3>Yoga à Bali</h3>
+            <p>Le rituel du matin face aux rizières. Le tapis déroulé sur une terrasse en bois, la brise tiède, le silence avant le premier email.</p>
+          </div>
+        </div>
+
+        <div class="edito edito--reverse reveal">
+          <div class="edito__media">
+            <img src="assets/life-rooftop.png" alt="Homme en entraînement sur son tapis Rawstate sur un rooftop face à la skyline" loading="lazy" />
+          </div>
+          <div class="edito__text">
+            <span class="edito__num">02</span>
+            <h3>Rooftop</h3>
+            <p>La ville à vos pieds, le ciel qui s'embrase. Une séance suspendue au-dessus du bruit, ancrée sur quelques millimètres de stabilité.</p>
+          </div>
+        </div>
+
+        <div class="edito reveal">
+          <div class="edito__media">
+            <img src="assets/life-beach.png" alt="Homme faisant des abdominaux sur son tapis Rawstate bleu à la plage" loading="lazy" />
+          </div>
+          <div class="edito__text">
+            <span class="edito__num">03</span>
+            <h3>Plage & montagne</h3>
+            <p>Du sable de Tulum aux sentiers d'altitude, Rawstate suit le rythme. Il se nettoie d'un geste et sèche en quelques minutes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMPARISON ============ -->
+    <section class="compare">
+      <div class="container reveal">
+        <div class="compare__head">
+          <span class="eyebrow">La différence</span>
+          <h2>Rawstate vs. tapis classique</h2>
+        </div>
+        <div class="compare__wrap">
+          <table class="ctable">
+            <thead>
+              <tr>
+                <th class="ctable__crit">Critère</th>
+                <th class="ctable__brand">
+                  <span class="ctable__head">
+                    <img class="ctable__logo" src="assets/logo-light.svg" alt="Rawstate" />
+                    <span class="ctable__badge"><img src="assets/mat-grey.png" alt="" /></span>
+                  </span>
+                </th>
+                <th class="ctable__classic">
+                  <span class="ctable__head">
+                    <span class="ctable__classic-label">Tapis classique</span>
+                    <span class="ctable__badge"><img src="assets/classic-mat.png" alt="" /></span>
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Poids</td><td class="ctable__brand">700 g</td><td class="ctable__classic">2,5 kg</td></tr>
+              <tr><td>Épaisseur</td><td class="ctable__brand">4 mm optimisée</td><td class="ctable__classic">6 mm rigide</td></tr>
+              <tr><td>Format pliable</td><td class="ctable__brand"><span class="yes">Oui — 30 cm</span></td><td class="ctable__classic"><span class="no">Rouleau encombrant</span></td></tr>
+              <tr><td>Transport cabine</td><td class="ctable__brand"><span class="yes">Oui</span></td><td class="ctable__classic"><span class="no">Non</span></td></tr>
+              <tr><td>Adhérence</td><td class="ctable__brand">Supérieure, sèche &amp; humide</td><td class="ctable__classic">Variable</td></tr>
+              <tr><td>Résistance</td><td class="ctable__brand">Renforcée</td><td class="ctable__classic">Standard</td></tr>
+              <tr><td>Nettoyage</td><td class="ctable__brand">Machine ou éponge</td><td class="ctable__classic">Main uniquement</td></tr>
+              <tr><td>Matériaux</td><td class="ctable__brand">TPE écoresponsable</td><td class="ctable__classic">PVC</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BENEFITS GRAY ============ -->
+    <section class="usecases">
+      <div class="container">
+        <div class="usecases__head reveal">
+          <span class="eyebrow">Pensé pour votre quotidien</span>
+          <h2>Quatre raisons de ne plus le quitter</h2>
+        </div>
+        <div class="usecases__grid">
+          <article class="ucard reveal">
+            <span class="ico ico--xl" data-ico="plane"></span>
+            <h3>Voyage léger</h3>
+            <p>700 grammes qui disparaissent dans votre bagage. Vous ne le sentez plus.</p>
+          </article>
+          <article class="ucard reveal">
+            <span class="ico ico--xl" data-ico="sun"></span>
+            <h3>Routine quotidienne</h3>
+            <p>Déroulé en trois secondes, prêt pour vos vingt minutes essentielles.</p>
+          </article>
+          <article class="ucard reveal">
+            <span class="ico ico--xl" data-ico="balance"></span>
+            <h3>Postures stables</h3>
+            <p>Une base qui ne glisse pas, ne bouge pas, ne vous trahit jamais.</p>
+          </article>
+          <article class="ucard reveal">
+            <span class="ico ico--xl" data-ico="drop"></span>
+            <h3>Nettoyage facile</h3>
+            <p>Un coup d'éponge ou un passage en machine, et il est comme neuf.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ REVIEWS ============ -->
+    <section class="reviews" id="reviews">
+      <div class="container">
+        <div class="reviews__top reveal">
+          <div class="reviews__score">
+            <div class="reviews__big">4.7</div>
+            <div class="stars stars--lg" aria-label="4,9 sur 5">
+              <span class="stars__fill" style="--rating:94%"></span>
+            </div>
+            <p>Basé sur 189 avis vérifiés</p>
+          </div>
+          <div class="reviews__histo">
+            <div class="histo"><span>5★</span><div class="histo__bar"><i style="--w:92%"></i></div><span>92%</span></div>
+            <div class="histo"><span>4★</span><div class="histo__bar"><i style="--w:6%"></i></div><span>6%</span></div>
+            <div class="histo"><span>3★</span><div class="histo__bar"><i style="--w:1%"></i></div><span>1%</span></div>
+            <div class="histo"><span>2★</span><div class="histo__bar"><i style="--w:0.5%"></i></div><span>&lt;1%</span></div>
+            <div class="histo"><span>1★</span><div class="histo__bar"><i style="--w:0.5%"></i></div><span>&lt;1%</span></div>
+          </div>
+        </div>
+
+        <div class="reviews__marquee">
+        <div class="reviews__track" data-reviews-track>
+          <article class="review">
+            <div class="review__head">
+              <div class="avatar">EM</div>
+              <div>
+                <strong>Elena M.</strong>
+                <span>Portugal 🇵🇹</span>
+              </div>
+              <span class="verified">Verified Buyer</span>
+            </div>
+            <div class="stars stars--sm"><span class="stars__fill" style="--rating:100%"></span></div>
+            <p>« Je voyage 10 mois par an. C'est le premier tapis qui rentre vraiment dans mon sac cabine sans que je m'en aperçoive. L'adhérence est bluffante. »</p>
+          </article>
+          <article class="review">
+            <div class="review__head">
+              <div class="avatar">JK</div>
+              <div>
+                <strong>Jonas K.</strong>
+                <span>Allemagne 🇩🇪</span>
+              </div>
+              <span class="verified">Verified Buyer</span>
+            </div>
+            <div class="stars stars--sm"><span class="stars__fill" style="--rating:100%"></span></div>
+            <p>« Qualité incroyable. Je le plie et déplie tous les jours depuis 8 mois, aucune trace, aucune usure. Le Gris anthracite est magnifique. »</p>
+          </article>
+          <article class="review">
+            <div class="review__head">
+              <div class="avatar">SL</div>
+              <div>
+                <strong>Sofia L.</strong>
+                <span>Mexique 🇲🇽</span>
+              </div>
+              <span class="verified">Verified Buyer</span>
+            </div>
+            <div class="stars stars--sm"><span class="stars__fill" style="--rating:100%"></span></div>
+            <p>« Parfait pour le yoga sur la plage. Le sable ne colle pas et il sèche en un instant. Objet pensé dans les moindres détails. »</p>
+          </article>
+          <article class="review">
+            <div class="review__head">
+              <div class="avatar">RA</div>
+              <div>
+                <strong>Ryan A.</strong>
+                <span>Canada 🇨🇦</span>
+              </div>
+              <span class="verified">Verified Buyer</span>
+            </div>
+            <div class="stars stars--sm"><span class="stars__fill" style="--rating:80%"></span></div>
+            <p>« Ultra léger et stable même en vinyasa rapide. J'aurais aimé une version encore plus fine, mais le grip vaut chaque euro. »</p>
+          </article>
+          <article class="review">
+            <div class="review__head">
+              <div class="avatar">MC</div>
+              <div>
+                <strong>Marion C.</strong>
+                <span>France 🇫🇷</span>
+              </div>
+              <span class="verified">Verified Buyer</span>
+            </div>
+            <div class="stars stars--sm"><span class="stars__fill" style="--rating:100%"></span></div>
+            <p>« Le compagnon idéal de ma vanlife. Il vit dans un tiroir, sort en trois secondes. Le design minimaliste est exactement ce que je cherchais. »</p>
+          </article>
+          <article class="review">
+            <div class="review__head">
+              <div class="avatar">TN</div>
+              <div>
+                <strong>Thao N.</strong>
+                <span>Vietnam 🇻🇳</span>
+              </div>
+              <span class="verified">Verified Buyer</span>
+            </div>
+            <div class="stars stars--sm"><span class="stars__fill" style="--rating:100%"></span></div>
+            <p>« Practice à Chiang Mai, Hanoï, Da Nang… il m'a suivie partout. Se nettoie en machine, sèche vite. Rien à redire, achat parfait. »</p>
+          </article>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INSTAGRAM ============ -->
+    <section class="insta">
+      <div class="container">
+        <div class="insta__head reveal">
+          <span class="eyebrow">@rawstate</span>
+          <h2>Rejoignez le lifestyle Rawstate</h2>
+        </div>
+        <div class="insta__marquee">
+          <div class="insta__track" data-insta-track></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="faq" id="faq">
+      <div class="container faq__inner reveal">
+        <div class="faq__head">
+          <span class="eyebrow">On répond à tout</span>
+          <h2>Questions fréquentes</h2>
+        </div>
+        <div class="accordion" data-accordion>
+          <div class="acc">
+            <button class="acc__q">Le tapis rentre-t-il dans un sac cabine ?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>Oui. Plié, Rawstate mesure 30 × 30 cm et pèse 700 g. Il se glisse dans un sac à dos, une valise cabine ou même un tote bag sans occuper d'espace.</p></div>
+          </div>
+          <div class="acc">
+            <button class="acc__q">Peut-on le plier quotidiennement ?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>Absolument. Le caoutchouc naturel a été traité pour supporter des milliers de pliages sans marque permanente ni perte d'adhérence. C'est précisément ce pour quoi il est conçu.</p></div>
+          </div>
+          <div class="acc">
+            <button class="acc__q">Comment le nettoyer ?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>Un coup d'éponge humide suffit au quotidien. Pour un nettoyage complet, il passe en machine à 30°C et sèche à l'air libre en quelques minutes.</p></div>
+          </div>
+          <div class="acc">
+            <button class="acc__q">Quelle est son épaisseur ?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>4 mm optimisés : assez fin pour se plier et rester léger, assez dense pour protéger vos articulations sur toute surface.</p></div>
+          </div>
+          <div class="acc">
+            <button class="acc__q">Est-il adapté au yoga dynamique ?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>Oui. Sa surface à micro-adhérence garde une accroche maximale même en transpiration, pour le vinyasa, l'ashtanga ou le power yoga.</p></div>
+          </div>
+          <div class="acc">
+            <button class="acc__q">Quelle est la garantie ?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>Garantie qualité 2 ans, retour offert sous 30 jours et satisfaction garantie. Si le tapis ne vous convient pas, nous le reprenons sans condition.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMPLEMENTARY ============ -->
+    <section class="addons">
+      <div class="container">
+        <div class="addons__head reveal">
+          <span class="eyebrow">Complétez votre setup</span>
+          <h2>Souvent achetés ensemble</h2>
+        </div>
+        <div class="addons__grid" data-addons>
+          <!-- filled by JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <p>Le tapis de yoga pliable conçu pour les digital nomads. Pratiquez partout.</p>
+          <div class="socials" aria-label="Réseaux sociaux">
+            <a href="#" aria-label="Instagram"><span class="ico" data-ico="instagram"></span></a>
+            <a href="#" aria-label="TikTok"><span class="ico" data-ico="tiktok"></span></a>
+            <a href="#" aria-label="YouTube"><span class="ico" data-ico="youtube"></span></a>
+            <a href="#" aria-label="Pinterest"><span class="ico" data-ico="pinterest"></span></a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4>Rawstate</h4>
+          <a href="#product">Le tapis</a>
+          <a href="#story">Notre histoire</a>
+          <a href="#lifestyle">Lifestyle</a>
+          <a href="#reviews">Avis clients</a>
+        </div>
+        <div class="footer__col">
+          <h4>Support</h4>
+          <a href="#faq">FAQ</a>
+          <a href="#">Nous contacter</a>
+          <a href="#">Suivi de commande</a>
+          <a href="#">Garantie</a>
+        </div>
+        <div class="footer__col">
+          <h4>Livraison</h4>
+          <a href="#">Expédition</a>
+          <a href="#">Retours 30 jours</a>
+          <a href="#">Livraison mondiale</a>
+          <a href="#">Paiements</a>
+        </div>
+        <div class="footer__news">
+          <h4>Newsletter</h4>
+          <p>Rituels, destinations et offres exclusives. Une fois par mois.</p>
+          <form class="news" onsubmit="return false;">
+            <input type="email" placeholder="Votre email" aria-label="Votre email" />
+            <button class="btn btn--dark btn--sm" type="submit">S'inscrire</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer__wordmark">
+        <img src="assets/logo-light.svg" alt="Rawstate" />
+      </div>
+
+      <div class="footer__bottom">
+        <span>© 2026 Rawstate. Tous droits réservés.</span>
+        <div class="footer__legal">
+          <a href="#">Mentions légales</a>
+          <a href="#">Confidentialité</a>
+          <a href="#">CGV</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sticky mobile add to cart -->
+  <div class="sticky-cart" data-sticky-cart>
+    <div class="sticky-cart__info">
+      <strong>Rawstate The Fold™</strong>
+      <span data-sticky-variant>Gris anthracite · 128€</span>
+    </div>
+    <button class="btn btn--dark btn--sm" data-buy>Ajouter</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+/* =========================================================
+   RAWSTATE — interactions
+   ========================================================= */
+(function () {
+  'use strict';
+
+  /* ---------- Variant data (strict grayscale palette) ---------- */
+  var VARIANTS = [
+    { id: 'anthracite', name: 'Gris anthracite', color: '#383b3e', ink: '#ffffff' },
+    { id: 'sky',        name: 'Bleu ciel',       color: '#a9cfe3', ink: '#111111' },
+    { id: 'rose',       name: 'Rose pastel',     color: '#ebc7d2', ink: '#111111' }
+  ];
+  var current = 0;
+
+  /* ---------- Gallery (9 product photos, 1:1, fixed order) ---------- */
+  var GALLERY = [
+    'assets/mat-grey.png',   // 1 — tapis gris déplié
+    'assets/mat-blue.png',   // 2 — tapis bleu déplié
+    'assets/mat-pink.png',   // 3 — tapis rose déplié
+    'assets/colors.png',     // 4 — les 3 coloris pliés
+    'assets/desk.png',       // 5 — sur un bureau
+    'assets/backpack.png',   // 6 — rangé dans un sac à dos
+    'assets/yoga.png',       // 7 — séance de yoga
+    'assets/texture.png',    // 8 — texture & avantages
+    'assets/dimensions.png'  // 9 — dimensions
+  ];
+
+  var mainEl = document.querySelector('[data-gallery-main]');
+  var stageEl = document.querySelector('[data-gallery-stage]');
+  var thumbsEl = document.querySelector('[data-gallery-thumbs]');
+  var activeThumb = 0;
+
+  function imgTag(src) {
+    return '<img src="' + src + '" alt="Rawstate The Fold™" loading="lazy" />';
+  }
+  function renderGallery() {
+    thumbsEl.innerHTML = GALLERY.map(function (src, i) {
+      return '<button class="gallery__thumb' + (i === activeThumb ? ' is-active' : '') +
+        '" data-thumb="' + i + '" aria-label="Vue ' + (i + 1) + '">' + imgTag(src) + '</button>';
+    }).join('');
+    setMain(activeThumb);
+  }
+  function setMain(i) {
+    activeThumb = i;
+    stageEl.innerHTML = '<div class="fade" style="width:100%;height:100%">' + imgTag(GALLERY[i]) + '</div>';
+    Array.prototype.forEach.call(thumbsEl.children, function (btn, idx) {
+      btn.classList.toggle('is-active', idx === i);
+    });
+  }
+  function step(dir) {
+    setMain((activeThumb + dir + GALLERY.length) % GALLERY.length);
+  }
+
+  thumbsEl.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-thumb]');
+    if (btn) setMain(parseInt(btn.getAttribute('data-thumb'), 10));
+  });
+  mainEl.addEventListener('click', function (e) {
+    var nav = e.target.closest('[data-nav]');
+    if (nav) step(parseInt(nav.getAttribute('data-nav'), 10));
+  });
+
+  /* ---------- Offers + colour selection ---------- */
+  var offersEl = document.querySelector('[data-offers]');
+  var stickyVariant = document.querySelector('[data-sticky-variant]');
+  var buyPriceEls = document.querySelectorAll('[data-buy] .btn__price');
+
+  var PRICES = {
+    1: { now: '69,90 €' },
+    2: { now: '118,80 €', old: '139,80 €' }
+  };
+
+  var state = { offer: 2, single: 0, duo: [0, 1] };
+
+  function swatchBtns(selected) {
+    return VARIANTS.map(function (v, i) {
+      return '<button type="button" class="swatch' + (i === selected ? ' is-active' : '') +
+        '" aria-label="' + v.name + '" data-idx="' + i + '" style="background:' + v.color +
+        ';border-color:' + v.color + '"></button>';
+    }).join('');
+  }
+  function pickRow(group, label, selected) {
+    return '<div class="pick-row" data-group="' + group + '">' +
+      '<div class="pick-row__label">' + label + ' — <span>' + VARIANTS[selected].name + '</span></div>' +
+      '<div class="pick-row__swatches">' + swatchBtns(selected) + '</div></div>';
+  }
+
+  function renderOffers() {
+    offersEl.querySelector('[data-pick="single"]').innerHTML =
+      pickRow('single', 'Couleur', state.single);
+    offersEl.querySelector('[data-pick="duo"]').innerHTML =
+      pickRow('duo0', 'Tapis 1', state.duo[0]) + pickRow('duo1', 'Tapis 2', state.duo[1]);
+
+    offersEl.querySelectorAll('.offer').forEach(function (card) {
+      var on = parseInt(card.getAttribute('data-offer'), 10) === state.offer;
+      card.classList.toggle('is-active', on);
+      card.setAttribute('aria-checked', on);
+      var body = card.querySelector('.offer__body');
+      if (body) body.style.maxHeight = on ? body.scrollHeight + 'px' : null;
+    });
+
+    var p = PRICES[state.offer];
+    buyPriceEls.forEach(function (el) { el.textContent = '— ' + p.now; });
+    if (stickyVariant) {
+      stickyVariant.textContent = (state.offer === 1 ? '1 tapis · ' : '2 tapis · ') + p.now;
+    }
+  }
+
+  offersEl.addEventListener('click', function (e) {
+    var sw = e.target.closest('.swatch');
+    if (sw) {
+      var idx = parseInt(sw.getAttribute('data-idx'), 10);
+      var group = sw.closest('.pick-row').getAttribute('data-group');
+      state.offer = parseInt(sw.closest('.offer').getAttribute('data-offer'), 10);
+      if (group === 'single') state.single = idx;
+      else if (group === 'duo0') state.duo[0] = idx;
+      else if (group === 'duo1') state.duo[1] = idx;
+      renderOffers();
+      setMain(idx); // jump gallery to the chosen colour (grey/blue/pink = index 0/1/2)
+      return;
+    }
+    var card = e.target.closest('.offer');
+    if (card) {
+      state.offer = parseInt(card.getAttribute('data-offer'), 10);
+      renderOffers();
+    }
+  });
+
+  /* ---------- Icons ---------- */
+  var ICONS = {
+    check: '<path d="M4 12l5 5L20 6"/>',
+    lock: '<rect x="3.5" y="11" width="17" height="10.5" rx="2.2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="15.6" r="1.1"/><path d="M12 16.7v1.7"/>',
+    truck: '<path d="M2 7h11v8H2zM13 10h4l3 3v2h-7zM7 18a2 2 0 1 0 0-.01M17 18a2 2 0 1 0 0-.01"/>',
+    return: '<polyline points="2 5 2 11 8 11"/><path d="M4.6 15.5a9 9 0 1 0 1.9-9.2L2 11"/>',
+    shield: '<path d="M12 21.5c4.5-2 7-5.2 7-9.5V5.2l-7-2.6-7 2.6V12c0 4.3 2.5 7.5 7 9.5z"/><path d="M9.1 11.8l2 2 3.7-3.9"/>',
+    globe: '<circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.5 2.5 13 0 16M12 4c-2.5 2.5-2.5 13 0 16"/>',
+    heart: '<path d="M12 20s-7-4.4-9-8.5C1.5 8 3.5 5 6.5 5 9 5 12 8 12 8s3-3 5.5-3C20.5 5 22.5 8 21 11.5 19 15.6 12 20 12 20z"/>',
+    bolt: '<path d="M13 3L5 13h6l-1 8 8-10h-6z"/>',
+    fold: '<path d="M4 8l8-4 8 4-8 4zM4 8v8l8 4 8-4V8M12 12v8"/>',
+    bag: '<path d="M6 8h12l-1 12H7zM9 8V6a3 3 0 0 1 6 0v2"/>',
+    grip: '<path d="M5 5h4v4H5zM10 5h4v4h-4zM15 5h4v4h-4zM5 10h4v4H5zM10 10h4v4h-4zM15 10h4v4h-4zM5 15h4v4H5zM10 15h4v4h-4zM15 15h4v4h-4z"/>',
+    leaf: '<path d="M4 20C4 10 12 4 20 4c0 10-7 16-16 16zM4 20c4-8 8-11 12-13"/>',
+    plane: '<path d="M10 4l2 6 8 3-8 2-2 6-2-6-4-2 4-2z"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+    balance: '<path d="M12 3v18M5 21h14M6 7h12M6 7l-3 6a3 3 0 0 0 6 0zM18 7l-3 6a3 3 0 0 0 6 0z"/>',
+    drop: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
+    instagram: '<rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/>',
+    tiktok: '<path d="M15 4c.5 3 2.5 4.5 5 4.5v3c-2 0-3.7-.6-5-1.6V15a5.5 5.5 0 1 1-5.5-5.5c.3 0 .7 0 1 .1v3.1a2.5 2.5 0 1 0 1.5 2.3V4z"/>',
+    youtube: '<rect x="3" y="6" width="18" height="12" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/>',
+    pinterest: '<circle cx="12" cy="12" r="9"/><path d="M9.5 20c-.5-2 .5-5 1-7 .3-1.2-.5-2.5.3-3.7C11.8 7.5 15 8 15 11c0 2-1 4-3 4-1 0-1.7-.8-1.5-1.8"/>'
+  };
+
+  document.querySelectorAll('[data-ico]').forEach(function (el) {
+    var name = el.getAttribute('data-ico');
+    if (ICONS[name]) {
+      el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + ICONS[name] + '</svg>';
+    }
+  });
+
+  /* ---------- Instagram marquee ---------- */
+  var INSTA_IMGS = [
+    'assets/insta1.png', 'assets/insta2.png', 'assets/insta3.png',
+    'assets/insta4.png', 'assets/insta5.png', 'assets/insta6.png'
+  ];
+  function instaUnit() {
+    return INSTA_IMGS.map(function (src, i) {
+      return '<a class="insta__cell" href="#" aria-label="Post Instagram ' + (i + 1) + '">' +
+        '<img src="' + src + '" alt="Rawstate lifestyle" loading="lazy" /></a>';
+    }).join('');
+  }
+
+  /* ---------- Complementary products ---------- */
+  var ADDON_ICON = {
+    strap: '<svg viewBox="0 0 100 100" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round"><rect x="30" y="20" width="40" height="60" rx="6"/><path d="M30 35h40M30 65h40"/><path d="M20 30c-6 8-6 32 0 40M80 30c6 8 6 32 0 40"/></svg>',
+    spray: '<svg viewBox="0 0 100 100" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="36" y="38" width="28" height="42" rx="4"/><path d="M42 38v-8h16v8M58 22h10M58 26h8M58 30h6"/></svg>',
+    block: '<svg viewBox="0 0 100 100" fill="none" stroke="#111" stroke-width="2.5" stroke-linejoin="round"><path d="M28 42l22-12 22 12-22 12z"/><path d="M28 42v22l22 12 22-12V42M50 54v22"/></svg>',
+    towel: '<svg viewBox="0 0 100 100" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round"><rect x="26" y="26" width="48" height="48" rx="4"/><path d="M36 26v48M64 26v48" opacity=".5"/></svg>'
+  };
+  var ADDONS = [
+    { name: 'Sangle de transport', icon: 'strap', rating: '4.8', reviews: '312', price: '24€' },
+    { name: 'Spray nettoyant', icon: 'spray', rating: '4.9', reviews: '540', price: '18€' },
+    { name: 'Brique de yoga', icon: 'block', rating: '4.7', reviews: '208', price: '22€' },
+    { name: 'Serviette de yoga', icon: 'towel', rating: '4.9', reviews: '176', price: '29€' }
+  ];
+  var addonsEl = document.querySelector('[data-addons]');
+  if (addonsEl) {
+    addonsEl.innerHTML = ADDONS.map(function (a) {
+      return '<article class="addon reveal">' +
+        '<div class="addon__media">' + ADDON_ICON[a.icon] + '</div>' +
+        '<div class="addon__body">' +
+        '<h3>' + a.name + '</h3>' +
+        '<div class="addon__rating"><span class="stars stars--sm"><span class="stars__fill" style="--rating:100%"></span></span> ' + a.rating + ' · ' + a.reviews + ' avis</div>' +
+        '<div class="addon__foot"><span class="addon__price">' + a.price + '</span><button class="addon__add">Ajouter</button></div>' +
+        '</div></article>';
+    }).join('');
+  }
+
+  /* ---------- Accordion ---------- */
+  document.querySelectorAll('[data-accordion]').forEach(function (accordion) {
+    accordion.addEventListener('click', function (e) {
+      var q = e.target.closest('.acc__q');
+      if (!q) return;
+      var item = q.parentElement;
+      var answer = item.querySelector('.acc__a');
+      var open = item.classList.contains('is-open');
+      accordion.querySelectorAll('.acc.is-open').forEach(function (it) {
+        it.classList.remove('is-open');
+        it.querySelector('.acc__a').style.maxHeight = null;
+      });
+      if (!open) {
+        item.classList.add('is-open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* ---------- Reveal on scroll + histogram ---------- */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) {
+        en.target.classList.add('is-in');
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+  var histoIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('is-in'); histoIO.unobserve(en.target); }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.histo__bar').forEach(function (el) { histoIO.observe(el); });
+
+  /* ---------- Header scroll state ---------- */
+  var header = document.querySelector('[data-header]');
+  var stickyCart = document.querySelector('[data-sticky-cart]');
+  var productSection = document.getElementById('product');
+
+  function onScroll() {
+    var y = window.scrollY;
+    header.classList.toggle('is-scrolled', y > 8);
+    if (stickyCart && productSection) {
+      var pastProduct = y > productSection.offsetTop + 200;
+      var nearFooter = (window.innerHeight + y) > document.body.offsetHeight - 400;
+      stickyCart.classList.toggle('is-visible', pastProduct && !nearFooter);
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ---------- Hero parallax ---------- */
+  var parallax = document.querySelector('[data-parallax]');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ticking = false;
+  function parallaxTick() {
+    if (parallax) {
+      var offset = Math.min(window.scrollY * 0.12, 80);
+      parallax.style.transform = 'translateY(' + offset + 'px)';
+    }
+    ticking = false;
+  }
+  if (parallax && !reduce) {
+    window.addEventListener('scroll', function () {
+      if (!ticking) { window.requestAnimationFrame(parallaxTick); ticking = true; }
+    }, { passive: true });
+  }
+
+  /* ---------- Buy feedback ---------- */
+  document.querySelectorAll('[data-buy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var span = btn.querySelector('span');
+      var label = span ? span.textContent : btn.textContent;
+      if (span) span.textContent = 'Ajouté ✓'; else btn.textContent = 'Ajouté ✓';
+      btn.style.background = '#000';
+      setTimeout(function () {
+        if (span) span.textContent = label; else btn.textContent = label;
+        btn.style.background = '';
+      }, 1600);
+    });
+  });
+
+  /* ---------- Video placeholder ---------- */
+  var video = document.querySelector('[data-video]');
+  if (video) {
+    video.addEventListener('click', function () {
+      video.style.transition = 'opacity .3s';
+      video.style.opacity = '.85';
+      setTimeout(function () { video.style.opacity = '1'; }, 300);
+    });
+  }
+
+  /* ---------- Seamless marquees (cities + announcement bar) ---------- */
+  // Repeat the content until one group is wider than the screen, then clone it:
+  // the -50% translate then loops with no empty gap on any screen size.
+  function seamlessMarquee(track, unit, groupClass, speed) {
+    if (!track) return;
+    var viewport = track.parentElement.offsetWidth;
+    var group = document.createElement('div');
+    group.className = groupClass;
+    group.innerHTML = unit;
+    track.innerHTML = '';
+    track.appendChild(group);
+
+    var guard = 0;
+    while (group.offsetWidth < viewport && guard < 40) { group.innerHTML += unit; guard++; }
+
+    track.appendChild(group.cloneNode(true)); // second identical group -> seamless -50%
+    track.style.animationDuration = Math.round(group.offsetWidth / speed) + 's'; // constant visual speed
+  }
+
+  function itemsUnit(list) {
+    return list.map(function (t) { return '<span>' + t + '</span><i>·</i>'; }).join('');
+  }
+  var citiesTrack = document.querySelector('[data-marquee]');
+  var announceTrack = document.querySelector('[data-announce-track]');
+  var reviewsTrack = document.querySelector('[data-reviews-track]');
+  var reviewsUnit = reviewsTrack ? reviewsTrack.innerHTML : ''; // capture cards once
+  var instaTrack = document.querySelector('[data-insta-track]');
+
+  function buildMarquees() {
+    seamlessMarquee(citiesTrack,
+      itemsUnit(['Bali', 'Lisbonne', 'Tulum', 'Canggu', 'Tokyo', 'Medellín', 'Chiang Mai', 'Cape Town']),
+      'marquee__group', 55);
+    seamlessMarquee(announceTrack,
+      itemsUnit(['Livraison mondiale', 'Expédition sous 24h', 'Retour 30 jours']),
+      'announce__group', 45);
+    seamlessMarquee(reviewsTrack, reviewsUnit, 'reviews__group', 55);
+    seamlessMarquee(instaTrack, instaUnit(), 'insta__group', 45);
+  }
+
+  var mqTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(mqTimer);
+    mqTimer = setTimeout(buildMarquees, 200);
+  });
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(buildMarquees); }
+
+  /* ---------- Init ---------- */
+  renderGallery();
+  renderOffers();
+  buildMarquees();
+  onScroll();
+})();
