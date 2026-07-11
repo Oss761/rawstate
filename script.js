@@ -129,6 +129,7 @@
   /* ---------- Icons ---------- */
   var ICONS = {
     check: '<path d="M4 12l5 5L20 6"/>',
+    cart: '<circle cx="9" cy="21" r="1.2"/><circle cx="19" cy="21" r="1.2"/><path d="M2 3h3l2.4 12.2a1.6 1.6 0 0 0 1.6 1.3h9a1.6 1.6 0 0 0 1.6-1.3L23 7H6"/>',
     lock: '<rect x="3.5" y="11" width="17" height="10.5" rx="2.2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="15.6" r="1.1"/><path d="M12 16.7v1.7"/>',
     truck: '<path d="M2 7h11v8H2zM13 10h4l3 3v2h-7zM7 18a2 2 0 1 0 0-.01M17 18a2 2 0 1 0 0-.01"/>',
     return: '<polyline points="2 5 2 11 8 11"/><path d="M4.6 15.5a9 9 0 1 0 1.9-9.2L2 11"/>',
@@ -232,6 +233,23 @@
   }, { threshold: 0.4 });
   document.querySelectorAll('.histo__bar').forEach(function (el) { histoIO.observe(el); });
 
+  /* ---------- Mobile menu toggle ---------- */
+  var menuToggle = document.querySelector('[data-menu-toggle]');
+  var hdr = document.querySelector('[data-header]');
+  if (menuToggle && hdr) {
+    menuToggle.addEventListener('click', function () {
+      var open = hdr.classList.toggle('is-menu-open');
+      menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menuToggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    });
+    document.querySelectorAll('[data-mobile-menu] a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        hdr.classList.remove('is-menu-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
   /* ---------- Header scroll state ---------- */
   var header = document.querySelector('[data-header]');
   var stickyCart = document.querySelector('[data-sticky-cart]');
@@ -265,17 +283,127 @@
     }, { passive: true });
   }
 
-  /* ---------- Buy feedback ---------- */
+  /* ---------- Cart ---------- */
+  var cart = [];
+  var cartEl = document.querySelector('[data-cart]');
+  var cartOverlay = document.querySelector('[data-cart-overlay]');
+  var cartItemsEl = document.querySelector('[data-cart-items]');
+  var cartEmptyEl = document.querySelector('[data-cart-empty]');
+  var cartTotalEl = document.querySelector('[data-cart-total]');
+  var cartSubtotalEl = document.querySelector('[data-cart-subtotal]');
+  var cartShippingEl = document.querySelector('[data-cart-shipping]');
+  var cartShipEl = document.querySelector('[data-cart-ship]');
+  var cartHintEl = document.querySelector('[data-cart-hint]');
+  var cartShipBarEl = document.querySelector('[data-cart-ship-bar]');
+  var FREE_SHIP = 90, SHIP_FEE = 4.90;
+  var cartCountEl = document.querySelector('[data-cart-count]');
+  var cartCountLabelEl = document.querySelector('[data-cart-count-label]');
+  var cartToggle = document.querySelector('[data-cart-toggle]');
+  var cartClose = document.querySelector('[data-cart-close]');
+
+  function eur(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
+
+  function currentItem() {
+    if (state.offer === 1) {
+      return { id: 'o1-' + state.single, name: 'Rawstate The Fold™',
+        detail: 'Coloris : ' + VARIANTS[state.single].name, price: 69.90 };
+    }
+    return { id: 'o2-' + state.duo[0] + '-' + state.duo[1], name: 'Rawstate The Fold™ · Duo',
+      detail: VARIANTS[state.duo[0]].name + ' + ' + VARIANTS[state.duo[1]].name, price: 118.80 };
+  }
+
+  function renderCart() {
+    var count = cart.reduce(function (s, i) { return s + i.qty; }, 0);
+    var subtotal = cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
+    var shipping = (subtotal > 0 && subtotal < FREE_SHIP) ? SHIP_FEE : 0;
+    var total = subtotal + shipping;
+
+    if (cartCountEl) { cartCountEl.textContent = count; cartCountEl.hidden = count === 0; }
+    if (cartCountLabelEl) cartCountLabelEl.textContent = count + ' article' + (count > 1 ? 's' : '');
+    if (cartEmptyEl) cartEmptyEl.style.display = count ? 'none' : 'block';
+    if (cartItemsEl) {
+      cartItemsEl.innerHTML = cart.map(function (i) {
+        return '<div class="cart-item" data-id="' + i.id + '">' +
+          '<div class="cart-item__info"><strong>' + i.name + '</strong><span>' + i.detail + '</span>' +
+          '<div class="cart-item__qty"><button data-dec aria-label="Moins">−</button><span>' + i.qty + '</span><button data-inc aria-label="Plus">+</button></div>' +
+          '</div>' +
+          '<div class="cart-item__right"><span class="cart-item__price">' + eur(i.price * i.qty) + '</span>' +
+          '<button class="cart-item__remove" data-remove>Retirer</button></div></div>';
+      }).join('');
+    }
+
+    if (cartSubtotalEl) cartSubtotalEl.textContent = eur(subtotal);
+    if (cartShippingEl) {
+      if (shipping === 0) {
+        cartShippingEl.textContent = subtotal > 0 ? 'Offerte' : '—';
+        cartShippingEl.classList.toggle('is-free', subtotal > 0);
+      } else {
+        cartShippingEl.textContent = eur(shipping);
+        cartShippingEl.classList.remove('is-free');
+      }
+    }
+    if (cartTotalEl) cartTotalEl.textContent = eur(total);
+
+    // free-shipping progress
+    if (cartShipEl) cartShipEl.style.display = count ? 'block' : 'none';
+    if (cartShipBarEl) cartShipBarEl.style.width = Math.min(subtotal / FREE_SHIP, 1) * 100 + '%';
+    if (cartHintEl) {
+      cartHintEl.textContent = subtotal >= FREE_SHIP
+        ? 'Livraison offerte débloquée ✓'
+        : 'Plus que ' + eur(FREE_SHIP - subtotal) + ' pour la livraison offerte';
+    }
+  }
+
+  function openCart() {
+    if (!cartEl) return;
+    cartEl.classList.add('is-open'); cartEl.setAttribute('aria-hidden', 'false');
+    if (cartOverlay) cartOverlay.classList.add('is-open');
+  }
+  function closeCart() {
+    if (!cartEl) return;
+    cartEl.classList.remove('is-open'); cartEl.setAttribute('aria-hidden', 'true');
+    if (cartOverlay) cartOverlay.classList.remove('is-open');
+  }
+
+  function addToCart() {
+    var it = currentItem();
+    var found = null;
+    for (var k = 0; k < cart.length; k++) { if (cart[k].id === it.id) { found = cart[k]; break; } }
+    if (found) found.qty += 1;
+    else cart.push({ id: it.id, name: it.name, detail: it.detail, price: it.price, qty: 1 });
+    renderCart();
+    openCart();
+  }
+
+  if (cartItemsEl) {
+    cartItemsEl.addEventListener('click', function (e) {
+      var row = e.target.closest('[data-id]');
+      if (!row) return;
+      var id = row.getAttribute('data-id');
+      var item = cart.filter(function (i) { return i.id === id; })[0];
+      if (!item) return;
+      if (e.target.closest('[data-inc]')) item.qty += 1;
+      else if (e.target.closest('[data-dec]')) { item.qty -= 1; if (item.qty <= 0) cart = cart.filter(function (i) { return i.id !== id; }); }
+      else if (e.target.closest('[data-remove]')) cart = cart.filter(function (i) { return i.id !== id; });
+      else return;
+      renderCart();
+    });
+  }
+
+  if (cartToggle) cartToggle.addEventListener('click', openCart);
+  if (cartClose) cartClose.addEventListener('click', closeCart);
+  if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeCart(); });
+
   document.querySelectorAll('[data-buy]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var span = btn.querySelector('span');
-      var label = span ? span.textContent : btn.textContent;
-      if (span) span.textContent = 'Ajouté ✓'; else btn.textContent = 'Ajouté ✓';
-      btn.style.background = '#000';
-      setTimeout(function () {
-        if (span) span.textContent = label; else btn.textContent = label;
-        btn.style.background = '';
-      }, 1600);
+      addToCart();
+      var labelSpan = btn.querySelector('span:not(.btn__price)');
+      if (labelSpan) {
+        var prev = labelSpan.textContent;
+        labelSpan.textContent = 'Ajouté ✓';
+        setTimeout(function () { labelSpan.textContent = prev; }, 1400);
+      }
     });
   });
 
@@ -338,6 +466,7 @@
   /* ---------- Init ---------- */
   renderGallery();
   renderOffers();
+  renderCart();
   buildMarquees();
   onScroll();
 })();
