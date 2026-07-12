@@ -161,7 +161,8 @@
   /* ---------- Instagram marquee ---------- */
   var INSTA_IMGS = [
     'assets/insta1.png', 'assets/insta2.png', 'assets/insta3.png',
-    'assets/insta4.png', 'assets/insta5.png', 'assets/insta6.png'
+    'assets/insta4.png', 'assets/insta5.png', 'assets/insta6.png',
+    'assets/insta7.png', 'assets/insta8.png'
   ];
   function instaUnit() {
     return INSTA_IMGS.map(function (src, i) {
