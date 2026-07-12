@@ -96,7 +96,16 @@
       card.classList.toggle('is-active', on);
       card.setAttribute('aria-checked', on);
       var body = card.querySelector('.offer__body');
-      if (body) body.style.maxHeight = on ? body.scrollHeight + 'px' : null;
+      if (!body) return;
+      clearTimeout(body._ovfTimer);
+      if (on) {
+        body.style.maxHeight = body.scrollHeight + 'px';
+        // once expanded, allow overflow so the selection ring isn't clipped by the panel edges
+        body._ovfTimer = setTimeout(function () { body.style.overflow = 'visible'; }, 380);
+      } else {
+        body.style.overflow = 'hidden';
+        body.style.maxHeight = null;
+      }
     });
 
     var p = PRICES[state.offer];
@@ -463,6 +472,19 @@
     mqTimer = setTimeout(buildMarquees, 200);
   });
   if (document.fonts && document.fonts.ready) { document.fonts.ready.then(buildMarquees); }
+
+  /* ---------- Live "watching" counter (random 40–80) ---------- */
+  (function () {
+    var el = document.querySelector('[data-watching-count]');
+    if (!el) return;
+    function rand() { return Math.floor(Math.random() * 41) + 40; } // 40–80
+    function tick() {
+      el.textContent = rand();
+      setTimeout(tick, 2500 + Math.random() * 3000); // every 2.5–5.5s
+    }
+    el.textContent = rand();
+    setTimeout(tick, 2500 + Math.random() * 3000);
+  })();
 
   /* ---------- Init ---------- */
   renderGallery();

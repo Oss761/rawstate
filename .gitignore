@@ -1,6 +1,7 @@
 # Source / duplicate images generated during design — not used on the site
 assets/hf_*.png
 assets/Capture*
+assets/Favicon rawstate.png
 
 # OS / editor cruft
 .DS_Store
