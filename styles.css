@@ -281,7 +281,22 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; letter-spac
   font-size: clamp(16px, 1.6vw, 19px); color: rgba(255,255,255,.82);
   max-width: 560px; margin: 0 auto 38px; line-height: 1.6;
 }
-.hero__cta { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 46px; }
+.hero__cta { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 22px; }
+
+.hero__perks {
+  list-style: none; display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 12px 26px; margin-bottom: 40px;
+}
+.hero__perks li {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 500; color: rgba(255,255,255,.9);
+}
+.hero__perks li::before {
+  content: "✓"; font-weight: 700; font-size: 13px; color: var(--white);
+  width: 18px; height: 18px; border-radius: 50%;
+  background: rgba(255,255,255,.16);
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+}
 
 .hero__meta { list-style: none; display: flex; justify-content: center; gap: 42px; }
 .hero__meta li { display: flex; flex-direction: column; }
@@ -454,6 +469,12 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; letter-spac
 
 /* Buy */
 .btn--buy { padding: 19px 26px; font-size: 16px; margin-bottom: 20px; }
+
+.pay-badges {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  margin: -6px 0 24px;
+}
+.pay-badges svg { height: 26px; width: auto; fill: var(--ink-900); }
 
 .pinfo__reassure {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
