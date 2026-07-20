@@ -6,9 +6,9 @@
 
   /* ---------- Variant data (strict grayscale palette) ---------- */
   var VARIANTS = [
-    { id: 'anthracite', name: 'Gris anthracite', color: '#383b3e', ink: '#ffffff' },
-    { id: 'sky',        name: 'Bleu ciel',       color: '#a9cfe3', ink: '#111111' },
-    { id: 'rose',       name: 'Rose pastel',     color: '#ebc7d2', ink: '#111111' }
+    { id: 'anthracite', name: 'Fog',    color: '#383b3e', ink: '#ffffff' },
+    { id: 'sky',        name: 'Lagoon', color: '#a9cfe3', ink: '#111111' },
+    { id: 'rose',       name: 'Dusk',   color: '#ebc7d2', ink: '#111111' }
   ];
   var current = 0;
 
@@ -460,7 +460,7 @@
       itemsUnit(['Bali', 'Lisbonne', 'Tulum', 'Canggu', 'Tokyo', 'Medellín', 'Chiang Mai', 'Cape Town']),
       'marquee__group', 55);
     seamlessMarquee(announceTrack,
-      itemsUnit(['Livraison mondiale', 'Expédition sous 24h', 'Retour 30 jours']),
+      itemsUnit(['Testé dans 23 pays', '700 g', 'Retour 30 jours']),
       'announce__group', 45);
     seamlessMarquee(reviewsTrack, reviewsUnit, 'reviews__group', 55);
     seamlessMarquee(instaTrack, instaUnit(), 'insta__group', 45);

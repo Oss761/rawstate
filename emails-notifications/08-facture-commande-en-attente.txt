@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light only">
+  <title>Votre commande est en attente de paiement — Rawstate</title>
+  <!--[if mso]><style>* { font-family: Arial, Helvetica, sans-serif !important; }</style><![endif]-->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Archivo:wght@600;700&family=Anton&display=swap');
+    body, table, td { margin:0; padding:0; }
+    img { border:0; line-height:100%; outline:none; text-decoration:none; -ms-interpolation-mode:bicubic; }
+    a { color:#111111; }
+    body { width:100% !important; background:#f5f5f5; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+    .wrap { width:600px; max-width:600px; }
+    @media only screen and (max-width:620px) {
+      .wrap { width:100% !important; }
+      .px { padding-left:24px !important; padding-right:24px !important; }
+      .h1 { font-size:30px !important; }
+    }
+  </style>
+</head>
+<body style="margin:0; padding:0; background:#f5f5f5;">
+  <div style="display:none; max-height:0; overflow:hidden; opacity:0; color:#f5f5f5; font-size:1px; line-height:1px;">
+    Votre commande {{ name }} attend son règlement pour être préparée.&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;">
+    <tr>
+      <td align="center" style="padding:28px 12px 40px;">
+        <table role="presentation" class="wrap" width="600" cellpadding="0" cellspacing="0" style="width:600px; max-width:600px; background:#ffffff; border:1px solid #ececec; border-radius:18px; overflow:hidden;">
+
+          <tr>
+            <td align="center" style="background:#111111; padding:11px 16px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:11px; font-weight:500; letter-spacing:2px; color:#ffffff; text-transform:uppercase;">
+              Livraison mondiale&nbsp;&nbsp;·&nbsp;&nbsp;Expédition sous 24h&nbsp;&nbsp;·&nbsp;&nbsp;Retour 30 jours
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" style="padding:32px 24px 10px;">
+              <img src="https://cdn.shopify.com/s/files/1/1091/2448/5458/files/rawstate-logo.png?v=1784220125" alt="Rawstate" width="168" height="28" style="display:block; margin:0 auto; width:168px; height:28px;">
+            </td>
+          </tr>
+
+          <tr>
+            <td class="px" align="center" style="padding:14px 48px 4px;">
+              <div style="font-family:'Inter',Helvetica,Arial,sans-serif; font-size:12px; font-weight:600; letter-spacing:3px; color:#666666; text-transform:uppercase;">En attente de paiement</div>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" align="center" style="padding:10px 48px 0;">
+              <h1 class="h1" style="margin:0; font-family:'Archivo','Inter',Helvetica,Arial,sans-serif; font-size:38px; line-height:1.05; letter-spacing:-1.2px; font-weight:700; color:#111111;">Une dernière étape.</h1>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" align="center" style="padding:16px 56px 4px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.6; color:#666666;">
+              {% if customer.first_name %}{{ customer.first_name }}, votre{% else %}Votre{% endif %} commande <strong style="color:#111111;">{{ name }}</strong> est réservée mais n'a pas encore été réglée. Finalisez le paiement pour que nous puissions la préparer.
+            </td>
+          </tr>
+
+          {% if custom_message != blank %}
+          <tr>
+            <td class="px" style="padding:22px 48px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5; border-radius:14px;">
+                <tr><td style="padding:16px 20px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:14px; line-height:1.6; color:#666666; font-style:italic;">{{ custom_message }}</td></tr>
+              </table>
+            </td>
+          </tr>
+          {% endif %}
+
+          <!-- montant dû -->
+          <tr>
+            <td class="px" style="padding:26px 48px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#111111; border-radius:16px;">
+                <tr>
+                  <td align="center" style="padding:24px 20px;">
+                    <div style="font-family:'Inter',Helvetica,Arial,sans-serif; font-size:11px; font-weight:600; letter-spacing:2px; color:rgba(255,255,255,0.6); text-transform:uppercase;">Montant à régler</div>
+                    <div style="font-family:'Archivo','Inter',Helvetica,Arial,sans-serif; font-size:34px; font-weight:700; letter-spacing:-1px; color:#ffffff; margin-top:6px;">{{ total_price | money }}</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" style="padding:24px 24px 6px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" align="center"><tr>
+                <td align="center" bgcolor="#111111" style="border-radius:100px;">
+                  <a href="{% if invoice_url %}{{ invoice_url }}{% else %}{{ order_status_url }}{% endif %}" style="display:inline-block; padding:16px 44px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; letter-spacing:0.2px; color:#ffffff; text-decoration:none; border-radius:100px;">Régler ma commande</a>
+                </td>
+              </tr></table>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" align="center" style="padding:4px 56px 0; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:12px; line-height:1.6; color:#999999;">
+              Paiement 100&nbsp;% sécurisé — Visa, Mastercard, Apple Pay.
+            </td>
+          </tr>
+
+          <tr><td class="px" style="padding:24px 48px 0;"><div style="border-top:1px solid #ececec; font-size:0; line-height:0;">&nbsp;</div></td></tr>
+
+          <!-- items -->
+          <tr>
+            <td class="px" style="padding:22px 48px 6px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:13px; font-weight:600; letter-spacing:2px; color:#111111; text-transform:uppercase;">Récapitulatif</td>
+          </tr>
+          <tr>
+            <td class="px" style="padding:2px 48px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                {% for line in subtotal_line_items %}
+                <tr>
+                  <td width="64" valign="top" style="padding:14px 0; border-bottom:1px solid #ececec;">
+                    {% if line.image %}<img src="{{ line | img_url: 'compact' }}" alt="{{ line.title | escape }}" width="56" height="56" style="display:block; width:56px; height:56px; border-radius:10px; background:#f5f5f5; border:1px solid #ececec;">{% endif %}
+                  </td>
+                  <td valign="top" style="padding:14px 12px; border-bottom:1px solid #ececec; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:14px; color:#111111; line-height:1.4;">
+                    <span style="font-weight:600;">{{ line.title }}</span>
+                    {% if line.variant.title != 'Default Title' %}<br><span style="color:#666666; font-size:13px;">{{ line.variant.title }}</span>{% endif %}
+                    <br><span style="color:#666666; font-size:13px;">Quantité&nbsp;: {{ line.quantity }}</span>
+                  </td>
+                  <td valign="top" align="right" style="padding:14px 0; border-bottom:1px solid #ececec; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:14px; font-weight:600; color:#111111; white-space:nowrap;">
+                    {{ line.final_line_price | money }}
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" style="padding:16px 48px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-family:'Inter',Helvetica,Arial,sans-serif; font-size:14px; color:#666666;">
+                <tr>
+                  <td style="padding:5px 0;">Sous-total</td>
+                  <td align="right" style="padding:5px 0; color:#111111;">{{ subtotal_price | money }}</td>
+                </tr>
+                <tr>
+                  <td style="padding:5px 0;">Livraison</td>
+                  <td align="right" style="padding:5px 0; color:#111111;">{% if shipping_price == 0 %}Offerte{% else %}{{ shipping_price | money }}{% endif %}</td>
+                </tr>
+                <tr><td colspan="2" style="padding-top:10px;"><div style="border-top:1px solid #ececec; font-size:0; line-height:0;">&nbsp;</div></td></tr>
+                <tr>
+                  <td style="padding:10px 0 0; font-family:'Archivo','Inter',Helvetica,Arial,sans-serif; font-size:17px; font-weight:700; color:#111111;">Total dû</td>
+                  <td align="right" style="padding:10px 0 0; font-family:'Archivo','Inter',Helvetica,Arial,sans-serif; font-size:17px; font-weight:700; color:#111111;">{{ total_price | money }}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" style="padding:32px 48px 8px;">
+              <img src="https://cdn.shopify.com/s/files/1/1091/2448/5458/files/rawstate-logo.png?v=1784220125" alt="Rawstate" width="120" height="20" style="display:block; margin:0 auto; width:120px; height:20px;">
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:2px 48px 4px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:12px; line-height:1.7; color:#999999;">
+              Une question&nbsp;? <a href="mailto:info@rawstate.fr" style="color:#111111; text-decoration:none;">info@rawstate.fr</a>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:4px 48px 32px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:11px; line-height:1.7; color:#b3b3b3;">
+              Rawstate — Le premier tapis de yoga qui tient dans votre sac à dos.<br>
+              © {{ 'now' | date: '%Y' }} Rawstate. Tous droits réservés.
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -9,7 +9,7 @@
   <meta name="description" content="Rawstate The Fold™ — le tapis de yoga pliable premium conçu pour les digital nomads. Ultra léger, compact, stable. Pensé pour ceux qui pratiquent partout." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -22,7 +22,7 @@
   <!-- Header -->
   <header class="header" data-header>
     <div class="container header__inner">
-      <a href="#top" class="logo" aria-label="Rawstate"><img src="assets/logo-dark.svg" alt="Rawstate" /></a>
+      <a href="#top" class="logo" aria-label="Rawstate"><img src="assets/logo-light.svg" alt="Rawstate" /></a>
       <nav class="nav" aria-label="Navigation principale">
         <a href="#product">Le tapis</a>
         <a href="#story">Histoire</a>
@@ -57,7 +57,13 @@
     <!-- ============ HERO ============ -->
     <section class="hero" id="hero">
       <div class="hero__bg">
-        <img
+        <video class="hero__video hero__video--desktop" autoplay loop muted playsinline poster="assets/hero.png">
+          <source src="assets/rawstate-hero-desktop.mp4" type="video/mp4" />
+        </video>
+        <video class="hero__video hero__video--mobile" autoplay loop muted playsinline poster="assets/hero.png">
+          <source src="assets/rawstate-video-mobile.mp4" type="video/mp4" />
+        </video>
+        <img class="hero__img"
           data-parallax
           src="assets/hero.png"
           alt="Digital nomad en position de gainage sur son tapis Rawstate dans un jardin tropical"
@@ -72,8 +78,8 @@
             qui tient dans votre sac à dos
           </h1>
           <p class="hero__sub">
-            Le tapis de yoga pliable premium qui suit chacun de vos voyages.
-            Ultra léger. Compact. Stable. Pensé pour les travailleurs nomades.
+            Se plie en quatre. Pèse moins qu'un ordinateur portable.
+            Se déroule aussi bien sur un rooftop que sur du sable.
           </p>
           <div class="hero__cta">
             <a href="#product" class="btn btn--white btn--lg">Découvrir le tapis</a>
@@ -83,8 +89,8 @@
             <li>Livraison offerte dès 90&nbsp;€ d'achat</li>
           </ul>
           <ul class="hero__meta">
-            <li><strong>700g</strong><span>Ultra léger</span></li>
-            <li><strong>30cm</strong><span>Plié compact</span></li>
+            <li><strong>700g</strong><span>Un pull</span></li>
+            <li><strong>30cm</strong><span>Une trousse</span></li>
             <li><strong>4.7/5</strong><span>189 avis</span></li>
           </ul>
         </div>
@@ -192,7 +198,7 @@
               </div></div>
             </div>
             <div class="acc">
-              <button class="acc__q">Caractéristiques<span class="acc__ico"></span></button>
+              <button class="acc__q">Ce qu'il a dans le ventre<span class="acc__ico"></span></button>
               <div class="acc__a"><div class="acc__body">
                 <ul class="pinfo__specs">
                   <li><strong>Dimensions dépliées :</strong> 183 × 61 cm</li>
@@ -206,7 +212,7 @@
               </div></div>
             </div>
             <div class="acc">
-              <button class="acc__q">Utilisation<span class="acc__ico"></span></button>
+              <button class="acc__q">Comment le plier en 10 secondes<span class="acc__ico"></span></button>
               <div class="acc__a"><div class="acc__body">
                 <ol class="pinfo__steps">
                   <li>Dépliez votre tapis sur une surface plane : il retrouve sa forme en quelques secondes, sans odeur ni pli résiduel après les premiers jours d'utilisation.</li>
@@ -217,9 +223,9 @@
               </div></div>
             </div>
             <div class="acc">
-              <button class="acc__q">Livraison<span class="acc__ico"></span></button>
+              <button class="acc__q">Là où il va, et comment il revient<span class="acc__ico"></span></button>
               <div class="acc__a"><div class="acc__body">
-                <p>Votre commande est préparée sous 1 à 2 jours ouvrés puis expédiée dans toute la France. Délai de livraison estimé : 7 à 10 jours ouvrés.</p>
+                <p>Votre commande est préparée sous 1 à 2 jours ouvrés puis expédiée dans la France et à l'international. Délai de livraison estimé : 10 à 14 jours ouvrés.</p>
               </div></div>
             </div>
           </div>
@@ -237,9 +243,9 @@
           </div>
 
           <div class="pinfo__reassure">
-            <div><span class="ico" data-ico="lock"></span> Paiement sécurisé</div>
-            <div><span class="ico" data-ico="return"></span> Retour 30 jours</div>
-            <div><span class="ico" data-ico="shield"></span> Garantie qualité</div>
+            <div><span class="ico" data-ico="balance"></span> 700 g</div>
+            <div><span class="ico" data-ico="shield"></span> Forte résistance</div>
+            <div><span class="ico" data-ico="leaf"></span> TPE écoresponsable</div>
           </div>
         </div>
       </div>
@@ -306,6 +312,9 @@
             <h3>Matériaux responsables</h3>
             <p>TPE écoresponsable et microfibre recyclée. Sans PVC, sans toxines.</p>
           </article>
+        </div>
+        <div class="section-cta reveal">
+          <a href="#product" class="btn btn--dark btn--lg">Découvrir dès maintenant</a>
         </div>
       </div>
     </section>
@@ -381,6 +390,9 @@
             <p>Du sable de Tulum aux sentiers d'altitude, Rawstate suit le rythme. Il se nettoie d'un geste et sèche en quelques minutes.</p>
           </div>
         </div>
+        <div class="section-cta reveal">
+          <a href="#product" class="btn btn--dark btn--lg">Découvrir dès maintenant</a>
+        </div>
       </div>
     </section>
 
@@ -391,36 +403,57 @@
           <span class="eyebrow">La différence</span>
           <h2>Rawstate vs. tapis classique</h2>
         </div>
-        <div class="compare__wrap">
-          <table class="ctable">
-            <thead>
-              <tr>
-                <th class="ctable__crit">Critère</th>
-                <th class="ctable__brand">
-                  <span class="ctable__head">
-                    <img class="ctable__logo" src="assets/logo-light.svg" alt="Rawstate" />
-                    <span class="ctable__badge"><img src="assets/mat-grey.png" alt="" /></span>
-                  </span>
-                </th>
-                <th class="ctable__classic">
-                  <span class="ctable__head">
-                    <span class="ctable__classic-label">Tapis classique</span>
-                    <span class="ctable__badge"><img src="assets/classic-mat.png" alt="" /></span>
-                  </span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Poids</td><td class="ctable__brand">700 g</td><td class="ctable__classic">2,5 kg</td></tr>
-              <tr><td>Épaisseur</td><td class="ctable__brand">4 mm optimisée</td><td class="ctable__classic">6 mm rigide</td></tr>
-              <tr><td>Format pliable</td><td class="ctable__brand"><span class="yes">Oui — 30 cm</span></td><td class="ctable__classic"><span class="no">Rouleau encombrant</span></td></tr>
-              <tr><td>Transport cabine</td><td class="ctable__brand"><span class="yes">Oui</span></td><td class="ctable__classic"><span class="no">Non</span></td></tr>
-              <tr><td>Adhérence</td><td class="ctable__brand">Supérieure, sèche &amp; humide</td><td class="ctable__classic">Variable</td></tr>
-              <tr><td>Résistance</td><td class="ctable__brand">Renforcée</td><td class="ctable__classic">Standard</td></tr>
-              <tr><td>Nettoyage</td><td class="ctable__brand">Machine ou éponge</td><td class="ctable__classic">Main uniquement</td></tr>
-              <tr><td>Matériaux</td><td class="ctable__brand">TPE écoresponsable</td><td class="ctable__classic">PVC</td></tr>
-            </tbody>
-          </table>
+        <div class="vs">
+          <div class="vs__card vs__card--raw">
+            <div class="vs__head"><img class="vs__logo" src="assets/logo-light.svg" alt="Rawstate" /></div>
+            <div class="vs__media"><img src="assets/compare-fold.png" alt="Tapis Rawstate plié à l'encombrement d'un ordinateur portable" loading="lazy" /></div>
+            <div class="vs__stat">700 g · 30 cm plié</div>
+            <div class="vs__note">Tient dans un bagage cabine.</div>
+          </div>
+          <div class="vs__card vs__card--classic">
+            <div class="vs__head"><span class="vs__label">Tapis classique</span></div>
+            <div class="vs__media"><img src="assets/compare-classic.png" alt="Tapis classique roulé, encombrant, porté à la main" loading="lazy" /></div>
+            <div class="vs__stat">2,3 kg · 65 cm roulé</div>
+            <div class="vs__note">Se porte à la main, en dehors du sac.</div>
+          </div>
+        </div>
+
+        <div class="vs-table">
+          <div class="vs-row vs-row--head">
+            <span class="vs-c1">Critère</span>
+            <span class="vs-c2">Rawstate</span>
+            <span class="vs-c3">Classique</span>
+          </div>
+          <div class="vs-row">
+            <span class="vs-c1">Transport cabine</span>
+            <span class="vs-c2"><i class="vs-check">✓</i>Oui, dans le sac</span>
+            <span class="vs-c3">Sangle à l'épaule</span>
+          </div>
+          <div class="vs-row">
+            <span class="vs-c1">Épaisseur</span>
+            <span class="vs-c2"><i class="vs-check">✓</i>4 mm optimisée</span>
+            <span class="vs-c3">6 mm rigide</span>
+          </div>
+          <div class="vs-row">
+            <span class="vs-c1">Adhérence humide</span>
+            <span class="vs-c2"><i class="vs-check">✓</i>Supérieure</span>
+            <span class="vs-c3">Variable</span>
+          </div>
+          <div class="vs-row">
+            <span class="vs-c1">Résistance</span>
+            <span class="vs-c2"><i class="vs-check">✓</i>Renforcée</span>
+            <span class="vs-c3">Standard</span>
+          </div>
+          <div class="vs-row">
+            <span class="vs-c1">Nettoyage</span>
+            <span class="vs-c2"><i class="vs-check">✓</i>Machine ou éponge</span>
+            <span class="vs-c3">Main uniquement</span>
+          </div>
+          <div class="vs-row">
+            <span class="vs-c1">Matière</span>
+            <span class="vs-c2"><i class="vs-check">✓</i>TPE écoresponsable</span>
+            <span class="vs-c3">PVC</span>
+          </div>
         </div>
         <div class="compare__cta reveal">
           <a href="#product" class="btn btn--dark">Commencer mes séances</a>
@@ -504,7 +537,7 @@
               <span class="verified">Verified Buyer</span>
             </div>
             <div class="stars stars--sm"><span class="stars__fill" style="--rating:100%"></span></div>
-            <p>« Qualité incroyable. Je le plie et déplie tous les jours depuis 8 mois, aucune trace, aucune usure. Le Gris anthracite est magnifique. »</p>
+            <p>« Qualité incroyable. Je le plie et déplie tous les jours depuis 8 mois, aucune trace, aucune usure. Le Fog est magnifique. »</p>
           </article>
           <article class="review">
             <div class="review__head">
@@ -590,7 +623,7 @@
       <div class="container faq__inner reveal">
         <div class="faq__head">
           <span class="eyebrow">On répond à tout</span>
-          <h2>Questions fréquentes</h2>
+          <h2>Les questions qu'on nous pose entre deux vols</h2>
         </div>
         <div class="accordion" data-accordion>
           <div class="acc">
@@ -676,7 +709,7 @@
   <div class="sticky-cart" data-sticky-cart>
     <div class="sticky-cart__info">
       <strong>Rawstate The Fold™</strong>
-      <span data-sticky-variant>Gris anthracite · 128€</span>
+      <span data-sticky-variant>Fog · 128€</span>
     </div>
     <button class="btn btn--dark btn--sm" data-buy>Ajouter</button>
   </div>

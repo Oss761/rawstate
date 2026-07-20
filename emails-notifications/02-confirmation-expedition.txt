@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light only">
+  <title>Votre commande est en route — Rawstate</title>
+  <!--[if mso]><style>* { font-family: Arial, Helvetica, sans-serif !important; }</style><![endif]-->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Archivo:wght@600;700&family=Anton&display=swap');
+    body, table, td { margin:0; padding:0; }
+    img { border:0; line-height:100%; outline:none; text-decoration:none; -ms-interpolation-mode:bicubic; }
+    a { color:#111111; }
+    body { width:100% !important; background:#f5f5f5; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+    .wrap { width:600px; max-width:600px; }
+    @media only screen and (max-width:620px) {
+      .wrap { width:100% !important; }
+      .px { padding-left:24px !important; padding-right:24px !important; }
+      .h1 { font-size:30px !important; }
+      .stack { display:block !important; width:100% !important; }
+    }
+  </style>
+</head>
+<body style="margin:0; padding:0; background:#f5f5f5;">
+  <div style="display:none; max-height:0; overflow:hidden; opacity:0; color:#f5f5f5; font-size:1px; line-height:1px;">
+    Bonne nouvelle — votre commande {{ name }} vient d'être expédiée.&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;">
+    <tr>
+      <td align="center" style="padding:28px 12px 40px;">
+        <table role="presentation" class="wrap" width="600" cellpadding="0" cellspacing="0" style="width:600px; max-width:600px; background:#ffffff; border:1px solid #ececec; border-radius:18px; overflow:hidden;">
+
+          <tr>
+            <td align="center" style="background:#111111; padding:11px 16px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:11px; font-weight:500; letter-spacing:2px; color:#ffffff; text-transform:uppercase;">
+              Livraison mondiale&nbsp;&nbsp;·&nbsp;&nbsp;Expédition sous 24h&nbsp;&nbsp;·&nbsp;&nbsp;Retour 30 jours
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" style="padding:32px 24px 10px;">
+              <img src="https://cdn.shopify.com/s/files/1/1091/2448/5458/files/rawstate-logo.png?v=1784220125" alt="Rawstate" width="168" height="28" style="display:block; margin:0 auto; width:168px; height:28px;">
+            </td>
+          </tr>
+
+          <tr>
+            <td class="px" align="center" style="padding:14px 48px 4px;">
+              <div style="font-family:'Inter',Helvetica,Arial,sans-serif; font-size:12px; font-weight:600; letter-spacing:3px; color:#666666; text-transform:uppercase;">Colis expédié</div>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" align="center" style="padding:10px 48px 0;">
+              <h1 class="h1" style="margin:0; font-family:'Archivo','Inter',Helvetica,Arial,sans-serif; font-size:38px; line-height:1.05; letter-spacing:-1.2px; font-weight:700; color:#111111;">C'est en route.</h1>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" align="center" style="padding:16px 56px 4px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.6; color:#666666;">
+              {% if customer.first_name %}{{ customer.first_name }}, votre{% else %}Votre{% endif %} commande <strong style="color:#111111;">{{ name }}</strong> a quitté notre entrepôt. Suivez son acheminement à tout moment ci-dessous.
+            </td>
+          </tr>
+
+          <!-- delivery tracker : étape 2/4 -->
+          <tr>
+            <td class="px" style="padding:26px 48px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+                <td style="background:#111111; height:4px; line-height:4px; font-size:0; border-radius:4px 0 0 4px;" width="42%">&nbsp;</td>
+                <td style="background:#ececec; height:4px; line-height:4px; font-size:0; border-radius:0 4px 4px 0;" width="58%">&nbsp;</td>
+              </tr></table>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:10px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:11px; letter-spacing:0.3px;">
+                <tr>
+                  <td align="left" width="25%" style="color:#111111; font-weight:600;">Confirmée</td>
+                  <td align="center" width="25%" style="color:#111111; font-weight:700;">Expédiée</td>
+                  <td align="center" width="25%" style="color:#b3b3b3;">En livraison</td>
+                  <td align="right" width="25%" style="color:#b3b3b3;">Livrée</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          {% if fulfillment.tracking_numbers.size > 0 %}
+          <tr>
+            <td class="px" style="padding:26px 48px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5; border-radius:14px;">
+                <tr>
+                  <td style="padding:18px 22px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:13px; color:#666666;">
+                    <div style="font-size:11px; font-weight:600; letter-spacing:1.5px; color:#111111; text-transform:uppercase; margin-bottom:6px;">Numéro de suivi</div>
+                    {% if fulfillment.tracking_company %}<span style="color:#111111;">{{ fulfillment.tracking_company }}</span> — {% endif %}<span style="color:#111111; font-weight:600;">{{ fulfillment.tracking_numbers | join: ', ' }}</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          {% endif %}
+
+          <tr>
+            <td align="center" style="padding:26px 24px 8px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" align="center"><tr>
+                <td align="center" bgcolor="#111111" style="border-radius:100px;">
+                  <a href="{% if fulfillment.tracking_urls.first %}{{ fulfillment.tracking_urls.first }}{% else %}{{ order_status_url }}{% endif %}" style="display:inline-block; padding:15px 40px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; letter-spacing:0.2px; color:#ffffff; text-decoration:none; border-radius:100px;">Suivre mon colis</a>
+                </td>
+              </tr></table>
+            </td>
+          </tr>
+
+          <tr><td class="px" style="padding:16px 48px 0;"><div style="border-top:1px solid #ececec; font-size:0; line-height:0;">&nbsp;</div></td></tr>
+
+          <tr>
+            <td class="px" style="padding:22px 48px 6px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:13px; font-weight:600; letter-spacing:2px; color:#111111; text-transform:uppercase;">Contenu de l'envoi</td>
+          </tr>
+          <tr>
+            <td class="px" style="padding:2px 48px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                {% for line in fulfillment.fulfillment_line_items %}
+                <tr>
+                  <td width="64" valign="top" style="padding:14px 0; border-bottom:1px solid #ececec;">
+                    {% if line.line_item.image %}<img src="{{ line.line_item | img_url: 'compact' }}" alt="{{ line.line_item.title | escape }}" width="56" height="56" style="display:block; width:56px; height:56px; border-radius:10px; background:#f5f5f5; border:1px solid #ececec;">{% endif %}
+                  </td>
+                  <td valign="top" style="padding:14px 12px; border-bottom:1px solid #ececec; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:14px; color:#111111; line-height:1.4;">
+                    <span style="font-weight:600;">{{ line.line_item.title }}</span>
+                    {% if line.line_item.variant.title != 'Default Title' %}<br><span style="color:#666666; font-size:13px;">{{ line.line_item.variant.title }}</span>{% endif %}
+                    <br><span style="color:#666666; font-size:13px;">Quantité&nbsp;: {{ line.quantity }}</span>
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+            </td>
+          </tr>
+
+          {% if shipping_address %}
+          <tr>
+            <td class="px" style="padding:24px 48px 0; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:13px; line-height:1.6; color:#666666;">
+              <div style="font-size:12px; font-weight:600; letter-spacing:1.5px; color:#111111; text-transform:uppercase; margin-bottom:8px;">Adresse de livraison</div>
+              {{ shipping_address.name }}<br>
+              {{ shipping_address.address1 }}<br>
+              {% if shipping_address.address2 != blank %}{{ shipping_address.address2 }}<br>{% endif %}
+              {{ shipping_address.zip }} {{ shipping_address.city }}<br>
+              {{ shipping_address.country }}
+            </td>
+          </tr>
+          {% endif %}
+
+          <tr>
+            <td align="center" style="padding:34px 48px 8px;">
+              <img src="https://cdn.shopify.com/s/files/1/1091/2448/5458/files/rawstate-logo.png?v=1784220125" alt="Rawstate" width="120" height="20" style="display:block; margin:0 auto; width:120px; height:20px;">
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:2px 48px 4px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:12px; line-height:1.7; color:#999999;">
+              Une question&nbsp;? <a href="mailto:info@rawstate.fr" style="color:#111111; text-decoration:none;">info@rawstate.fr</a>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:4px 48px 32px; font-family:'Inter',Helvetica,Arial,sans-serif; font-size:11px; line-height:1.7; color:#b3b3b3;">
+              Rawstate — Le premier tapis de yoga qui tient dans votre sac à dos.<br>
+              © {{ 'now' | date: '%Y' }} Rawstate. Tous droits réservés.
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
