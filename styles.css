@@ -253,18 +253,18 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
   filter: brightness(.95) contrast(1.02);
   will-change: transform;
 }
-.hero__img { display: none; }
-.hero__video--desktop { display: block; }
-.hero__video--mobile { display: none; }
+.hero__img { display: block; }
+.hero__img--mobile { display: none; }
 @media (max-width: 620px) {
-  .hero__video--desktop { display: none; }
-  .hero__video--mobile { display: block; }
+  /* Image portrait dédiée au mobile */
+  .hero__img--desktop { display: none; }
+  .hero__img--mobile { display: block; object-position: center 40%; }
 }
 .hero__overlay {
   position: absolute; inset: 0; z-index: -1;
   background:
-    linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.32) 45%, rgba(0,0,0,.5) 100%),
-    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,0,0,.35), rgba(0,0,0,0) 75%);
+    linear-gradient(180deg, rgba(0,0,0,.34) 0%, rgba(0,0,0,.2) 45%, rgba(0,0,0,.4) 100%),
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,0,0,.24), rgba(0,0,0,0) 75%);
 }
 
 .hero__inner {
@@ -272,7 +272,8 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
   min-height: min(92vh, 880px);
   padding-block: 80px; text-align: center;
 }
-.hero__content { width: 100%; max-width: 1000px; min-width: 0; margin-inline: auto; }
+.hero__content { width: 100%; max-width: 1000px; min-width: 0; margin-inline: auto; text-shadow: 0 1px 12px rgba(0,0,0,.5); }
+.hero__cta .btn { text-shadow: none; }
 
 .badge {
   display: inline-flex; align-items: center; gap: 8px;
@@ -288,6 +289,7 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
   font-size: clamp(34px, 5.4vw, 76px); font-weight: 700;
   letter-spacing: -0.02em; line-height: 1.06; margin-bottom: 26px;
   color: #fff;
+  text-shadow: 0 2px 20px rgba(0,0,0,.55), 0 1px 3px rgba(0,0,0,.35);
 }
 .hero__title-light { color: rgba(255,255,255,.55); }
 
@@ -374,7 +376,12 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
 .gallery__thumb.is-active { border-color: var(--ink-900); }
 
 /* Product info */
-.pinfo { padding-top: 6px; }
+.pinfo { padding-top: 6px; display: flex; flex-direction: column; }
+/* Ordre visuel : offres → CTA + paiements → accordéons → réassurance */
+.pinfo__accordion { order: 3; }
+.btn--buy { order: 1; }
+.pay-badges { order: 2; }
+.pinfo__reassure { order: 4; }
 .pinfo__head { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
 .pinfo__head .stars { --size: 22px; }
 .pinfo__head .stars__fill::before { color: var(--accent); }
@@ -454,6 +461,10 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
 .offer__info { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
 .offer__title { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
 .offer__sub { font-size: 13px; color: var(--grey-600); }
+.offer__ship {
+  align-self: flex-start; font-size: 11px; font-weight: 600; color: var(--grey-600);
+  background: var(--grey-100); border-radius: 100px; padding: 3px 10px;
+}
 .offer__pills { display: flex; flex-wrap: wrap; gap: 6px; }
 .offer__pills i {
   font-style: normal; font-size: 11px; font-weight: 600; color: #fff;
@@ -462,6 +473,7 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
 .offer__price { text-align: right; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.25; }
 .offer__now { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
 .offer__old { font-size: 13px; color: var(--grey-300); text-decoration: line-through; }
+.offer__unit { font-size: 12px; color: var(--grey-600); margin-top: 3px; }
 .offer__body { max-height: 0; overflow: hidden; transition: max-height var(--dur) var(--ease); }
 .offer__pick { padding-top: 18px; margin-top: 18px; border-top: 1px solid var(--line); display: grid; gap: 16px; }
 .pick-row__label { font-size: 13px; color: var(--grey-600); margin-bottom: 10px; }
@@ -908,7 +920,7 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
   .hero__inner { min-height: 88vh; padding-block: 60px; }
   .hero__overlay {
     background:
-      linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.4) 50%, rgba(0,0,0,.6) 100%);
+      linear-gradient(180deg, rgba(0,0,0,.34) 0%, rgba(0,0,0,.22) 50%, rgba(0,0,0,.44) 100%);
   }
   .product__grid { grid-template-columns: 1fr; }
   .gallery { position: static; }
@@ -928,6 +940,13 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
   .hero__meta { gap: 26px; }
   .hero__cta { flex-direction: column; align-items: stretch; }
   .hero__cta .btn { width: 100%; }
+  /* Contenu calé en bas du hero : le tapis rose reste visible en haut,
+     et tout le bloc (texte + bouton + repères) tient dans le premier écran */
+  .hero__inner { justify-content: flex-end; min-height: calc(100svh - 100px); padding-top: 20px; padding-bottom: 26px; }
+  .hero__title { margin-bottom: 14px; }
+  .hero__sub { margin-bottom: 18px; line-height: 1.5; }
+  .hero__cta { margin-bottom: 16px; }
+  .hero__perks { margin-bottom: 20px; }
   .gallery__thumbs { grid-template-columns: repeat(9, 1fr); }
   .footer__grid { grid-template-columns: 1fr; gap: 36px; }
   .footer__news { grid-column: auto; }

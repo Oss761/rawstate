@@ -14,15 +14,15 @@
 
   /* ---------- Gallery (9 product photos, 1:1, fixed order) ---------- */
   var GALLERY = [
-    'assets/mat-grey.png',   // 1 — tapis gris déplié
-    'assets/mat-blue.png',   // 2 — tapis bleu déplié
-    'assets/mat-pink.png',   // 3 — tapis rose déplié
-    'assets/colors.png',     // 4 — les 3 coloris pliés
-    'assets/desk.png',       // 5 — sur un bureau
-    'assets/backpack.png',   // 6 — rangé dans un sac à dos
-    'assets/yoga.png',       // 7 — séance de yoga
-    'assets/texture.png',    // 8 — texture & avantages
-    'assets/dimensions.png'  // 9 — dimensions
+    'assets/mat-grey.webp',   // 1 — tapis gris déplié
+    'assets/mat-blue.webp',   // 2 — tapis bleu déplié
+    'assets/mat-pink.webp',   // 3 — tapis rose déplié
+    'assets/colors.webp',     // 4 — les 3 coloris pliés
+    'assets/carousel-sofa.webp',    // 5 — rangé sous le canapé
+    'assets/carousel-yoga.webp',    // 6 — séance sur tapis rose
+    'assets/carousel-stack.webp',   // 7 — pile de tapis pliés (à offrir)
+    'assets/carousel-texture.webp', // 8 — texture & avantages
+    'assets/dimensions.webp'  // 9 — dimensions
   ];
 
   var mainEl = document.querySelector('[data-gallery-main]');
@@ -59,6 +59,28 @@
     var nav = e.target.closest('[data-nav]');
     if (nav) step(parseInt(nav.getAttribute('data-nav'), 10));
   });
+
+  /* Swipe tactile (mobile) : glisser sur l'image principale change de vue.
+     On agit au touchend pour ne pas bloquer le scroll vertical de la page. */
+  (function () {
+    var startX = 0, startY = 0, tracking = false;
+    mainEl.addEventListener('touchstart', function (e) {
+      if (e.touches.length !== 1) { tracking = false; return; }
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      tracking = true;
+    }, { passive: true });
+    mainEl.addEventListener('touchend', function (e) {
+      if (!tracking) return;
+      tracking = false;
+      var t = e.changedTouches[0];
+      var dx = t.clientX - startX;
+      var dy = t.clientY - startY;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        step(dx < 0 ? 1 : -1);
+      }
+    }, { passive: true });
+  })();
 
   /* ---------- Offers + colour selection ---------- */
   var offersEl = document.querySelector('[data-offers]');
@@ -169,9 +191,8 @@
 
   /* ---------- Instagram marquee ---------- */
   var INSTA_IMGS = [
-    'assets/insta1.png', 'assets/insta2.png', 'assets/insta3.png',
-    'assets/insta4.png', 'assets/insta5.png', 'assets/insta6.png',
-    'assets/insta7.png', 'assets/insta8.png'
+    'assets/insta-home.webp', 'assets/insta-suitcase.webp', 'assets/insta-studio.webp',
+    'assets/insta-shelf.webp', 'assets/insta-rooftop.webp', 'assets/insta-gift.webp'
   ];
   function instaUnit() {
     return INSTA_IMGS.map(function (src, i) {
@@ -460,7 +481,7 @@
       itemsUnit(['Bali', 'Lisbonne', 'Tulum', 'Canggu', 'Tokyo', 'Medellín', 'Chiang Mai', 'Cape Town']),
       'marquee__group', 55);
     seamlessMarquee(announceTrack,
-      itemsUnit(['Testé dans 23 pays', '700 g', 'Retour 30 jours']),
+      itemsUnit(['30 cm plié', '700 g', 'Retour 30 jours']),
       'announce__group', 45);
     seamlessMarquee(reviewsTrack, reviewsUnit, 'reviews__group', 55);
     seamlessMarquee(instaTrack, instaUnit(), 'insta__group', 45);
