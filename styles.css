@@ -254,11 +254,9 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
   will-change: transform;
 }
 .hero__img { display: block; }
-.hero__img--mobile { display: none; }
+/* Cadrage mobile de l'image portrait (sélectionnée via <source media> du <picture>) */
 @media (max-width: 620px) {
-  /* Image portrait dédiée au mobile */
-  .hero__img--desktop { display: none; }
-  .hero__img--mobile { display: block; object-position: center 40%; }
+  .hero__bg img { object-position: center 40%; }
 }
 .hero__overlay {
   position: absolute; inset: 0; z-index: -1;
