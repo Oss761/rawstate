@@ -19,7 +19,7 @@
     'assets/mat-pink.webp',   // 3 — tapis rose déplié
     'assets/colors.webp',     // 4 — les 3 coloris pliés
     'assets/carousel-sofa.webp',    // 5 — rangé sous le canapé
-    'assets/carousel-yoga.webp',    // 6 — séance sur tapis rose
+    'assets/carousel-yoga.webp',    // 6 — pile de tapis rose plié (+ tapis bleu)
     'assets/carousel-stack.webp',   // 7 — pile de tapis pliés (à offrir)
     'assets/carousel-texture.webp', // 8 — texture & avantages
     'assets/dimensions.webp'  // 9 — dimensions
@@ -31,7 +31,7 @@
   var activeThumb = 0;
 
   function imgTag(src) {
-    return '<img src="' + src + '" alt="Rawstate The Fold™" loading="lazy" />';
+    return '<img src="' + src + '" alt="Rawstate The Fold" loading="lazy" />';
   }
   function renderGallery() {
     thumbsEl.innerHTML = GALLERY.map(function (src, i) {
@@ -189,6 +189,67 @@
     }
   });
 
+  /* ---------- Délai de livraison estimé (temps réel : +6 à +8 jours ouvrés) ---------- */
+  (function () {
+    var els = document.querySelectorAll('[data-delivery]');
+    if (!els.length) return;
+    function addBusinessDays(from, n) {
+      var d = new Date(from.getTime());
+      var added = 0;
+      while (added < n) {
+        d.setDate(d.getDate() + 1);
+        var day = d.getDay();
+        if (day !== 0 && day !== 6) added++; // saute samedi (6) et dimanche (0)
+      }
+      return d;
+    }
+    var today = new Date();
+    var d1 = addBusinessDays(today, 6);
+    var d2 = addBusinessDays(today, 8);
+    function day(d) { return d.toLocaleDateString('fr-FR', { day: 'numeric' }); }
+    function dayMonth(d) { return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }); }
+    var sameMonth = d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear();
+    var txt = sameMonth
+      ? 'Livré entre le ' + day(d1) + ' et le ' + dayMonth(d2)
+      : 'Livré entre le ' + dayMonth(d1) + ' et le ' + dayMonth(d2);
+    Array.prototype.forEach.call(els, function (el) { el.textContent = txt; });
+  })();
+
+  /* ---------- Formulaire d'avis (jeune marque) ----------
+     Démo statique : validation + confirmation côté client. Pour collecter
+     réellement les avis, brancher le submit sur une app d'avis / un endpoint. */
+  (function () {
+    var form = document.querySelector('[data-review-form]');
+    if (!form) return;
+    var starsWrap = form.querySelector('[data-rating]');
+    var stars = starsWrap ? Array.prototype.slice.call(starsWrap.querySelectorAll('.review-form__star')) : [];
+    var rating = 0;
+    function paint(n) { stars.forEach(function (s, i) { s.classList.toggle('is-on', i < n); }); }
+    stars.forEach(function (s) {
+      var val = parseInt(s.getAttribute('data-star'), 10);
+      s.addEventListener('click', function () { rating = val; paint(rating); s.setAttribute('aria-pressed', 'true'); });
+      s.addEventListener('mouseenter', function () { paint(val); });
+    });
+    if (starsWrap) starsWrap.addEventListener('mouseleave', function () { paint(rating); });
+
+    var errEl = form.querySelector('[data-review-error]');
+    var doneEl = form.querySelector('[data-review-done]');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = (form.querySelector('[name="name"]') || {}).value || '';
+      var review = (form.querySelector('[name="review"]') || {}).value || '';
+      if (!rating || !name.trim() || !review.trim()) {
+        if (errEl) errEl.hidden = false;
+        return;
+      }
+      if (errEl) errEl.hidden = true;
+      Array.prototype.forEach.call(form.querySelectorAll('.review-form__field, .review-form__submit'), function (el) {
+        el.style.display = 'none';
+      });
+      if (doneEl) doneEl.hidden = false;
+    });
+  })();
+
   /* ---------- Instagram marquee ---------- */
   var INSTA_IMGS = [
     'assets/insta-home.webp', 'assets/insta-suitcase.webp', 'assets/insta-studio.webp',
@@ -323,30 +384,28 @@
   var cartTotalEl = document.querySelector('[data-cart-total]');
   var cartSubtotalEl = document.querySelector('[data-cart-subtotal]');
   var cartShippingEl = document.querySelector('[data-cart-shipping]');
-  var cartShipEl = document.querySelector('[data-cart-ship]');
-  var cartHintEl = document.querySelector('[data-cart-hint]');
-  var cartShipBarEl = document.querySelector('[data-cart-ship-bar]');
-  var FREE_SHIP = 90, SHIP_FEE = 4.90;
   var cartCountEl = document.querySelector('[data-cart-count]');
   var cartCountLabelEl = document.querySelector('[data-cart-count-label]');
   var cartToggle = document.querySelector('[data-cart-toggle]');
   var cartClose = document.querySelector('[data-cart-close]');
+  var upsellEl = document.querySelector('[data-upsell]');
 
   function eur(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
 
   function currentItem() {
     if (state.offer === 1) {
-      return { id: 'o1-' + state.single, name: 'Rawstate The Fold™',
-        detail: 'Coloris : ' + VARIANTS[state.single].name, price: 69.90 };
+      return { id: 'o1-' + state.single, name: 'Rawstate The Fold',
+        detail: 'Coloris : ' + VARIANTS[state.single].name, price: 69.90, colors: [state.single] };
     }
-    return { id: 'o2-' + state.duo[0] + '-' + state.duo[1], name: 'Rawstate The Fold™ · Duo',
-      detail: VARIANTS[state.duo[0]].name + ' + ' + VARIANTS[state.duo[1]].name, price: 118.80 };
+    return { id: 'o2-' + state.duo[0] + '-' + state.duo[1], name: 'Rawstate The Fold · Duo',
+      detail: VARIANTS[state.duo[0]].name + ' + ' + VARIANTS[state.duo[1]].name, price: 118.80,
+      colors: [state.duo[0], state.duo[1]] };
   }
 
   function renderCart() {
     var count = cart.reduce(function (s, i) { return s + i.qty; }, 0);
     var subtotal = cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
-    var shipping = (subtotal > 0 && subtotal < FREE_SHIP) ? SHIP_FEE : 0;
+    var shipping = 0; // livraison toujours offerte
     var total = subtotal + shipping;
 
     if (cartCountEl) { cartCountEl.textContent = count; cartCountEl.hidden = count === 0; }
@@ -354,14 +413,38 @@
     if (cartEmptyEl) cartEmptyEl.style.display = count ? 'none' : 'block';
     if (cartItemsEl) {
       cartItemsEl.innerHTML = cart.map(function (i) {
+        var cols = i.colors || [];
+        var media = cols.map(function (ci) {
+          return '<img src="' + GALLERY[ci] + '" alt="Tapis Rawstate ' + VARIANTS[ci].name + '" loading="lazy" />';
+        }).join('');
+        var swatches = cols.map(function (ci) {
+          return '<span class="cart-swatch" style="background:' + VARIANTS[ci].color + '"></span>';
+        }).join('');
+        // Ligne duo : sélecteur de coloris pour le 2e tapis
+        var secondSwitch = '';
+        if (cols.length === 2) {
+          var opts = VARIANTS.map(function (v, ci) {
+            return '<button type="button" class="cart-item__sw' + (ci === cols[1] ? ' is-on' : '') +
+              '" data-set-second="' + ci + '" style="background:' + v.color +
+              '" aria-label="2e tapis : ' + v.name + '" title="' + v.name + '"></button>';
+          }).join('');
+          secondSwitch = '<div class="cart-item__switch"><span class="cart-item__switch-lbl">2ᵉ&nbsp;tapis&nbsp;:</span>' + opts + '</div>';
+        }
         return '<div class="cart-item" data-id="' + i.id + '">' +
-          '<div class="cart-item__info"><strong>' + i.name + '</strong><span>' + i.detail + '</span>' +
+          '<div class="cart-item__media">' + media + '</div>' +
+          '<div class="cart-item__info"><strong>' + i.name + '</strong>' +
+          '<span class="cart-item__colors">' + swatches + i.detail + '</span>' +
+          secondSwitch +
           '<div class="cart-item__qty"><button data-dec aria-label="Moins">−</button><span>' + i.qty + '</span><button data-inc aria-label="Plus">+</button></div>' +
           '</div>' +
           '<div class="cart-item__right"><span class="cart-item__price">' + eur(i.price * i.qty) + '</span>' +
           '<button class="cart-item__remove" data-remove>Retirer</button></div></div>';
       }).join('');
     }
+
+    // Upsell duo : visible seulement si un "1 tapis" est présent
+    var hasSingle = cart.some(function (i) { return i.id.indexOf('o1-') === 0; });
+    if (upsellEl) upsellEl.hidden = !hasSingle;
 
     if (cartSubtotalEl) cartSubtotalEl.textContent = eur(subtotal);
     if (cartShippingEl) {
@@ -374,15 +457,6 @@
       }
     }
     if (cartTotalEl) cartTotalEl.textContent = eur(total);
-
-    // free-shipping progress
-    if (cartShipEl) cartShipEl.style.display = count ? 'block' : 'none';
-    if (cartShipBarEl) cartShipBarEl.style.width = Math.min(subtotal / FREE_SHIP, 1) * 100 + '%';
-    if (cartHintEl) {
-      cartHintEl.textContent = subtotal >= FREE_SHIP
-        ? 'Livraison offerte débloquée ✓'
-        : 'Plus que ' + eur(FREE_SHIP - subtotal) + ' pour la livraison offerte';
-    }
   }
 
   function openCart() {
@@ -401,9 +475,62 @@
     var found = null;
     for (var k = 0; k < cart.length; k++) { if (cart[k].id === it.id) { found = cart[k]; break; } }
     if (found) found.qty += 1;
-    else cart.push({ id: it.id, name: it.name, detail: it.detail, price: it.price, qty: 1 });
+    else cart.push({ id: it.id, name: it.name, detail: it.detail, price: it.price, qty: 1, colors: it.colors });
     renderCart();
     openCart();
+  }
+
+  /* Upsell : convertit un "1 tapis" en pack duo (-21 €). Le client choisit
+     le coloris du 2e tapis ; le 1er garde celui du tapis déjà au panier. */
+  function upsellToDuo(secondColor) {
+    var idx = -1;
+    for (var k = 0; k < cart.length; k++) { if (cart[k].id.indexOf('o1-') === 0) { idx = k; break; } }
+    if (idx < 0) return;
+    var single = cart[idx];
+    var c = parseInt(single.id.slice(3), 10);          // coloris du 1er tapis
+    if (secondColor == null) secondColor = c;          // sécurité
+    single.qty -= 1;                                    // retire une unité du single
+    if (single.qty <= 0) cart.splice(idx, 1);
+    var duoId = 'o2-' + c + '-' + secondColor;
+    var existing = cart.filter(function (x) { return x.id === duoId; })[0];
+    if (existing) existing.qty += 1;
+    else cart.push({ id: duoId, name: 'Rawstate The Fold · Duo',
+      detail: VARIANTS[c].name + ' + ' + VARIANTS[secondColor].name, price: 118.80, qty: 1, colors: [c, secondColor] });
+    state.offer = 2; state.duo = [c, secondColor];      // reflète le choix sur la page
+    renderCart();
+    if (offersEl) renderOffers();
+    openCart();
+  }
+  /* Change le coloris du 2e tapis d'une ligne duo, directement dans le panier. */
+  function changeSecondColor(id, newColor) {
+    var it = cart.filter(function (x) { return x.id === id; })[0];
+    if (!it || !it.colors || it.colors.length < 2) return;
+    var c1 = it.colors[0];
+    var newId = 'o2-' + c1 + '-' + newColor;
+    if (newId === id) return;
+    var target = cart.filter(function (x) { return x.id === newId; })[0];
+    if (target && target !== it) {           // même duo déjà présent → fusion des quantités
+      target.qty += it.qty;
+      cart = cart.filter(function (x) { return x !== it; });
+    } else {
+      it.id = newId; it.colors = [c1, newColor];
+      it.detail = VARIANTS[c1].name + ' + ' + VARIANTS[newColor].name;
+    }
+    state.duo = [c1, newColor];              // reflète le choix sur la fiche produit
+    renderCart();
+    if (offersEl) renderOffers();
+  }
+
+  var upsellSwatchesEl = document.querySelector('[data-upsell-swatches]');
+  if (upsellSwatchesEl) {
+    upsellSwatchesEl.innerHTML = VARIANTS.map(function (v, i) {
+      return '<button type="button" class="cart-upsell__sw" data-color="' + i + '" style="background:' + v.color +
+        '" aria-label="Coloris ' + v.name + '" title="' + v.name + '"></button>';
+    }).join('');
+    upsellSwatchesEl.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-color]');
+      if (b) upsellToDuo(parseInt(b.getAttribute('data-color'), 10));
+    });
   }
 
   if (cartItemsEl) {
@@ -413,6 +540,8 @@
       var id = row.getAttribute('data-id');
       var item = cart.filter(function (i) { return i.id === id; })[0];
       if (!item) return;
+      var sw = e.target.closest('[data-set-second]');
+      if (sw) { changeSecondColor(id, parseInt(sw.getAttribute('data-set-second'), 10)); return; }
       if (e.target.closest('[data-inc]')) item.qty += 1;
       else if (e.target.closest('[data-dec]')) { item.qty -= 1; if (item.qty <= 0) cart = cart.filter(function (i) { return i.id !== id; }); }
       else if (e.target.closest('[data-remove]')) cart = cart.filter(function (i) { return i.id !== id; });

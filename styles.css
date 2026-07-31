@@ -201,12 +201,49 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
 .cart-item__price { font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
 .cart-item__remove { font-size: 12px; color: var(--grey-600); text-decoration: underline; text-underline-offset: 2px; transition: color var(--dur) var(--ease); }
 .cart-item__remove:hover { color: var(--ink-900); }
+/* Miniature(s) produit + coloris dans l'article panier */
+.cart-item__media { display: flex; align-items: center; flex: none; }
+.cart-item__media img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; background: var(--grey-100); border: 2px solid var(--white); }
+.cart-item__media img + img { margin-left: -20px; } /* chevauchement pour le duo */
+.cart-item__colors { display: flex; align-items: center; gap: 6px; }
+.cart-swatch { width: 12px; height: 12px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+/* Sélecteur de coloris du 2e tapis (ligne duo) */
+.cart-item__switch { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+.cart-item__switch-lbl { font-size: 11.5px; color: var(--grey-600); }
+.cart-item__sw {
+  width: 18px; height: 18px; border-radius: 50%; flex: none; padding: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.15);
+  transition: transform .15s var(--ease), box-shadow .15s var(--ease);
+}
+.cart-item__sw:hover { transform: scale(1.15); }
+.cart-item__sw.is-on { box-shadow: inset 0 0 0 1px rgba(0,0,0,.15), 0 0 0 2px var(--ink-900); }
+
+/* Upsell duo */
+.cart-upsell {
+  display: flex; flex-direction: column; gap: 10px; width: 100%;
+  margin: 10px 0 4px; padding: 13px 15px; border-radius: var(--radius-sm); text-align: left;
+  background: rgba(46,107,103,.08); border: 1px dashed var(--accent);
+}
+.cart-upsell__txt { font-size: 13px; line-height: 1.35; color: var(--ink-900); }
+.cart-upsell__txt strong { color: var(--accent-dark); }
+.cart-upsell__pick { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.cart-upsell__label { font-size: 12px; color: var(--grey-600); }
+.cart-upsell__swatches { display: flex; gap: 8px; }
+.cart-upsell__sw {
+  width: 24px; height: 24px; border-radius: 50%; flex: none;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.15);
+  transition: transform .15s var(--ease), box-shadow .15s var(--ease);
+}
+.cart-upsell__sw:hover { transform: scale(1.14); box-shadow: inset 0 0 0 1px rgba(0,0,0,.15), 0 0 0 2px var(--accent); }
+
+/* Lignes de réassurance + badges dans le pied du panier */
+.cart__foot-line { display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 12.5px; color: var(--grey-600); }
+.cart__foot-line .ico { width: 14px; height: 14px; color: var(--accent); flex: none; }
+.cart__foot-line [data-delivery] { color: var(--ink-900); font-weight: 500; }
+.cart__pay { margin: 0; gap: 14px; }
+.cart__pay svg { height: 22px; }
 
 .cart__foot { border-top: 1px solid var(--line); padding: 18px 24px calc(18px + env(safe-area-inset-bottom)); display: grid; gap: 10px; }
-.cart__ship { margin-bottom: 4px; }
-.cart__ship-msg { font-size: 12.5px; color: var(--grey-600); text-align: center; margin-bottom: 8px; }
-.cart__ship-bar { height: 5px; background: var(--grey-100); border-radius: 100px; overflow: hidden; }
-.cart__ship-bar i { display: block; height: 100%; width: 0; background: var(--ink-900); border-radius: 100px; transition: width .4s var(--ease); }
 .cart__line { display: flex; align-items: baseline; justify-content: space-between; font-size: 14px; color: var(--grey-600); }
 .cart__line [data-cart-shipping].is-free { color: var(--ink-900); font-weight: 600; }
 .cart__total { display: flex; align-items: baseline; justify-content: space-between; padding-top: 10px; margin-top: 2px; border-top: 1px solid var(--line); }
@@ -378,8 +415,24 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
 /* Ordre visuel : offres → CTA + paiements → accordéons → réassurance */
 .pinfo__accordion { order: 3; }
 .btn--buy { order: 1; }
+.buy-guarantee { order: 1; }
 .pay-badges { order: 2; }
 .pinfo__reassure { order: 4; }
+
+/* Garantie sous le bouton d'achat */
+.buy-guarantee {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  font-size: 13px; color: var(--grey-600); margin: 0 0 16px;
+}
+.buy-guarantee .ico { width: 15px; height: 15px; color: var(--accent); flex: none; }
+
+/* Délai de livraison estimé sous le titre */
+.pinfo__delivery {
+  display: flex; align-items: center; gap: 8px; font-size: 14px;
+  color: var(--grey-600); margin: 0 0 14px;
+}
+.pinfo__delivery .ico { width: 17px; height: 17px; color: var(--accent); flex: none; }
+.pinfo__delivery [data-delivery] { color: var(--ink-900); font-weight: 500; }
 .pinfo__head { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
 .pinfo__head .stars { --size: 22px; }
 .pinfo__head .stars__fill::before { color: var(--accent); }
@@ -463,6 +516,7 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
   align-self: flex-start; font-size: 11px; font-weight: 600; color: var(--grey-600);
   background: var(--grey-100); border-radius: 100px; padding: 3px 10px;
 }
+.offer__ship--free { color: #fff; background: #2E6B67; }
 .offer__pills { display: flex; flex-wrap: wrap; gap: 6px; }
 .offer__pills i {
   font-style: normal; font-size: 11px; font-weight: 600; color: #fff;
@@ -492,11 +546,11 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
 .pinfo__steps li { font-size: 14.5px; color: var(--grey-600); line-height: 1.55; padding-left: 4px; }
 
 /* Buy */
-.btn--buy { padding: 19px 26px; font-size: 16px; margin-bottom: 20px; }
+.btn--buy { padding: 19px 26px; font-size: 16px; margin-bottom: 16px; }
 
 .pay-badges {
   display: flex; align-items: center; justify-content: center; gap: 16px;
-  margin: -6px 0 24px;
+  margin: 0 0 24px;
 }
 .pay-badges svg { height: 26px; width: auto; fill: var(--ink-900); }
 
@@ -707,6 +761,36 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
    REVIEWS
    ========================================================= */
 .reviews { padding: clamp(70px, 10vw, 130px) 0; }
+
+/* Intro "jeune marque" + formulaire d'avis */
+.reviews__intro { text-align: center; max-width: 640px; margin: 0 auto clamp(30px, 5vw, 46px); }
+.reviews__intro h2 { margin: 12px 0 14px; }
+.reviews__intro p { color: var(--grey-600); font-size: clamp(15px, 1.6vw, 17px); line-height: 1.6; }
+.review-form {
+  max-width: 560px; margin: 0 auto; background: #16150F; color: #fff;
+  border-radius: var(--radius); padding: clamp(24px, 4vw, 40px);
+  display: flex; flex-direction: column; gap: 18px;
+}
+.review-form__field { display: flex; flex-direction: column; gap: 8px; }
+.review-form__label { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.85); }
+.review-form__stars { display: flex; gap: 6px; }
+.review-form__star {
+  font-size: 30px; line-height: 1; color: rgba(255,255,255,.22); padding: 0;
+  transition: color .15s var(--ease), transform .15s var(--ease);
+}
+.review-form__star:hover { transform: scale(1.12); }
+.review-form__star.is-on { color: #F5C451; }
+.review-form__input, .review-form__textarea {
+  width: 100%; font-family: inherit; font-size: 15px; color: #fff;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14);
+  border-radius: var(--radius-sm); padding: 12px 14px; transition: border-color var(--dur) var(--ease);
+}
+.review-form__input::placeholder, .review-form__textarea::placeholder { color: rgba(255,255,255,.4); }
+.review-form__input:focus, .review-form__textarea:focus { outline: none; border-color: var(--accent); }
+.review-form__textarea { resize: vertical; min-height: 96px; line-height: 1.5; }
+.review-form__submit { margin-top: 4px; }
+.review-form__error { font-size: 13px; color: #ffb4a8; margin-top: -6px; }
+.review-form__done { font-size: 15px; font-weight: 600; color: #fff; text-align: center; }
 .reviews__top {
   display: grid; grid-template-columns: 320px 1fr; gap: clamp(30px, 6vw, 80px);
   align-items: center; padding-bottom: 56px; margin-bottom: 56px; border-bottom: 1px solid var(--line);
@@ -844,6 +928,9 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
 }
 .footer .logo { color: var(--white); }
 .footer__brand p { font-size: 14px; margin: 18px 0 22px; max-width: 260px; line-height: 1.6; }
+.footer__contact { font-size: 14px; margin-top: 20px; max-width: 270px; line-height: 1.6; }
+.footer__contact a { color: #fff; text-decoration: underline; text-underline-offset: 2px; transition: color var(--dur) var(--ease); }
+.footer__contact a:hover { color: rgba(255,255,255,.7); }
 .socials { display: flex; gap: 12px; }
 .socials a {
   width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,.18);
