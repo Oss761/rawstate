@@ -1078,6 +1078,9 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
   content: ""; position: absolute; left: 2px; top: 11px;
   width: 6px; height: 6px; border-radius: 50%; background: var(--ink-900);
 }
+.legal ol { display: grid; gap: 12px; margin: 8px 0 18px; padding-left: 22px; }
+.legal ol li { padding-left: 4px; font-size: 15.5px; color: #3a3a3a; line-height: 1.7; }
+.legal ol li::marker { color: var(--ink-900); font-weight: 700; }
 .legal a:not(.btn) { color: var(--ink-900); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--grey-300); transition: text-decoration-color var(--dur) var(--ease); }
 .legal a:not(.btn):hover { text-decoration-color: var(--ink-900); }
 .legal strong { font-weight: 650; color: var(--ink-900); }
