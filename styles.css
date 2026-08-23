@@ -379,7 +379,8 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
   overflow: hidden; margin-bottom: 14px; position: relative;
 }
 .gallery__stage { position: absolute; inset: 0; }
-.gallery__main img, .gallery__main svg { width: 100%; height: 100%; object-fit: cover; }
+.gallery__main img, .gallery__main svg, .gallery__main video { width: 100%; height: 100%; object-fit: cover; }
+.gallery__main video { display: block; background: var(--grey-100); }
 .gallery__main .fade { animation: galfade .5s var(--ease); }
 
 .gallery__nav {
@@ -400,8 +401,9 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
 .gallery__nav--next:hover { transform: translateY(-50%) translateX(2px); }
 @keyframes galfade { from { opacity: 0; transform: scale(1.03); } to { opacity: 1; transform: none; } }
 
-.gallery__thumbs { display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px; }
+.gallery__thumbs { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
 .gallery__thumb {
+  position: relative;
   aspect-ratio: 1; background: var(--grey-100); border-radius: 10px; overflow: hidden;
   border: 1.5px solid transparent; transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
   cursor: pointer;
@@ -409,6 +411,14 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
 .gallery__thumb img, .gallery__thumb svg { width: 100%; height: 100%; object-fit: cover; }
 .gallery__thumb:hover { transform: translateY(-2px); }
 .gallery__thumb.is-active { border-color: var(--ink-900); }
+/* pastille de lecture : signale la vignette video parmi les photos */
+.gallery__thumb.is-video::after {
+  content: ''; position: absolute; inset: 0; margin: auto;
+  width: 0; height: 0;
+  border-left: 10px solid rgba(255, 255, 255, .95);
+  border-top: 7px solid transparent; border-bottom: 7px solid transparent;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .55));
+}
 
 /* Product info */
 .pinfo { padding-top: 6px; display: flex; flex-direction: column; }
@@ -487,6 +497,12 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
 }
 .swatch:hover { transform: translateY(-2px); }
 .swatch.is-active { box-shadow: 0 0 0 2px var(--white), 0 0 0 4.5px #000; }
+/* miniature du tapis entier posee dans la pastille */
+.swatch__img {
+  position: absolute; inset: 0; display: block; width: 100%; height: 100%;
+  object-fit: contain; pointer-events: none;
+  filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, .32));
+}
 
 /* Offers */
 .offers { display: grid; gap: 12px; margin-bottom: 28px; }
@@ -528,6 +544,51 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
 .offer__unit { font-size: 12px; color: var(--grey-600); margin-top: 3px; }
 .offer__body { max-height: 0; overflow: hidden; transition: max-height var(--dur) var(--ease); }
 .offer__pick { padding-top: 18px; margin-top: 18px; border-top: 1px solid var(--line); display: grid; gap: 16px; }
+/* Inclus dans l'offre. Largeur ET hauteur fixes sur les miniatures : la hauteur
+   du bloc ne depend donc pas du chargement des images, que .offer__body mesure
+   au scrollHeight pour son ouverture. */
+.offer__perks {
+  list-style: none; margin: 16px 0 0; padding: 16px 0 0;
+  border-top: 1px solid var(--line); display: grid; gap: 12px;
+}
+.offer__perks li {
+  display: flex; align-items: center; gap: 12px;
+  min-height: 40px;   /* toutes les lignes a la meme hauteur -> interlignes egaux */
+  font-size: 14px; color: var(--ink-900); line-height: 1.4;
+}
+.perk__name { flex: 1; }                        /* pousse "Offert" au bord droit,
+                                                   au meme fer que le prix */
+.perk__free { font-style: normal; color: var(--accent); font-weight: 600; flex: none; }
+.perk__img { width: 34px; height: 40px; object-fit: contain; flex: none; }
+/* meme gabarit que .perk__img pour aligner les textes ; selecteur a 2 classes car
+   la regle .ico plus bas dans le fichier gagnerait autrement (specificite egale) */
+.offer__perks .perk__ico,
+.cart-gifts .perk__ico {
+  width: 34px; height: 40px; margin: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.offer__perks .perk__ico svg,
+.cart-gifts .perk__ico svg { width: 24px; height: 24px; }
+
+/* Cadeaux inclus, dans le tiroir panier */
+.cart-gifts {
+  margin: 14px 0 4px; padding: 13px 15px;
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--grey-100);
+}
+.cart-gifts__title {
+  font-size: 11.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--grey-600); margin-bottom: 10px;
+}
+.cart-gifts__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.cart-gifts__list li {
+  display: flex; align-items: center; gap: 10px; min-height: 34px;
+  font-size: 13px; color: var(--ink-900); line-height: 1.35;
+}
+.cart-gifts .perk__img { width: 28px; height: 34px; }
+.cart-gifts .perk__ico { width: 28px; height: 34px; }
+.cart-gifts .perk__ico svg { width: 20px; height: 20px; }
+
 .pick-row__label { font-size: 13px; color: var(--grey-600); margin-bottom: 10px; }
 .pick-row__label span { color: var(--ink-900); font-weight: 500; }
 .pick-row__swatches { display: flex; gap: 12px; }
@@ -546,13 +607,60 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
 .pinfo__steps li { font-size: 14.5px; color: var(--grey-600); line-height: 1.55; padding-left: 4px; }
 
 /* Buy */
-.btn--buy { padding: 19px 26px; font-size: 16px; margin-bottom: 16px; }
+.btn--buy { padding: 19px 26px; font-size: 16px; margin-bottom: 16px; position: relative; }
+
+/* Lumiere scintillante qui parcourt le tour du bouton d'achat.
+   offset-path: border-box fait suivre exactement le contour arrondi, a vitesse
+   constante (un conic-gradient, lui, tourne autour du centre : sur un bouton
+   large la trainee s'etire sur les longs cotes et file sur les courts).
+   Les deux couches sont decoratives et pointer-events:none. */
+@supports (offset-path: border-box) {
+  .btn--buy { overflow: hidden; }
+  .btn--buy::before,
+  .btn--buy::after {
+    content: ''; position: absolute; top: 0; left: 0;
+    border-radius: 100px; pointer-events: none;
+    offset-path: border-box; offset-rotate: auto; offset-distance: 0%;
+    /* ancre le bord haut de la trainee sur le contour : elle se developpe vers
+       l'interieur, sinon overflow:hidden en trancherait net la moitie externe */
+    offset-anchor: 50% 0%;
+    animation: btn-beam 5.6s linear infinite;
+  }
+  /* halo diffus */
+  .btn--buy::before {
+    width: 170px; height: 20px; filter: blur(8px); opacity: .5;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .5) 74%, #fff 100%);
+  }
+  /* trainee nette */
+  .btn--buy::after {
+    width: 110px; height: 2px; filter: blur(.4px);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .28) 48%,
+      rgba(255, 255, 255, .85) 82%, #fff 100%);
+  }
+  @keyframes btn-beam { to { offset-distance: 100%; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn--buy::before, .btn--buy::after { animation: none; opacity: 0; }
+  }
+}
 
 .pay-badges {
   display: flex; align-items: center; justify-content: center; gap: 16px;
   margin: 0 0 24px;
 }
 .pay-badges svg { height: 26px; width: auto; fill: var(--ink-900); }
+
+/* Bande de 4 photos en situation, sous les moyens de paiement.
+   `order: 2` = meme rang que .pay-badges, l'ordre du DOM departage. */
+.ugc-strip {
+  order: 2;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  margin: 0 0 24px;
+}
+.ugc-strip img {
+  display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover;
+  border-radius: 10px; background: var(--grey-100);
+}
 
 .pinfo__reassure {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
@@ -1032,7 +1140,7 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
   .hero__sub { margin-bottom: 18px; line-height: 1.5; }
   .hero__cta { margin-bottom: 16px; }
   .hero__perks { margin-bottom: 20px; }
-  .gallery__thumbs { grid-template-columns: repeat(9, 1fr); }
+  .gallery__thumbs { grid-template-columns: repeat(10, 1fr); }
   .footer__grid { grid-template-columns: 1fr; gap: 36px; }
   .footer__news { grid-column: auto; }
   .footer__bottom { flex-direction: column; text-align: center; }
@@ -1107,3 +1215,39 @@ h2 { font-family: 'Sora', var(--font-display); font-weight: 600; }
   .legal__table th { width: 42%; }
   .legal-header__inner .btn { padding: 8px 16px; font-size: 13px; }
 }
+
+/* ---------- Articles de blog (entre FAQ et footer) ---------- */
+.articles { padding: clamp(50px, 8vw, 100px) 0; border-top: 1px solid var(--line); }
+.articles__head { max-width: 620px; margin-bottom: clamp(28px, 4vw, 46px); }
+.articles__head h2 { font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -0.04em; }
+.articles__head p { margin-top: 14px; color: var(--grey-600); font-size: 16px; line-height: 1.7; }
+.articles__grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(18px, 2.5vw, 30px);
+}
+.article-card {
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
+              border-color var(--dur) var(--ease);
+}
+.article-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--line-strong); }
+.article-card__media { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--grey-100); }
+.article-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+.article-card:hover .article-card__media img { transform: scale(1.04); }
+.article-card__body { display: flex; flex-direction: column; flex: 1; padding: 22px 24px 24px; }
+.article-card__date {
+  font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--grey-600); margin-bottom: 10px;
+}
+.article-card h3 {
+  font-family: "Sora", var(--font-display); font-weight: 600;
+  font-size: 19px; line-height: 1.3; letter-spacing: -0.02em; margin-bottom: 10px;
+}
+.article-card__body p { font-size: 14.5px; color: var(--grey-600); line-height: 1.65; margin-bottom: 18px; }
+.article-card__more {
+  margin-top: auto; font-size: 14px; font-weight: 600; color: var(--accent);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.article-card__more::after { content: '→'; transition: transform var(--dur) var(--ease); }
+.article-card:hover .article-card__more::after { transform: translateX(4px); }

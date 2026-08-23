@@ -10,3 +10,6 @@ Thumbs.db
 
 # Images sources ChatGPT (dupliquées, non utilisées sur le site)
 assets/ChatGPT Image*
+
+# Video source non optimisee (la version servie est programme-21jours.mp4)
+assets/programme_21jours.mp4

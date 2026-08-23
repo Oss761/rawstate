@@ -5,24 +5,35 @@
   'use strict';
 
   /* ---------- Variant data (strict grayscale palette) ---------- */
+  /* `swatchImg` = miniature du tapis entier (detoure sur fond transparent) posee
+     dans la pastille de selection, par-dessus l'aplat `color`. */
   var VARIANTS = [
-    { id: 'anthracite', name: 'Fog',    color: '#383b3e', ink: '#ffffff' },
-    { id: 'sky',        name: 'Lagoon', color: '#a9cfe3', ink: '#111111' },
-    { id: 'rose',       name: 'Dusk',   color: '#ebc7d2', ink: '#111111' }
+    { id: 'anthracite', name: 'Fog',    color: '#383b3e', ink: '#ffffff',
+      swatchImg: 'assets/swatch-grey.webp' },
+    { id: 'sky',        name: 'Lagoon', color: '#a9cfe3', ink: '#111111',
+      swatchImg: 'assets/swatch-blue.webp' },
+    { id: 'rose',       name: 'Dusk',   color: '#ebc7d2', ink: '#111111',
+      swatchImg: 'assets/swatch-pink.webp' }
   ];
   var current = 0;
 
-  /* ---------- Gallery (9 product photos, 1:1, fixed order) ---------- */
+  /* ---------- Gallery (9 photos + 1 vidéo, 1:1, ordre fixe) ----------
+     Une entrée est soit une string (image), soit { video, poster }. La vignette
+     n'affiche jamais que le poster : la vidéo n'est téléchargée qu'au moment où
+     l'on ouvre sa vue. Les index 0-2 restent les 3 coloris (utilisés par le
+     sélecteur de couleur et par les lignes du panier). */
   var GALLERY = [
     'assets/mat-grey.webp',   // 1 — tapis gris déplié
     'assets/mat-blue.webp',   // 2 — tapis bleu déplié
     'assets/mat-pink.webp',   // 3 — tapis rose déplié
-    'assets/colors.webp',     // 4 — les 3 coloris pliés
-    'assets/carousel-sofa.webp',    // 5 — rangé sous le canapé
+    'assets/colors.webp',     // 4 — les 3 coloris pliés + badge garantie 30 jours
+    'assets/carousel-sofa.webp',    // 5 — rangé sous le canapé (« Le tapis facile à ranger chez soi »)
     'assets/carousel-yoga.webp',    // 6 — pile de tapis rose plié (+ tapis bleu)
-    'assets/carousel-stack.webp',   // 7 — pile de tapis pliés (à offrir)
-    'assets/carousel-texture.webp', // 8 — texture & avantages
-    'assets/dimensions.webp'  // 9 — dimensions
+    'assets/carousel-stack.webp',   // 7 — comparatif « Tapis plié » / « Tapis déplié » au sol
+    'assets/carousel-texture.webp', // 8 — tableau comparatif The Fold vs tapis roulés
+    'assets/dimensions.webp', // 9 — dimensions
+    { video: 'assets/programme-21jours.mp4',        // 10 — le programme 21 jours feuilleté
+      poster: 'assets/programme-21jours-poster.webp' }
   ];
 
   var mainEl = document.querySelector('[data-gallery-main]');
@@ -33,16 +44,28 @@
   function imgTag(src) {
     return '<img src="' + src + '" alt="Rawstate The Fold" loading="lazy" />';
   }
+  function isVideo(item) { return typeof item !== 'string'; }
+  function posterOf(item) { return isVideo(item) ? item.poster : item; }
+  function mainTag(item) {
+    if (!isVideo(item)) return imgTag(item);
+    // muted + playsinline sont indispensables : sans eux les navigateurs
+    // refusent la lecture automatique.
+    return '<video src="' + item.video + '" poster="' + item.poster + '"' +
+      ' autoplay muted loop playsinline preload="metadata"' +
+      ' aria-label="Aperçu du programme 21 jours pour reprendre le yoga"></video>';
+  }
   function renderGallery() {
-    thumbsEl.innerHTML = GALLERY.map(function (src, i) {
+    thumbsEl.innerHTML = GALLERY.map(function (item, i) {
       return '<button class="gallery__thumb' + (i === activeThumb ? ' is-active' : '') +
-        '" data-thumb="' + i + '" aria-label="Vue ' + (i + 1) + '">' + imgTag(src) + '</button>';
+        (isVideo(item) ? ' is-video' : '') +
+        '" data-thumb="' + i + '" aria-label="Vue ' + (i + 1) +
+        (isVideo(item) ? ' (vidéo)' : '') + '">' + imgTag(posterOf(item)) + '</button>';
     }).join('');
     setMain(activeThumb);
   }
   function setMain(i) {
     activeThumb = i;
-    stageEl.innerHTML = '<div class="fade" style="width:100%;height:100%">' + imgTag(GALLERY[i]) + '</div>';
+    stageEl.innerHTML = '<div class="fade" style="width:100%;height:100%">' + mainTag(GALLERY[i]) + '</div>';
     Array.prototype.forEach.call(thumbsEl.children, function (btn, idx) {
       btn.classList.toggle('is-active', idx === i);
     });
@@ -98,7 +121,9 @@
     return VARIANTS.map(function (v, i) {
       return '<button type="button" class="swatch' + (i === selected ? ' is-active' : '') +
         '" aria-label="' + v.name + '" data-idx="' + i + '" style="background:' + v.color +
-        ';border-color:' + v.color + '"></button>';
+        ';border-color:' + v.color + '">' +
+        '<img class="swatch__img" src="' + v.swatchImg + '" alt="" aria-hidden="true" />' +
+        '</button>';
     }).join('');
   }
   function pickRow(group, label, selected) {
@@ -182,11 +207,18 @@
     pinterest: '<circle cx="12" cy="12" r="9"/><path d="M9.5 20c-.5-2 .5-5 1-7 .3-1.2-.5-2.5.3-3.7C11.8 7.5 15 8 15 11c0 2-1 4-3 4-1 0-1.7-.8-1.5-1.8"/>'
   };
 
+  function icoSvg(name) {
+    if (!ICONS[name]) return '';
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + ICONS[name] + '</svg>';
+  }
+  // Version balise complete, pour le contenu injecte apres coup (le balayage
+  // [data-ico] ci-dessous ne tourne qu'une fois, au chargement).
+  function icoHtml(name, cls) {
+    return '<span class="' + (cls || 'ico') + '">' + icoSvg(name) + '</span>';
+  }
+
   document.querySelectorAll('[data-ico]').forEach(function (el) {
-    var name = el.getAttribute('data-ico');
-    if (ICONS[name]) {
-      el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + ICONS[name] + '</svg>';
-    }
+    el.innerHTML = icoSvg(el.getAttribute('data-ico'));
   });
 
   /* ---------- Délai de livraison estimé (temps réel : +6 à +8 jours ouvrés) ---------- */
@@ -389,6 +421,8 @@
   var cartToggle = document.querySelector('[data-cart-toggle]');
   var cartClose = document.querySelector('[data-cart-close]');
   var upsellEl = document.querySelector('[data-upsell]');
+  var giftsEl = document.querySelector('[data-cart-gifts]');
+  var giftsListEl = document.querySelector('[data-cart-gifts-list]');
 
   function eur(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
 
@@ -400,6 +434,11 @@
     return { id: 'o2-' + state.duo[0] + '-' + state.duo[1], name: 'Rawstate The Fold · Duo',
       detail: VARIANTS[state.duo[0]].name + ' + ' + VARIANTS[state.duo[1]].name, price: 118.80,
       colors: [state.duo[0], state.duo[1]] };
+  }
+
+  function giftRow(visual, label, free) {
+    return '<li>' + visual + '<span class="perk__name">' + label + '</span>' +
+      (free ? '<i class="perk__free">Offert</i>' : '') + '</li>';
   }
 
   function renderCart() {
@@ -440,6 +479,22 @@
           '<div class="cart-item__right"><span class="cart-item__price">' + eur(i.price * i.qty) + '</span>' +
           '<button class="cart-item__remove" data-remove>Retirer</button></div></div>';
       }).join('');
+    }
+
+    // Cadeaux inclus : 1 sac par tapis, le programme, et la garantie qui passe
+    // a 90 jours des 2 tapis. Compte les tapis reels (une ligne duo en contient 2).
+    var mats = cart.reduce(function (s, i) {
+      return s + (i.colors ? i.colors.length : 1) * i.qty;
+    }, 0);
+    if (giftsEl) giftsEl.hidden = mats === 0;
+    if (giftsListEl && mats > 0) {
+      giftsListEl.innerHTML =
+        giftRow('<img class="perk__img" src="assets/perk-bag.webp" alt="" loading="lazy" />',
+          mats > 1 ? mats + ' sacs de rangement' : '1 sac de rangement', true) +
+        giftRow('<img class="perk__img" src="assets/perk-guide.webp" alt="" loading="lazy" />',
+          'Programme 21 jours pour reprendre le yoga', true) +
+        giftRow(icoHtml('shield', 'perk__ico ico'),
+          'Garantie ' + (mats > 1 ? 90 : 30) + ' jours', false);
     }
 
     // Upsell duo : visible seulement si un "1 tapis" est présent
@@ -610,7 +665,7 @@
       itemsUnit(['Bali', 'Lisbonne', 'Tulum', 'Canggu', 'Tokyo', 'Medellín', 'Chiang Mai', 'Cape Town']),
       'marquee__group', 55);
     seamlessMarquee(announceTrack,
-      itemsUnit(['30 cm plié', '700 g', 'Retour 30 jours']),
+      itemsUnit(['Livraison offerte', 'Garantie 30 jours', 'Programme yoga offert']),
       'announce__group', 45);
     seamlessMarquee(reviewsTrack, reviewsUnit, 'reviews__group', 55);
     seamlessMarquee(instaTrack, instaUnit(), 'insta__group', 45);
