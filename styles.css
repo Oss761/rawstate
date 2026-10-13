@@ -1119,6 +1119,9 @@ main section[id] { scroll-margin-top: 66px; }
 .news input:focus { border-color: rgba(255,255,255,.5); }
 .news .btn--dark { background: var(--accent); color: var(--white); }
 .news .btn--dark:hover { background: var(--accent-dark); }
+/* sous 340 px, le champ e-mail imposait sa largeur a toute la colonne du pied de page */
+.footer__grid > * { min-width: 0; }
+.news input { min-width: 0; }
 
 
 .footer__bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.12); font-size: 13px; }
@@ -1309,6 +1312,16 @@ main section[id] { scroll-margin-top: 66px; }
 }
 .article-card__more::after { content: '→'; transition: transform var(--dur) var(--ease); }
 .article-card:hover .article-card__more::after { transform: translateX(4px); }
+
+/* Contenu d'un article (theme Shopify) : rien ne doit depasser les marges du
+   container en mobile. Un tableau trop large defile dans son propre cadre. */
+.journal-article { overflow-wrap: break-word; }
+.journal-article img, .journal-article video, .journal-article iframe { max-width: 100%; height: auto; }
+.journal-article figure { max-width: 100%; margin-inline: 0; }
+.journal-article pre { max-width: 100%; overflow-x: auto; }
+@media (max-width: 700px) {
+  .journal-article table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
 
 /* =========================================================
    BOUTIQUE MULTIPRODUIT — page de garde + fiches produit
