@@ -42,7 +42,7 @@
   var activeThumb = 0;
 
   function imgTag(src) {
-    return '<img src="' + src + '" alt="Rawstate The Fold" loading="lazy" />';
+    return '<img src="' + src + '" alt="Tapis pliable The Fold" loading="lazy" />';
   }
   function isVideo(item) { return typeof item !== 'string'; }
   function posterOf(item) { return isVideo(item) ? item.poster : item; }
@@ -112,13 +112,29 @@
 
   var PRICES = {
     1: { now: '69,90 €' },
-    2: { now: '118,80 €', old: '139,80 €' }
+    2: { now: '118,80 €', old: '139,80 €' },
+    3: { now: '99 €', old: '114,70 €' }
   };
 
-  var state = { offer: 2, single: 0, duo: [0, 1] };
+  /* Coloris du bloc et des chaussettes, pour l'offre « Rituel L'Essentiel ».
+     ATTENTION : recopies de tools/products.py. Cette fiche n'est pas generee
+     depuis le catalogue, il faut les resynchroniser a la main si ca change. */
+  var BLOC = [
+    { name: 'Rose', color: '#f3bfd0', swatchImg: 'assets/bloc-sw-rose.webp' },
+    { name: 'Vert', color: '#cfe39a', swatchImg: 'assets/bloc-sw-vert.webp' },
+    { name: 'Noir', color: '#6f6a66', swatchImg: 'assets/bloc-sw-noir.webp' },
+    { name: 'Bleu', color: '#b7dcf5', swatchImg: 'assets/bloc-sw-bleu.webp' }
+  ];
+  var SOCKS = [
+    { name: 'Noir', color: '#6f6a66', swatchImg: 'assets/chaussettes-sw-noir.webp' },
+    { name: 'Bleu', color: '#b5d3f3', swatchImg: 'assets/chaussettes-sw-bleu.webp' },
+    { name: 'Rose', color: '#f7cfcf', swatchImg: 'assets/chaussettes-sw-rose.webp' }
+  ];
 
-  function swatchBtns(selected) {
-    return VARIANTS.map(function (v, i) {
+  var state = { offer: 1, single: 0, duo: [0, 1], rit: { fold: 0, bloc: 0, socks: 0 } };
+
+  function swatchBtns(liste, selected) {
+    return liste.map(function (v, i) {
       return '<button type="button" class="swatch' + (i === selected ? ' is-active' : '') +
         '" aria-label="' + v.name + '" data-idx="' + i + '" style="background:' + v.color +
         ';border-color:' + v.color + '">' +
@@ -126,17 +142,28 @@
         '</button>';
     }).join('');
   }
-  function pickRow(group, label, selected) {
+  // mention : texte ajoute apres le coloris (la taille des chaussettes), hors du <span>
+  function pickRow(group, label, liste, selected, mention) {
     return '<div class="pick-row" data-group="' + group + '">' +
-      '<div class="pick-row__label">' + label + ' — <span>' + VARIANTS[selected].name + '</span></div>' +
-      '<div class="pick-row__swatches">' + swatchBtns(selected) + '</div></div>';
+      '<div class="pick-row__label">' + label + ' — <span>' + liste[selected].name + '</span>' +
+      (mention ? ' ' + mention : '') + '</div>' +
+      '<div class="pick-row__swatches">' + swatchBtns(liste, selected) + '</div></div>';
   }
 
   function renderOffers() {
     offersEl.querySelector('[data-pick="single"]').innerHTML =
-      pickRow('single', 'Couleur', state.single);
+      pickRow('single', 'Couleur', VARIANTS, state.single);
     offersEl.querySelector('[data-pick="duo"]').innerHTML =
-      pickRow('duo0', 'Tapis 1', state.duo[0]) + pickRow('duo1', 'Tapis 2', state.duo[1]);
+      pickRow('duo0', 'Tapis 1', VARIANTS, state.duo[0]) + pickRow('duo1', 'Tapis 2', VARIANTS, state.duo[1]);
+    var pickRit = offersEl.querySelector('[data-pick="rituel"]');
+    if (pickRit) {
+      pickRit.innerHTML = pickRow('rit-fold', 'Tapis The Fold', VARIANTS, state.rit.fold)
+        + pickRow('rit-bloc', 'Bloc The Block', BLOC, state.rit.bloc)
+        + pickRow('rit-socks', 'Chaussettes The Socks', SOCKS, state.rit.socks, '(Taille : 37-43)');
+    }
+    // le sac offert suit le nombre de tapis de l'offre choisie
+    var sacEl = document.querySelector('[data-offerts-sac]');
+    if (sacEl) sacEl.textContent = state.offer === 2 ? '2 sacs de rangement' : '1 sac de rangement';
 
     offersEl.querySelectorAll('.offer').forEach(function (card) {
       var on = parseInt(card.getAttribute('data-offer'), 10) === state.offer;
@@ -158,7 +185,8 @@
     var p = PRICES[state.offer];
     buyPriceEls.forEach(function (el) { el.textContent = '— ' + p.now; });
     if (stickyVariant) {
-      stickyVariant.textContent = (state.offer === 1 ? '1 tapis · ' : '2 tapis · ') + p.now;
+      stickyVariant.textContent =
+        (state.offer === 1 ? '1 tapis · ' : state.offer === 3 ? "Rituel L'Essentiel · " : '2 tapis · ') + p.now;
     }
   }
 
@@ -168,11 +196,15 @@
       var idx = parseInt(sw.getAttribute('data-idx'), 10);
       var group = sw.closest('.pick-row').getAttribute('data-group');
       state.offer = parseInt(sw.closest('.offer').getAttribute('data-offer'), 10);
+      var tapis = true;   // seuls les coloris de TAPIS font bouger la galerie
       if (group === 'single') state.single = idx;
       else if (group === 'duo0') state.duo[0] = idx;
       else if (group === 'duo1') state.duo[1] = idx;
+      else if (group === 'rit-fold') state.rit.fold = idx;
+      else if (group === 'rit-bloc') { state.rit.bloc = idx; tapis = false; }
+      else if (group === 'rit-socks') { state.rit.socks = idx; tapis = false; }
       renderOffers();
-      setMain(idx); // jump gallery to the chosen colour (grey/blue/pink = index 0/1/2)
+      if (tapis) setMain(idx); // galerie sur le coloris choisi (0/1/2)
       return;
     }
     var card = e.target.closest('.offer');
@@ -222,6 +254,7 @@
   });
 
   /* ---------- Délai de livraison estimé (temps réel : +6 à +8 jours ouvrés) ---------- */
+  var FOLD_LIVR = [6, 8, 'o'];   // repris tel quel par la ligne de panier
   (function () {
     var els = document.querySelectorAll('[data-delivery]');
     if (!els.length) return;
@@ -236,8 +269,8 @@
       return d;
     }
     var today = new Date();
-    var d1 = addBusinessDays(today, 6);
-    var d2 = addBusinessDays(today, 8);
+    var d1 = addBusinessDays(today, FOLD_LIVR[0]);
+    var d2 = addBusinessDays(today, FOLD_LIVR[1]);
     function day(d) { return d.toLocaleDateString('fr-FR', { day: 'numeric' }); }
     function dayMonth(d) { return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }); }
     var sameMonth = d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear();
@@ -407,208 +440,49 @@
     }, { passive: true });
   }
 
-  /* ---------- Cart ---------- */
-  var cart = [];
-  var cartEl = document.querySelector('[data-cart]');
-  var cartOverlay = document.querySelector('[data-cart-overlay]');
-  var cartItemsEl = document.querySelector('[data-cart-items]');
-  var cartEmptyEl = document.querySelector('[data-cart-empty]');
-  var cartTotalEl = document.querySelector('[data-cart-total]');
-  var cartSubtotalEl = document.querySelector('[data-cart-subtotal]');
-  var cartShippingEl = document.querySelector('[data-cart-shipping]');
-  var cartCountEl = document.querySelector('[data-cart-count]');
-  var cartCountLabelEl = document.querySelector('[data-cart-count-label]');
-  var cartToggle = document.querySelector('[data-cart-toggle]');
-  var cartClose = document.querySelector('[data-cart-close]');
-  var upsellEl = document.querySelector('[data-upsell]');
-  var giftsEl = document.querySelector('[data-cart-gifts]');
-  var giftsListEl = document.querySelector('[data-cart-gifts-list]');
+  /* ---------- Panier : commun a toute la boutique (cart.js) ----------
+     Cette fiche fabrique l'article ; le rendu, les quantites, l'upsell duo et
+     le changement du 2e coloris vivent dans cart.js, donc sur toutes les pages. */
+  function eur(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
 
-  function eur(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
+  // ce dont le panier a besoin pour proposer un duo, hors de cette page
+  function foldMeta(cols) {
+    return { c: cols,
+             v: VARIANTS.map(function (v, i) { return { n: v.name, color: v.color, img: GALLERY[i] }; }),
+             duo: { nom: 'Tapis pliable The Fold · Duo', prix: 118.80 } };
+  }
+  function cle(t) { return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-'); }
 
   function currentItem() {
+    if (state.offer === 3) {
+      // meme cle, meme libelle et meme delai que la fiche du rituel : les deux
+      // pages alimentent la meme ligne de panier
+      var r = state.rit;
+      var f = VARIANTS[r.fold].name, bl = BLOC[r.bloc].name, so = SOCKS[r.socks].name;
+      return { id: 'rituel-essentiel-' + [f, bl, so].map(cle).join('-'), nom: "Rituel L'Essentiel",
+        detail: 'Tapis pliable The Fold ' + f + ' · Bloc de yoga The Block ' + bl + ' · Chaussettes The Socks ' + so,
+        prix: 99, imgs: ['assets/rituel-essentiel-1.webp'],
+        sacs: 1, programme: true, livr: [6, 12, 'c'],
+        // memes proprietes de ligne que la fiche du rituel (shop.js)
+        shop: { sku: window.RawCart.sku('rituel-essentiel'),
+                p: { 'Tapis pliable The Fold': f, 'Bloc de yoga The Block': bl, 'Chaussettes The Socks': so } } };
+    }
     if (state.offer === 1) {
-      return { id: 'o1-' + state.single, name: 'Rawstate The Fold',
-        detail: 'Coloris : ' + VARIANTS[state.single].name, price: 69.90, colors: [state.single] };
+      var v = VARIANTS[state.single];
+      return { id: 'o1-' + state.single, nom: 'Tapis pliable The Fold', detail: 'Coloris : ' + v.name,
+        prix: 69.90, imgs: [GALLERY[state.single]], sw: [v.color],
+        sacs: 1, programme: true, livr: FOLD_LIVR, fold: foldMeta([state.single]) };
     }
-    return { id: 'o2-' + state.duo[0] + '-' + state.duo[1], name: 'Rawstate The Fold · Duo',
-      detail: VARIANTS[state.duo[0]].name + ' + ' + VARIANTS[state.duo[1]].name, price: 118.80,
-      colors: [state.duo[0], state.duo[1]] };
+    return window.RawCart.foldDuo(foldMeta([]), state.duo[0], state.duo[1], FOLD_LIVR);
   }
 
-  function giftRow(visual, label, free) {
-    return '<li>' + visual + '<span class="perk__name">' + label + '</span>' +
-      (free ? '<i class="perk__free">Offert</i>' : '') + '</li>';
-  }
+  function addToCart() { window.RawCart.add(currentItem(), 1); }
 
-  function renderCart() {
-    var count = cart.reduce(function (s, i) { return s + i.qty; }, 0);
-    var subtotal = cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
-    var shipping = 0; // livraison toujours offerte
-    var total = subtotal + shipping;
-
-    if (cartCountEl) { cartCountEl.textContent = count; cartCountEl.hidden = count === 0; }
-    if (cartCountLabelEl) cartCountLabelEl.textContent = count + ' article' + (count > 1 ? 's' : '');
-    if (cartEmptyEl) cartEmptyEl.style.display = count ? 'none' : 'block';
-    if (cartItemsEl) {
-      cartItemsEl.innerHTML = cart.map(function (i) {
-        var cols = i.colors || [];
-        var media = cols.map(function (ci) {
-          return '<img src="' + GALLERY[ci] + '" alt="Tapis Rawstate ' + VARIANTS[ci].name + '" loading="lazy" />';
-        }).join('');
-        var swatches = cols.map(function (ci) {
-          return '<span class="cart-swatch" style="background:' + VARIANTS[ci].color + '"></span>';
-        }).join('');
-        // Ligne duo : sélecteur de coloris pour le 2e tapis
-        var secondSwitch = '';
-        if (cols.length === 2) {
-          var opts = VARIANTS.map(function (v, ci) {
-            return '<button type="button" class="cart-item__sw' + (ci === cols[1] ? ' is-on' : '') +
-              '" data-set-second="' + ci + '" style="background:' + v.color +
-              '" aria-label="2e tapis : ' + v.name + '" title="' + v.name + '"></button>';
-          }).join('');
-          secondSwitch = '<div class="cart-item__switch"><span class="cart-item__switch-lbl">2ᵉ&nbsp;tapis&nbsp;:</span>' + opts + '</div>';
-        }
-        return '<div class="cart-item" data-id="' + i.id + '">' +
-          '<div class="cart-item__media">' + media + '</div>' +
-          '<div class="cart-item__info"><strong>' + i.name + '</strong>' +
-          '<span class="cart-item__colors">' + swatches + i.detail + '</span>' +
-          secondSwitch +
-          '<div class="cart-item__qty"><button data-dec aria-label="Moins">−</button><span>' + i.qty + '</span><button data-inc aria-label="Plus">+</button></div>' +
-          '</div>' +
-          '<div class="cart-item__right"><span class="cart-item__price">' + eur(i.price * i.qty) + '</span>' +
-          '<button class="cart-item__remove" data-remove>Retirer</button></div></div>';
-      }).join('');
-    }
-
-    // Cadeaux inclus : 1 sac par tapis, le programme, et la garantie qui passe
-    // a 90 jours des 2 tapis. Compte les tapis reels (une ligne duo en contient 2).
-    var mats = cart.reduce(function (s, i) {
-      return s + (i.colors ? i.colors.length : 1) * i.qty;
-    }, 0);
-    if (giftsEl) giftsEl.hidden = mats === 0;
-    if (giftsListEl && mats > 0) {
-      giftsListEl.innerHTML =
-        giftRow('<img class="perk__img" src="assets/perk-bag.webp" alt="" loading="lazy" />',
-          mats > 1 ? mats + ' sacs de rangement' : '1 sac de rangement', true) +
-        giftRow('<img class="perk__img" src="assets/perk-guide.webp" alt="" loading="lazy" />',
-          'Programme 21 jours pour reprendre le yoga', true) +
-        giftRow(icoHtml('shield', 'perk__ico ico'),
-          'Garantie ' + (mats > 1 ? 90 : 30) + ' jours', false);
-    }
-
-    // Upsell duo : visible seulement si un "1 tapis" est présent
-    var hasSingle = cart.some(function (i) { return i.id.indexOf('o1-') === 0; });
-    if (upsellEl) upsellEl.hidden = !hasSingle;
-
-    if (cartSubtotalEl) cartSubtotalEl.textContent = eur(subtotal);
-    if (cartShippingEl) {
-      if (shipping === 0) {
-        cartShippingEl.textContent = subtotal > 0 ? 'Offerte' : '—';
-        cartShippingEl.classList.toggle('is-free', subtotal > 0);
-      } else {
-        cartShippingEl.textContent = eur(shipping);
-        cartShippingEl.classList.remove('is-free');
-      }
-    }
-    if (cartTotalEl) cartTotalEl.textContent = eur(total);
-  }
-
-  function openCart() {
-    if (!cartEl) return;
-    cartEl.classList.add('is-open'); cartEl.setAttribute('aria-hidden', 'false');
-    if (cartOverlay) cartOverlay.classList.add('is-open');
-  }
-  function closeCart() {
-    if (!cartEl) return;
-    cartEl.classList.remove('is-open'); cartEl.setAttribute('aria-hidden', 'true');
-    if (cartOverlay) cartOverlay.classList.remove('is-open');
-  }
-
-  function addToCart() {
-    var it = currentItem();
-    var found = null;
-    for (var k = 0; k < cart.length; k++) { if (cart[k].id === it.id) { found = cart[k]; break; } }
-    if (found) found.qty += 1;
-    else cart.push({ id: it.id, name: it.name, detail: it.detail, price: it.price, qty: 1, colors: it.colors });
-    renderCart();
-    openCart();
-  }
-
-  /* Upsell : convertit un "1 tapis" en pack duo (-21 €). Le client choisit
-     le coloris du 2e tapis ; le 1er garde celui du tapis déjà au panier. */
-  function upsellToDuo(secondColor) {
-    var idx = -1;
-    for (var k = 0; k < cart.length; k++) { if (cart[k].id.indexOf('o1-') === 0) { idx = k; break; } }
-    if (idx < 0) return;
-    var single = cart[idx];
-    var c = parseInt(single.id.slice(3), 10);          // coloris du 1er tapis
-    if (secondColor == null) secondColor = c;          // sécurité
-    single.qty -= 1;                                    // retire une unité du single
-    if (single.qty <= 0) cart.splice(idx, 1);
-    var duoId = 'o2-' + c + '-' + secondColor;
-    var existing = cart.filter(function (x) { return x.id === duoId; })[0];
-    if (existing) existing.qty += 1;
-    else cart.push({ id: duoId, name: 'Rawstate The Fold · Duo',
-      detail: VARIANTS[c].name + ' + ' + VARIANTS[secondColor].name, price: 118.80, qty: 1, colors: [c, secondColor] });
-    state.offer = 2; state.duo = [c, secondColor];      // reflète le choix sur la page
-    renderCart();
+  // un duo cree ou modifie depuis le panier se reflete sur la fiche
+  window.RawCart.onFold = function (cols) {
+    state.offer = 2; state.duo = cols;
     if (offersEl) renderOffers();
-    openCart();
-  }
-  /* Change le coloris du 2e tapis d'une ligne duo, directement dans le panier. */
-  function changeSecondColor(id, newColor) {
-    var it = cart.filter(function (x) { return x.id === id; })[0];
-    if (!it || !it.colors || it.colors.length < 2) return;
-    var c1 = it.colors[0];
-    var newId = 'o2-' + c1 + '-' + newColor;
-    if (newId === id) return;
-    var target = cart.filter(function (x) { return x.id === newId; })[0];
-    if (target && target !== it) {           // même duo déjà présent → fusion des quantités
-      target.qty += it.qty;
-      cart = cart.filter(function (x) { return x !== it; });
-    } else {
-      it.id = newId; it.colors = [c1, newColor];
-      it.detail = VARIANTS[c1].name + ' + ' + VARIANTS[newColor].name;
-    }
-    state.duo = [c1, newColor];              // reflète le choix sur la fiche produit
-    renderCart();
-    if (offersEl) renderOffers();
-  }
-
-  var upsellSwatchesEl = document.querySelector('[data-upsell-swatches]');
-  if (upsellSwatchesEl) {
-    upsellSwatchesEl.innerHTML = VARIANTS.map(function (v, i) {
-      return '<button type="button" class="cart-upsell__sw" data-color="' + i + '" style="background:' + v.color +
-        '" aria-label="Coloris ' + v.name + '" title="' + v.name + '"></button>';
-    }).join('');
-    upsellSwatchesEl.addEventListener('click', function (e) {
-      var b = e.target.closest('[data-color]');
-      if (b) upsellToDuo(parseInt(b.getAttribute('data-color'), 10));
-    });
-  }
-
-  if (cartItemsEl) {
-    cartItemsEl.addEventListener('click', function (e) {
-      var row = e.target.closest('[data-id]');
-      if (!row) return;
-      var id = row.getAttribute('data-id');
-      var item = cart.filter(function (i) { return i.id === id; })[0];
-      if (!item) return;
-      var sw = e.target.closest('[data-set-second]');
-      if (sw) { changeSecondColor(id, parseInt(sw.getAttribute('data-set-second'), 10)); return; }
-      if (e.target.closest('[data-inc]')) item.qty += 1;
-      else if (e.target.closest('[data-dec]')) { item.qty -= 1; if (item.qty <= 0) cart = cart.filter(function (i) { return i.id !== id; }); }
-      else if (e.target.closest('[data-remove]')) cart = cart.filter(function (i) { return i.id !== id; });
-      else return;
-      renderCart();
-    });
-  }
-
-  if (cartToggle) cartToggle.addEventListener('click', openCart);
-  if (cartClose) cartClose.addEventListener('click', closeCart);
-  if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeCart(); });
+  };
 
   document.querySelectorAll('[data-buy]').forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -654,19 +528,52 @@
   function itemsUnit(list) {
     return list.map(function (t) { return '<span>' + t + '</span><i>·</i>'; }).join('');
   }
+
+  /* Bandeau d'annonce : un message a la fois, change toutes les 5 s. Le sortant
+     glisse vers le bas, l'entrant arrive par le haut. Meme rendu que shop.js. */
+  function rotationAnnonce(track, messages) {
+    if (!track) return;
+    track.innerHTML = '';
+    var items = messages.map(function (t, i) {
+      var el = document.createElement('span');
+      el.className = 'announce__item' + (i === 0 ? ' is-in' : '');
+      el.textContent = t;
+      el.setAttribute('aria-hidden', i === 0 ? 'false' : 'true');
+      track.appendChild(el);
+      return el;
+    });
+    if (items.length < 2) return;
+    var courant = 0;
+    setInterval(function () {
+      var sortant = items[courant];
+      courant = (courant + 1) % items.length;
+      var entrant = items[courant];
+      sortant.classList.remove('is-in');
+      sortant.classList.add('is-out');
+      sortant.setAttribute('aria-hidden', 'true');
+      entrant.classList.add('is-in');
+      entrant.setAttribute('aria-hidden', 'false');
+      setTimeout(function () {
+        sortant.style.transition = 'none';
+        sortant.classList.remove('is-out');
+        void sortant.offsetHeight;
+        sortant.style.transition = '';
+      }, 600);
+    }, 5000);
+  }
   var citiesTrack = document.querySelector('[data-marquee]');
   var announceTrack = document.querySelector('[data-announce-track]');
   var reviewsTrack = document.querySelector('[data-reviews-track]');
   var reviewsUnit = reviewsTrack ? reviewsTrack.innerHTML : ''; // capture cards once
   var instaTrack = document.querySelector('[data-insta-track]');
+  rotationAnnonce(announceTrack,
+    ['Livraison offerte', 'Garantie 30 jours', 'Programme yoga offert avec chaque tapis']);
 
   function buildMarquees() {
     seamlessMarquee(citiesTrack,
       itemsUnit(['Bali', 'Lisbonne', 'Tulum', 'Canggu', 'Tokyo', 'Medellín', 'Chiang Mai', 'Cape Town']),
       'marquee__group', 55);
-    seamlessMarquee(announceTrack,
-      itemsUnit(['Livraison offerte', 'Garantie 30 jours', 'Programme yoga offert']),
-      'announce__group', 45);
+    // le bandeau d'annonce ne defile plus : il change de message toutes les 5 s
     seamlessMarquee(reviewsTrack, reviewsUnit, 'reviews__group', 55);
     seamlessMarquee(instaTrack, instaUnit(), 'insta__group', 45);
   }
@@ -694,7 +601,6 @@
   /* ---------- Init ---------- */
   renderGallery();
   renderOffers();
-  renderCart();
   buildMarquees();
   onScroll();
 })();

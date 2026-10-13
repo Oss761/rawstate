@@ -13,3 +13,10 @@ assets/ChatGPT Image*
 
 # Video source non optimisee (la version servie est programme-21jours.mp4)
 assets/programme_21jours.mp4
+
+# Documents personnels deposes par erreur dans assets/
+assets/*.pdf
+
+# Python
+__pycache__/
+*.pyc

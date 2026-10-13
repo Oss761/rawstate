@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light only">
+  <title>Confirmation d'expédition — Rawstate</title>
+  <!--[if mso]><style>* { font-family: Georgia, Arial, sans-serif !important; }</style><![endif]-->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap');
+    body, table, td { margin:0; padding:0; }
+    img { border:0; line-height:100%; outline:none; text-decoration:none; -ms-interpolation-mode:bicubic; }
+    a { color:#111111; }
+    body { width:100% !important; background:#F7F3EC; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+    .wrap { width:600px; max-width:600px; }
+    @media only screen and (max-width:620px) {
+      .wrap { width:100% !important; }
+      .px { padding-left:22px !important; padding-right:22px !important; }
+      .h1 { font-size:31px !important; }
+      .stack { display:block !important; width:100% !important; padding:0 0 18px 0 !important; }
+    }
+  </style>
+</head>
+<body style="margin:0; padding:0; background:#F7F3EC;">
+{%- comment -%}
+  RAWSTATE — réglages (les seules lignes à modifier à la main)
+  logo_url : adresse du logo hébergé dans Shopify (Contenu > Fichiers). Si elle est vidée, l'e-mail
+             affiche le logo défini dans Réglages > Notifications, ou à défaut « rawstate » en texte.
+{%- endcomment -%}
+{%- assign logo_url = 'https://cdn.shopify.com/s/files/1/1091/2448/5458/files/rawstate-logo-soleil.png?v=1791823400' -%}
+{%- assign email_contact = 'info@rawstate.fr' -%}
+{%- assign url_retours = shop.url | append: '/pages/politique-retour' -%}
+{%- assign url_cgv = shop.url | append: '/pages/cgv' -%}
+
+{%- assign prenom = customer.first_name | default: shipping_address.first_name | default: billing_address.first_name -%}
+{%- assign mois = 'janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre' | split: ',' -%}
+{%- if logo_url == blank and shop.email_logo_url -%}{%- assign logo_url = shop.email_logo_url -%}{%- endif -%}
+{%- comment -%} Garantie : 90 jours dès 2 tapis The Fold dans la commande, 30 jours sinon {%- endcomment -%}
+{%- assign nb_fold = 0 -%}
+{%- for l in line_items -%}{%- if l.title contains 'Fold' -%}{%- assign nb_fold = nb_fold | plus: l.quantity -%}{%- endif -%}{%- endfor -%}
+{%- assign garantie = 30 -%}{%- if nb_fold >= 2 -%}{%- assign garantie = 90 -%}{%- endif -%}
+{%- assign nb_articles = 0 -%}
+{%- for l in line_items -%}{%- assign nb_articles = nb_articles | plus: l.quantity -%}{%- endfor -%}
+{%- comment -%} Colis : toute la commande, une partie, ou le dernier colis {%- endcomment -%}
+{%- assign envoi_partiel = false -%}
+{%- if fulfillment.item_count and item_count and fulfillment.item_count < item_count -%}{%- assign envoi_partiel = true -%}{%- endif -%}
+{%- assign reste_a_venir = false -%}
+{%- if envoi_partiel and fulfillment_status == 'partial' -%}{%- assign reste_a_venir = true -%}{%- endif -%}
+{%- assign lien_suivi = fulfillment.tracking_url | default: fulfillment.tracking_urls.first | default: order_status_url -%}
+
+  <div style="display:none; max-height:0; overflow:hidden; opacity:0; color:#F7F3EC; font-size:1px; line-height:1px;">
+    {% if envoi_partiel %}Une partie de votre commande {{ name }} vient d'être expédiée.{% else %}Votre commande {{ name }} vient d'être expédiée.{% endif %}&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7F3EC;">
+    <tr>
+      <td align="center" style="padding:28px 12px 40px;">
+        <table role="presentation" class="wrap" width="600" cellpadding="0" cellspacing="0" style="width:600px; max-width:600px; background:#ffffff; border:1px solid #ececec; border-radius:18px; overflow:hidden;">
+
+          <!-- bandeau -->
+          <tr>
+            <td align="center" style="background:#111111; padding:11px 16px; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:11px; font-weight:500; letter-spacing:1.8px; color:#ffffff; text-transform:uppercase;">
+              Livraison offerte&nbsp;&nbsp;·&nbsp;&nbsp;Garantie {{ garantie }} jours&nbsp;&nbsp;·&nbsp;&nbsp;Paiement sécurisé
+            </td>
+          </tr>
+
+          <!-- logo -->
+          <tr>
+            <td align="center" style="padding:34px 24px 8px;">
+              <a href="{{ shop.url }}" style="text-decoration:none; color:#111111;">
+                {% if logo_url != blank %}
+                <img src="{{ logo_url }}" alt="rawstate" width="190" height="32" style="display:block; margin:0 auto; width:190px; height:32px; font-family:'Fraunces',Georgia,'Times New Roman',serif; font-size:28px; font-weight:600; color:#111111;">
+                {% else %}
+                <span style="font-family:'Fraunces',Georgia,'Times New Roman',serif; font-size:30px; font-weight:600; letter-spacing:-0.6px; color:#111111;"><span style="color:#C45831;">&#9679;</span>&nbsp;rawstate</span>
+                {% endif %}
+              </a>
+            </td>
+          </tr>
+
+          <!-- accroche -->
+          <tr>
+            <td class="px" align="center" style="padding:18px 48px 0; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:12px; font-weight:600; letter-spacing:3px; color:#C05B33; text-transform:uppercase;">
+              Colis expédié
+            </td>
+          </tr>
+          <tr>
+            <td class="px" align="center" style="padding:10px 44px 0;">
+              <h1 class="h1" style="margin:0; font-family:'Fraunces',Georgia,'Times New Roman',serif; font-size:38px; line-height:1.1; letter-spacing:-0.8px; font-weight:600; color:#111111;">C'est en route.</h1>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" align="center" style="padding:16px 52px 4px; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.65; color:#666666;">
+              {% if envoi_partiel and reste_a_venir %}
+              {% if prenom != blank %}{{ prenom }}, une{% else %}Une{% endif %} première partie de votre commande <strong style="color:#111111;">{{ name }}</strong> vient de partir.
+              {% elsif envoi_partiel %}
+              {% if prenom != blank %}{{ prenom }}, le{% else %}Le{% endif %} dernier colis de votre commande <strong style="color:#111111;">{{ name }}</strong> vient de partir.
+              {% else %}
+              {% if prenom != blank %}{{ prenom }}, votre{% else %}Votre{% endif %} commande <strong style="color:#111111;">{{ name }}</strong> vient de partir. {% endif %}
+              {% if fulfillment.tracking_numbers.size > 0 %}Suivez son acheminement à tout moment.{% else %}Le suivi sera disponible sous peu.{% endif %}
+            </td>
+          </tr>
+
+          <!-- progression : etape 2/4 -->
+          <tr>
+            <td class="px" style="padding:26px 48px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+                <td style="background:#2E6B67; height:4px; line-height:4px; font-size:0; border-radius:4px 0 0 4px;" width="40%">&nbsp;</td>
+                <td style="background:#ececec; height:4px; line-height:4px; font-size:0; border-radius:0 4px 4px 0;" width="60%">&nbsp;</td>
+              </tr></table>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:10px; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:11px; letter-spacing:0.3px;">
+                <tr>
+                  <td align="left" width="25%" style="color:#111111; font-weight:500;">Confirmée</td>
+                  <td align="center" width="25%" style="color:#111111; font-weight:700;">Expédiée</td>
+                  <td align="center" width="25%" style="color:#b3b3b3;">En livraison</td>
+                  <td align="right" width="25%" style="color:#b3b3b3;">Livrée</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="px" style="padding:24px 48px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7F3EC; border-radius:14px;">
+                <tr>
+                  <td style="padding:18px 22px; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:14px; line-height:1.6; color:#666666;">
+                    {% if fulfillment.tracking_numbers.size > 0 %}
+                    <div style="font-size:11px; font-weight:600; letter-spacing:1.5px; color:#111111; text-transform:uppercase; margin-bottom:6px;">{% if fulfillment.tracking_numbers.size > 1 %}Numéros de suivi{% else %}Numéro de suivi{% endif %}</div>
+                    {% if fulfillment.tracking_company %}<span style="color:#111111;">{{ fulfillment.tracking_company }}</span><br>{% endif %}
+                    {% for numero in fulfillment.tracking_numbers %}
+                      {% assign lien_numero = fulfillment.tracking_urls[forloop.index0] %}
+                      {% if lien_numero %}<a href="{{ lien_numero }}" style="color:#111111; font-weight:600;">{{ numero }}</a>{% else %}<span style="color:#111111; font-weight:600;">{{ numero }}</span>{% endif %}<br>
+                    {% endfor %}
+                    {% else %}
+                    <div style="font-size:11px; font-weight:600; letter-spacing:1.5px; color:#111111; text-transform:uppercase; margin-bottom:6px;">Suivi</div>
+                    Le numéro de suivi n'est pas encore disponible. Vous pouvez suivre l'avancement depuis la page de votre commande.
+                    {% endif %}
+                    {% if fulfillment.estimated_delivery_at %}
+                    <div style="margin-top:10px; padding-top:10px; border-top:1px solid #e6dfd3;">Livraison estimée&nbsp;: <strong style="color:#111111;">{% assign _j = fulfillment.estimated_delivery_at | date: '%-d' -%}{%- assign _m = fulfillment.estimated_delivery_at | date: '%-m' | minus: 1 -%}{% if _j == '1' %}1er{% else %}{{ _j }}{% endif %} {{ mois[_m] }} {{ fulfillment.estimated_delivery_at | date: '%Y' }}</strong></div>
+                    {% endif %}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" style="padding:24px 24px 6px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" align="center"><tr>
+                <td align="center" bgcolor="#111111" style="border-radius:100px;">
+                  <a href="{{ lien_suivi }}" style="display:inline-block; padding:15px 40px; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; letter-spacing:0.2px; color:#ffffff; text-decoration:none; border-radius:100px;">Suivre mon colis</a>
+                </td>
+              </tr></table>
+            </td>
+          </tr>
+
+          {% if envoi_partiel %}
+          <tr>
+            <td class="px" align="center" style="padding:16px 52px 0; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:13px; line-height:1.6; color:#666666;">
+              {% if reste_a_venir %}
+              Ce colis contient <strong style="color:#111111;">une partie</strong> de votre commande. Les autres articles voyagent séparément&nbsp;: vous recevrez un e-mail de suivi pour chacun.
+              {% else %}
+              Ce colis contient les <strong style="color:#111111;">derniers articles</strong> de votre commande {{ name }}.
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+
+          <tr>
+            <td class="px" align="center" style="padding:14px 52px 0; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:12px; line-height:1.6; color:#999999;">
+              Le suivi peut mettre 24 à 48&nbsp;h à s'actualiser après la prise en charge par le transporteur.
+            </td>
+          </tr>
+
+          <tr><td class="px" style="padding:26px 48px 0;"><div style="border-top:1px solid #ececec; font-size:0; line-height:0;">&nbsp;</div></td></tr>
+
+          <tr>
+            <td class="px" style="padding:24px 48px 4px; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:13px; font-weight:600; letter-spacing:2px; color:#111111; text-transform:uppercase;">Dans ce colis</td>
+          </tr>
+
+          <tr>
+            <td class="px" style="padding:2px 48px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                {% for fline in fulfillment.fulfillment_line_items %}{% assign line = fline.line_item %}{% assign qte = fline.quantity %}
+                <tr>
+                  <td width="68" valign="top" style="padding:14px 0; border-bottom:1px solid #ececec;">
+                    {% if line.image %}<img src="{{ line | img_url: 'compact_cropped' }}" alt="" width="60" height="60" style="display:block; width:60px; height:60px; border-radius:10px; background:#F7F3EC; border:1px solid #ececec;">{% endif %}
+                  </td>
+                  <td valign="top" style="padding:14px 12px; border-bottom:1px solid #ececec; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:14px; color:#111111; line-height:1.45;">
+                    <span style="font-weight:600;">{{ line.product.title | default: line.title }}</span>
+                    {% if line.variant.title != blank and line.variant.title != 'Default Title' %}<br><span style="color:#666666; font-size:13px;">{{ line.variant.title }}</span>{% endif %}
+                    {% if line.selling_plan_allocation %}<br><span style="color:#666666; font-size:13px;">{{ line.selling_plan_allocation.selling_plan.name }}</span>{% endif %}
+                    {% for p in line.properties %}{% assign p1 = p.first | slice: 0 %}{% unless p.last == blank or p1 == '_' %}
+                    <br><span style="color:#666666; font-size:13px;">{{ p.first }}&nbsp;: {{ p.last }}</span>
+                    {% endunless %}{% endfor %}
+                    <br><span style="color:#666666; font-size:13px;">Quantité&nbsp;: {{ qte }}</span>
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+            </td>
+          </tr>
+
+          {% if requires_shipping and shipping_address %}
+          <tr>
+            <td class="px" style="padding:24px 48px 0; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:13px; line-height:1.6; color:#666666;">
+              <div style="font-size:11px; font-weight:600; letter-spacing:1.5px; color:#111111; text-transform:uppercase; margin-bottom:6px;">Adresse de livraison</div>
+              {{ shipping_address.name }}<br>{% if shipping_address.company != blank %}{{ shipping_address.company }}<br>{% endif %}{{ shipping_address.address1 }}<br>{% if shipping_address.address2 != blank %}{{ shipping_address.address2 }}<br>{% endif %}{{ shipping_address.zip }} {{ shipping_address.city }}<br>{{ shipping_address.country }}
+            </td>
+          </tr>
+          {% endif %}
+
+          <tr>
+            <td class="px" style="padding:24px 48px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7F3EC; border-radius:14px;">
+                <tr>
+                  <td style="padding:18px 22px; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:14px; line-height:1.6; color:#666666;">
+                    <div style="text-align:center; font-size:12px; font-weight:600; letter-spacing:0.4px; color:#111111;">Livraison offerte&nbsp;&nbsp;·&nbsp;&nbsp;Garantie {{ garantie }} jours&nbsp;&nbsp;·&nbsp;&nbsp;Paiement sécurisé</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- pied -->
+          <tr>
+            <td align="center" style="padding:34px 48px 8px; font-family:'Fraunces',Georgia,'Times New Roman',serif; font-size:20px; font-weight:600; letter-spacing:-0.3px; color:#111111;">
+              {% if logo_url != blank %}
+              <img src="{{ logo_url }}" alt="rawstate" width="125" height="21" style="display:block; margin:0 auto; width:125px; height:21px;">
+              {% else %}
+              <span style="color:#C45831;">&#9679;</span>&nbsp;rawstate
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:2px 48px 4px; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:12px; line-height:1.7; color:#999999;">
+              Une question&nbsp;? Répondez à cet e-mail ou écrivez-nous&nbsp;: <a href="mailto:{{ email_contact }}" style="color:#111111; text-decoration:none;">{{ email_contact }}</a>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:4px 48px 4px; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:12px; line-height:1.7; color:#999999;">
+              <a href="{{ url_retours }}" style="color:#666666;">Politique de retour</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="{{ url_cgv }}" style="color:#666666;">CGV</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="{{ shop.url }}" style="color:#666666;">Boutique</a>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:6px 48px 32px; font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; font-size:11px; line-height:1.7; color:#b3b3b3;">
+              Rawstate — Des rituels de yoga pensés pour la maison.<br>
+              © {{ 'now' | date: '%Y' }} Rawstate. Tous droits réservés.
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
