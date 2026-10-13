@@ -1,0 +1,57 @@
+{%- comment -%} Genere par rawstate/tools/build-theme.py : une fiche par produit, repli generique sinon {%- endcomment -%}
+{%- case product.handle -%}
+  {%- when 'rawstate-the-fold' -%}
+    {% render 'fiche-the-fold' %}
+  {%- when 'tapis-liege' -%}
+    {% render 'fiche-tapis-liege' %}
+  {%- when 'planche-acupression' -%}
+    {% render 'fiche-planche-acupression' %}
+  {%- when 'bloc-yoga' -%}
+    {% render 'fiche-bloc-yoga' %}
+  {%- when 'roue-liege' -%}
+    {% render 'fiche-roue-liege' %}
+  {%- when 'chaussettes-antiderapantes' -%}
+    {% render 'fiche-chaussettes-antiderapantes' %}
+  {%- when 'gants-antiderapants' -%}
+    {% render 'fiche-gants-antiderapants' %}
+  {%- when 'gourde-transparente' -%}
+    {% render 'fiche-gourde-transparente' %}
+  {%- when 'rituel-essentiel' -%}
+    {% render 'fiche-rituel-essentiel' %}
+  {%- when 'rituel-studio' -%}
+    {% render 'fiche-rituel-studio' %}
+  {%- when 'rituel-recup' -%}
+    {% render 'fiche-rituel-recup' %}
+  {%- else -%}
+    {% render 'entete' %}
+  <main id="top">
+    <section class="container" style="padding-block: clamp(48px,7vw,90px); max-width:960px;">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:clamp(24px,5vw,64px); align-items:start;">
+        <div>
+          {% if product.featured_image %}
+            <img src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.featured_image.alt | escape }}" style="border-radius:var(--radius);" />
+          {% endif %}
+        </div>
+        <div>
+          <h1 style="font-size:clamp(26px,3.4vw,40px); letter-spacing:-0.03em;">{{ product.title }}</h1>
+          <p style="font-size:24px; font-weight:700; margin:14px 0 20px;">{{ product.price | money }}</p>
+          <div style="color:var(--grey-600); margin-bottom:26px;">{{ product.description }}</div>
+          {% form 'product', product %}
+            {% if product.variants.size > 1 %}
+              <select name="id" style="width:100%; padding:14px; border:1px solid var(--line-strong); border-radius:var(--radius-sm); margin-bottom:16px;">
+                {% for v in product.variants %}
+                  <option value="{{ v.id }}"{% unless v.available %} disabled{% endunless %}>{{ v.title }} — {{ v.price | money }}</option>
+                {% endfor %}
+              </select>
+            {% else %}
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" />
+            {% endif %}
+            <button type="submit" class="btn btn--dark btn--block btn--lg"{% unless product.available %} disabled{% endunless %}>
+              {% if product.available %}Ajouter au panier{% else %}Épuisé{% endif %}
+            </button>
+          {% endform %}
+        </div>
+      </div>
+    </section>
+  </main>
+{%- endcase -%}

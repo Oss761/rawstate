@@ -1,0 +1,346 @@
+  <!-- Announcement bar -->
+  <div class="announce" data-announce>
+    <div class="announce__track" data-announce-track></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" data-header>
+    <div class="container header__inner">
+      <button class="header__burger" aria-label="Ouvrir le menu" aria-expanded="false" data-menu-toggle>
+        <span></span><span></span>
+      </button>
+      <a href="/" class="logo" aria-label="Rawstate — accueil"><img src="{{ 'logo-light.png' | asset_url }}" alt="Rawstate" /></a>
+      <nav class="nav" aria-label="Navigation principale">
+        <a href="/" class="is-on">Boutique</a>
+        <a href="/pages/rituels">Rituels</a>
+        <a href="/#tapis">Tapis</a>
+        <a href="/#accessoires">Accessoires</a>
+        <a href="/#articles">Le Journal</a>
+      </nav>
+      <div class="header__actions">
+        <button class="header__cart" aria-label="Panier" data-cart-toggle>
+          <span class="ico" data-ico="cart"></span>
+          <span class="header__cart-count" data-cart-count hidden>0</span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="header__mobile" data-mobile-menu aria-label="Menu mobile">
+      <a href="/" class="is-on">Boutique</a>
+      <a href="/pages/rituels">Rituels</a>
+      <a href="/#tapis">Tapis</a>
+      <a href="/#accessoires">Accessoires</a>
+      <a href="/#articles">Le Journal</a>
+      <a href="/#tapis" class="btn btn--dark btn--block">Voir les tapis</a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ HERO BOUTIQUE ============ -->
+    <section class="shop-hero">
+      <div class="container shop-hero__inner">
+        <div class="shop-hero__txt reveal">
+          <h1>Votre studio de yoga. Chez vous.</h1>
+          <p>Tapis, blocs, chaussettes, acupression : des rituels complets pensés ensemble,
+             du premier salut au soleil à la récupération du soir.</p>
+          <div class="shop-hero__actions">
+            <div class="shop-hero__cta">
+              <a href="/pages/rituels" class="btn btn--dark btn--lg">Composer votre rituel</a>
+            </div>
+            <ul class="shop-hero__pills">
+              <li>Livraison offerte</li><li>Garantie 30 jours</li><li>Programme yoga offert</li>
+            </ul>
+          </div>
+        </div>
+        <a class="shop-hero__feature reveal" href="/pages/rituels">
+          <img src="{{ 'hero-studio.webp' | asset_url }}" width="1168" height="880" alt="Deux pratiquants en posture, tapis en liege, blocs et gourdes, dans leur salon" fetchpriority="high" />
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ BANDEAU LOGOS ============ -->
+    <div class="logoband" role="presentation">
+      <div class="logoband__track">
+          <div class="logoband__group" aria-hidden="true"><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /></div>
+          <div class="logoband__group" aria-hidden="true"><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /></div>
+      </div>
+    </div>
+
+    <!-- ============ RITUELS ============ -->
+    <section class="pgrid rhome" id="rituels">
+      <div class="container">
+        <div class="pgrid__head reveal">
+          <span class="eyebrow">Les rituels</span>
+          <h2>Les Rituels Rawstate</h2>
+          <p>Chaque rituel réunit ce qu'il faut pour commencer, sans qu'il y ait à deviner quoi
+            associer et coûte toujours moins cher que les mêmes objets achetés un par un.</p>
+        </div>
+        <div class="rhome__zone">
+          <button class="rhome__nav rhome__nav--prev" type="button" data-rhome="-1"
+                  aria-label="Rituel précédent"><span class="ico" data-ico="chevron"></span></button>
+          <div class="rhome__piste" data-rhome-piste>
+        <article class="rite reveal">
+          <a class="rite__visuel" href="#essentiel" aria-hidden="true" tabindex="-1">
+            <img src="{{ 'rituel-essentiel-photo.webp' | asset_url }}" alt="Le rituel L'Essentiel sur fond vert : tapis pliable The Fold, bloc de yoga bleu et chaussettes antiderapantes noires" loading="lazy" />
+            <span class="rite__badge">Rituel 01</span>
+          </a>
+          <div class="rite__corps">
+            <h2 class="rite__nom" id="essentiel">L'Essentiel</h2>
+            <p class="rite__sous">Pour commencer chez soi, sans rien connaître au yoga.</p>
+            <ul class="rite__liste">
+            <li>Tapis pliable The Fold<span>69,90 €</span></li>
+            <li>Bloc de yoga The Block<span>24,90 €</span></li>
+            <li>Chaussettes The Socks<span>19,90 €</span></li>
+            </ul>
+            <div class="rite__prix">
+              <strong>99 €</strong>
+              <span class="rite__plein">114,70 €</span>
+              <i class="rite__eco">−15,70 €</i>
+            </div>
+            <a class="btn btn--dark btn--block" href="/products/rituel-essentiel">Découvrir le rituel</a>
+          </div>
+        </article>
+        <article class="rite reveal rite--vedette">
+          <a class="rite__visuel" href="#studio" aria-hidden="true" tabindex="-1">
+            <img src="{{ 'rituel-studio-photo.webp' | asset_url }}" alt="Le rituel Le Studio sur fond vert : tapis en liege The Grip deroule, roue de yoga rose, bloc rose et gourde" loading="lazy" />
+            <span class="rite__badge">Le plus complet</span>
+          </a>
+          <div class="rite__corps">
+            <h2 class="rite__nom" id="studio">Le Studio</h2>
+            <p class="rite__sous">Le niveau studio, sans sortir de chez vous.</p>
+            <ul class="rite__liste">
+            <li>Tapis de yoga The Grip<span>89,90 €</span></li>
+            <li>Roue de yoga The Wheel<span>59,90 €</span></li>
+            <li>Bloc de yoga The Block<span>24,90 €</span></li>
+            <li>Gourde The Bottle<span>29,90 €</span></li>
+            </ul>
+            <div class="rite__prix">
+              <strong>159 €</strong>
+              <span class="rite__plein">204,60 €</span>
+              <i class="rite__eco">−45,60 €</i>
+            </div>
+            <a class="btn btn--white btn--block" href="/products/rituel-studio">Découvrir le rituel</a>
+          </div>
+        </article>
+        <article class="rite reveal">
+          <a class="rite__visuel" href="#recup" aria-hidden="true" tabindex="-1">
+            <img src="{{ 'rituel-recup-photo.webp' | asset_url }}" alt="Le rituel La Recup sur fond taupe : planche d'acupression bleue, chaussettes antiderapantes bleues et gourde" loading="lazy" />
+            <span class="rite__badge">Rituel 03</span>
+          </a>
+          <div class="rite__corps">
+            <h2 class="rite__nom" id="recup">La Récup'</h2>
+            <p class="rite__sous">La détente plantaire, après la journée debout.</p>
+            <ul class="rite__liste">
+            <li>Planche d'acupression The Board<span>49,90 €</span></li>
+            <li>Chaussettes The Socks<span>19,90 €</span></li>
+            <li>Gourde The Bottle<span>29,90 €</span></li>
+            </ul>
+            <div class="rite__prix">
+              <strong>85 €</strong>
+              <span class="rite__plein">99,70 €</span>
+              <i class="rite__eco">−14,70 €</i>
+            </div>
+            <a class="btn btn--dark btn--block" href="/products/rituel-recup">Découvrir le rituel</a>
+          </div>
+        </article>
+          </div>
+          <button class="rhome__nav rhome__nav--next" type="button" data-rhome="1"
+                  aria-label="Rituel suivant"><span class="ico" data-ico="chevron"></span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TAPIS ============ -->
+    <section class="pgrid" id="tapis">
+      <div class="container">
+        <div class="pgrid__head reveal">
+          <span class="eyebrow">Les tapis</span>
+          <h2>Un tapis pour chaque pratique.</h2>
+          <p>The Fold se glisse dans un sac pour la pratique en voyage ou en studio. The Grip reste au sol à la maison, et accroche même quand les mains commencent à transpirer.</p>
+        </div>
+        <div class="pgrid__grid pgrid__grid--duo">
+          <a class="pcard reveal" href="/products/rawstate-the-fold">
+            <span class="pcard__media"><img src="{{ 'mat-grey.webp' | asset_url }}" alt="Tapis de yoga pliable Tapis pliable The Fold" loading="lazy" /></span>
+            <span class="pcard__body">
+              <span class="pcard__cat">Tapis</span>
+              <h3>Tapis pliable The Fold</h3>
+              <p>Se plie comme une serviette, se range dans un placard ou un sac. 183 × 61 cm, 4 mm, 700 g.</p>
+              <span class="pcard__foot"><span class="pcard__price">69,90 €</span><span class="pcard__more">Découvrir</span></span>
+            </span>
+          </a>
+          <a class="pcard reveal" href="/products/tapis-liege">
+            <span class="pcard__media"><img src="{{ 'liege-1.webp' | asset_url }}" alt="Tapis de yoga en liege deroule" loading="lazy" /></span>
+            <span class="pcard__body">
+              <span class="pcard__cat">Tapis</span>
+              <h3>Tapis de yoga The Grip</h3>
+              <p>Surface en liège naturel sur base TPE. Plus la main est humide, meilleure est l'adhérence.</p>
+              <span class="pcard__foot"><span class="pcard__price">89,90 €</span><span class="pcard__more">Découvrir</span></span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BANDEAU LOGOS ============ -->
+    <div class="logoband" role="presentation">
+      <div class="logoband__track">
+          <div class="logoband__group" aria-hidden="true"><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /></div>
+          <div class="logoband__group" aria-hidden="true"><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /><img src="{{ 'logo-dark.png' | asset_url }}" alt="" loading="lazy" /></div>
+      </div>
+    </div>
+
+    <!-- ============ ACCESSOIRES ============ -->
+    <section class="pgrid" id="accessoires">
+      <div class="container">
+        <div class="pgrid__head reveal">
+          <span class="eyebrow">Les accessoires</span>
+          <h2>Ce qui change une séance</h2>
+          <p>Pas une collection d'accessoires. Six objets qu'on utilise vraiment, à chaque séance.</p>
+        </div>
+        <div class="pgrid__grid">
+          <a class="pcard reveal" href="/products/planche-acupression">
+            <span class="pcard__media"><img src="{{ 'acupression-1.webp' | asset_url }}" alt="Planche d'acupression ronde pour les pieds" loading="lazy" /></span>
+            <span class="pcard__body">
+              <span class="pcard__cat">Accessoire</span>
+              <h3>Planche d'acupression The Board</h3>
+              <p>Une planche ronde à picots et billes métalliques pour détendre la voûte plantaire après une journée debout.</p>
+              <span class="pcard__foot"><span class="pcard__price">49,90 €</span><span class="pcard__more">Découvrir</span></span>
+            </span>
+          </a>
+          <a class="pcard reveal" href="/products/bloc-yoga">
+            <span class="pcard__media"><img src="{{ 'bloc-1.webp' | asset_url }}" alt="Bloc de yoga en mousse EVA" loading="lazy" /></span>
+            <span class="pcard__body">
+              <span class="pcard__cat">Accessoire</span>
+              <h3>Bloc de yoga The Block</h3>
+              <p>Un bloc en mousse EVA pour aller chercher une posture sans forcer. Trois hauteurs selon la face posée.</p>
+              <span class="pcard__foot"><span class="pcard__price">24,90 €</span><span class="pcard__more">Découvrir</span></span>
+            </span>
+          </a>
+          <a class="pcard reveal" href="/products/roue-liege">
+            <span class="pcard__media"><img src="{{ 'roue-1.webp' | asset_url }}" alt="Roue de yoga grise et rose" loading="lazy" /></span>
+            <span class="pcard__body">
+              <span class="pcard__cat">Accessoire</span>
+              <h3>Roue de yoga The Wheel</h3>
+              <p>Un appui circulaire pour les extensions arrière, les étirements et le relâchement du dos. 30 cm, 770 g.</p>
+              <span class="pcard__foot"><span class="pcard__price">59,90 €</span><span class="pcard__more">Découvrir</span></span>
+            </span>
+          </a>
+          <a class="pcard reveal" href="/products/chaussettes-antiderapantes">
+            <span class="pcard__media"><img src="{{ 'chaussettes-1.webp' | asset_url }}" alt="Chaussettes de yoga antiderapantes" loading="lazy" /></span>
+            <span class="pcard__body">
+              <span class="pcard__cat">Accessoire</span>
+              <h3>Chaussettes The Socks</h3>
+              <p>Picots de silicone sous la semelle. L'adhérence du pied nu, en gardant les pieds couverts.</p>
+              <span class="pcard__foot"><span class="pcard__price">19,90 €</span><span class="pcard__more">Découvrir</span></span>
+            </span>
+          </a>
+          <a class="pcard reveal" href="/products/gants-antiderapants">
+            <span class="pcard__media"><img src="{{ 'gants-1.webp' | asset_url }}" alt="Gants de yoga antiderapants" loading="lazy" /></span>
+            <span class="pcard__body">
+              <span class="pcard__cat">Accessoire</span>
+              <h3>Gants de yoga The Gloves</h3>
+              <p>Le pendant des chaussettes, pour les appuis sur les mains. Doigts libres, paume à picots.</p>
+              <span class="pcard__foot"><span class="pcard__price">19,90 €</span><span class="pcard__more">Découvrir</span></span>
+            </span>
+          </a>
+          <a class="pcard reveal" href="/products/gourde-transparente">
+            <span class="pcard__media"><img src="{{ 'gourde-1.webp' | asset_url }}" alt="Gourde d'eau transparente 650 ml" loading="lazy" /></span>
+            <span class="pcard__body">
+              <span class="pcard__cat">Accessoire</span>
+              <h3>Gourde The Bottle</h3>
+              <p>650 mL, bouchon à clapet et dragonne. Transparente : on voit ce qu'on a bu, et ce qu'il reste.</p>
+              <span class="pcard__foot"><span class="pcard__price">29,90 €</span><span class="pcard__more">Découvrir</span></span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ REASSURANCE ============ -->
+    <section class="sceaux">
+      <div class="container sceaux__grid">
+    <div class="sceau reveal">
+      <div class="sceau__disque">
+        <svg class="sceau__svg" viewBox="0 0 160 160" role="img" aria-label="Livraison offerte, sans minimum d'achat">
+          <defs><path id="sceau-1" fill="none" d="M80 80 m 0 61 a 61 61 0 1 1 0 -122 a 61 61 0 1 1 0 122" /></defs>
+          <circle class="sceau__anneau" cx="80" cy="80" r="78" />
+        <circle class="sceau__coeur" cx="80" cy="80" r="42" />
+          <text class="sceau__texte"><textPath href="#sceau-1" startOffset="50%" text-anchor="middle">LIVRAISON OFFERTE · SANS MINIMUM D'ACHAT</textPath></text>
+        </svg>
+      <span class="sceau__ico ico" data-ico="truck"></span>
+      </div>
+      <p class="sceau__legende">Sur toute la boutique, même pour une paire de chaussettes.</p>
+    </div>
+    <div class="sceau reveal">
+      <div class="sceau__disque">
+        <svg class="sceau__svg" viewBox="0 0 160 160" role="img" aria-label="Satisfait ou remboursé, retour offert">
+          <defs><path id="sceau-2" fill="none" d="M80 80 m 0 61 a 61 61 0 1 1 0 -122 a 61 61 0 1 1 0 122" /></defs>
+          <circle class="sceau__anneau" cx="80" cy="80" r="78" />
+        <circle class="sceau__coeur sceau__coeur--plein" cx="80" cy="80" r="42" />
+        <text class="sceau__jours" x="80" y="76" text-anchor="middle">30</text>
+        <text class="sceau__jours-sous" x="80" y="92" text-anchor="middle">JOURS</text>
+          <text class="sceau__texte"><textPath href="#sceau-2" startOffset="50%" text-anchor="middle">SATISFAIT OU REMBOURSÉ · RETOUR OFFERT</textPath></text>
+        </svg>
+      </div>
+      <p class="sceau__legende">Pour essayer chez vous, à votre rythme.</p>
+    </div>
+    <div class="sceau reveal">
+      <div class="sceau__disque">
+        <svg class="sceau__svg" viewBox="0 0 160 160" role="img" aria-label="Liège, tpe, coton, choisis pour durer">
+          <defs><path id="sceau-3" fill="none" d="M80 80 m 0 61 a 61 61 0 1 1 0 -122 a 61 61 0 1 1 0 122" /></defs>
+          <circle class="sceau__anneau" cx="80" cy="80" r="78" />
+        <circle class="sceau__coeur" cx="80" cy="80" r="42" />
+          <text class="sceau__texte"><textPath href="#sceau-3" startOffset="50%" text-anchor="middle">LIÈGE · TPE · COTON · CHOISIS POUR DURER</textPath></text>
+        </svg>
+      <span class="sceau__ico ico" data-ico="grain"></span>
+      </div>
+      <p class="sceau__legende">Des matières choisies une à une, pour durer.</p>
+    </div>
+    <div class="sceau reveal">
+      <div class="sceau__disque">
+        <svg class="sceau__svg" viewBox="0 0 160 160" role="img" aria-label="Paiement sécurisé, visa, mastercard, apple pay">
+          <defs><path id="sceau-4" fill="none" d="M80 80 m 0 61 a 61 61 0 1 1 0 -122 a 61 61 0 1 1 0 122" /></defs>
+          <circle class="sceau__anneau" cx="80" cy="80" r="78" />
+        <circle class="sceau__coeur" cx="80" cy="80" r="42" />
+          <text class="sceau__texte"><textPath href="#sceau-4" startOffset="50%" text-anchor="middle">PAIEMENT SÉCURISÉ · VISA · MASTERCARD · APPLE PAY</textPath></text>
+        </svg>
+      <span class="sceau__ico ico" data-ico="lock"></span>
+      </div>
+      <p class="sceau__legende">Visa, Mastercard et Apple&nbsp;Pay.</p>
+    </div>
+      </div>
+    </section>
+
+    <!-- ============ ARTICLES ============ -->
+    <section class="articles" id="articles">
+      <div class="container">
+        <div class="articles__head reveal">
+          <span class="eyebrow">Le journal</span>
+          <h2>Nos articles</h2>
+          <p>Nos guides pour choisir, entretenir et pratiquer, sans jargon.</p>
+        </div>
+        <div class="articles__grid">
+          {%- comment -%} le theme n'embarque que la locale en : mois traduits a la main {%- endcomment -%}
+          {%- assign mois_fr = 'janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre' | split: ',' -%}
+          {%- for article in blogs.news.articles limit: 4 -%}
+          {%- assign idx_mois = article.published_at | date: '%-m' | plus: 0 | minus: 1 -%}
+          <a class="article-card reveal" href="{{ article.url }}">
+            <span class="article-card__media">{% if article.image %}<img src="{{ article.image | image_url: width: 800 }}" alt="{{ article.image.alt | default: article.title | escape }}" loading="lazy" width="800" height="450" />{% endif %}</span>
+            <span class="article-card__body">
+              <time class="article-card__date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%-d' }} {{ mois_fr[idx_mois] }} {{ article.published_at | date: '%Y' }}</time>
+              <h3>{{ article.title | escape }}</h3>
+              <p>{{ article.excerpt_or_content | strip_html | truncate: 130 }}</p>
+              <span class="article-card__more">Lire l'article</span>
+            </span>
+          </a>
+          {%- endfor -%}
+        </div>
+        <div class="section-cta reveal">
+          <a href="/blogs/news" class="btn btn--dark btn--lg">Voir tous les articles</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+

@@ -1,0 +1,33 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "social_instagram_link": "https://www.instagram.com/rawstate_yoga/",
+    "social_facebook_link": "https://www.facebook.com/profile.php?id=61592015456336&locale=fr_FR",
+    "content_for_index": [],
+    "blocks": {
+      "855628211100114053": {
+        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
+        "disabled": false,
+        "settings": {}
+      },
+      "2567389343055140935": {
+        "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
+      }
+    }
+  },
+  "platform_customizations": {
+    "custom_css": [
+      "/* Bannière cookies compacte sur mobile */@media screen and (max-width: 767px) {.shopify-pc__banner__dialog {width: 92% !important; max-height: 22vh !important; padding: 12px !important; bottom: 10px !important; left: 4% !important; border-radius: 10px !important; } .shopify-pc__banner__dialog p {font-size: 12.5px !important; line-height: 1.35 !important; margin-bottom: 8px !important; } .shopify-pc__banner__btn-accept, .shopify-pc__banner__btn-decline {padding: 8px 14px !important; font-size: 13px !important; }}"
+    ]
+  }
+}

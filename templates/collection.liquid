@@ -1,0 +1,23 @@
+{% render 'entete' %}
+  <main id="top">
+    <section class="container" style="padding-block: clamp(48px,7vw,90px);">
+      <div style="text-align:center; margin-bottom:40px;">
+        <span class="eyebrow">Collection</span>
+        <h1 style="font-size:clamp(28px,4vw,48px); letter-spacing:-0.03em;">{{ collection.title }}</h1>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:28px;">
+        {% for product in collection.products %}
+          <a href="{{ product.url }}" style="display:block;">
+            {% if product.featured_image %}
+              <img src="{{ product.featured_image | image_url: width: 500 }}" alt="{{ product.title | escape }}" style="border-radius:var(--radius-sm); margin-bottom:12px;" />
+            {% endif %}
+            <strong style="display:block;">{{ product.title }}</strong>
+            <span style="color:var(--grey-600);">{{ product.price | money }}</span>
+          </a>
+        {% else %}
+          <p style="color:var(--grey-600);">Aucun produit dans cette collection pour le moment.</p>
+        {% endfor %}
+      </div>
+      {{ paginate | default: '' }}
+    </section>
+  </main>

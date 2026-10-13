@@ -1,0 +1,125 @@
+  <!-- Announcement bar -->
+  <div class="announce" data-announce>
+    <div class="announce__track" data-announce-track></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" data-header>
+    <div class="container header__inner">
+      <button class="header__burger" aria-label="Ouvrir le menu" aria-expanded="false" data-menu-toggle>
+        <span></span><span></span>
+      </button>
+      <a href="/" class="logo" aria-label="Rawstate — accueil"><img src="{{ 'logo-light.png' | asset_url }}" alt="Rawstate" /></a>
+      <nav class="nav" aria-label="Navigation principale">
+        <a href="/">Boutique</a>
+        <a href="/pages/rituels" class="is-on">Rituels</a>
+        <a href="/#tapis">Tapis</a>
+        <a href="/#accessoires">Accessoires</a>
+        <a href="/#articles">Le Journal</a>
+      </nav>
+      <div class="header__actions">
+        <button class="header__cart" aria-label="Panier" data-cart-toggle>
+          <span class="ico" data-ico="cart"></span>
+          <span class="header__cart-count" data-cart-count hidden>0</span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="header__mobile" data-mobile-menu aria-label="Menu mobile">
+      <a href="/">Boutique</a>
+      <a href="/pages/rituels" class="is-on">Rituels</a>
+      <a href="/#tapis">Tapis</a>
+      <a href="/#accessoires">Accessoires</a>
+      <a href="/#articles">Le Journal</a>
+      <a href="/#tapis" class="btn btn--dark btn--block">Voir les tapis</a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ RITUELS ============ -->
+    <section class="rituels">
+      <div class="container">
+        <div class="rituels__head reveal">
+          <span class="eyebrow">Offres — rituels</span>
+          <h1>Les Rituels Rawstate</h1>
+          <p>Chaque rituel réunit ce qu'il faut pour commencer, sans qu'il y ait à deviner quoi
+            associer et coûte toujours moins cher que les mêmes objets achetés un par un.</p>
+        </div>
+
+        <div class="rituels__grid">
+        <article class="rite reveal">
+          <a class="rite__visuel" href="#essentiel" aria-hidden="true" tabindex="-1">
+            <img src="{{ 'rituel-essentiel-photo.webp' | asset_url }}" alt="Le rituel L'Essentiel sur fond vert : tapis pliable The Fold, bloc de yoga bleu et chaussettes antiderapantes noires" loading="lazy" />
+            <span class="rite__badge">Rituel 01</span>
+          </a>
+          <div class="rite__corps">
+            <h2 class="rite__nom" id="essentiel">L'Essentiel</h2>
+            <p class="rite__sous">Pour commencer chez soi, sans rien connaître au yoga.</p>
+            <ul class="rite__liste">
+            <li>Tapis pliable The Fold<span>69,90 €</span></li>
+            <li>Bloc de yoga The Block<span>24,90 €</span></li>
+            <li>Chaussettes The Socks<span>19,90 €</span></li>
+            </ul>
+            <div class="rite__prix">
+              <strong>99 €</strong>
+              <span class="rite__plein">114,70 €</span>
+              <i class="rite__eco">−15,70 €</i>
+            </div>
+            <a class="btn btn--dark btn--block" href="/products/rituel-essentiel">Découvrir le rituel</a>
+          </div>
+        </article>
+        <article class="rite reveal rite--vedette">
+          <a class="rite__visuel" href="#studio" aria-hidden="true" tabindex="-1">
+            <img src="{{ 'rituel-studio-photo.webp' | asset_url }}" alt="Le rituel Le Studio sur fond vert : tapis en liege The Grip deroule, roue de yoga rose, bloc rose et gourde" loading="lazy" />
+            <span class="rite__badge">Le plus complet</span>
+          </a>
+          <div class="rite__corps">
+            <h2 class="rite__nom" id="studio">Le Studio</h2>
+            <p class="rite__sous">Le niveau studio, sans sortir de chez vous.</p>
+            <ul class="rite__liste">
+            <li>Tapis de yoga The Grip<span>89,90 €</span></li>
+            <li>Roue de yoga The Wheel<span>59,90 €</span></li>
+            <li>Bloc de yoga The Block<span>24,90 €</span></li>
+            <li>Gourde The Bottle<span>29,90 €</span></li>
+            </ul>
+            <div class="rite__prix">
+              <strong>159 €</strong>
+              <span class="rite__plein">204,60 €</span>
+              <i class="rite__eco">−45,60 €</i>
+            </div>
+            <a class="btn btn--white btn--block" href="/products/rituel-studio">Découvrir le rituel</a>
+          </div>
+        </article>
+        <article class="rite reveal">
+          <a class="rite__visuel" href="#recup" aria-hidden="true" tabindex="-1">
+            <img src="{{ 'rituel-recup-photo.webp' | asset_url }}" alt="Le rituel La Recup sur fond taupe : planche d'acupression bleue, chaussettes antiderapantes bleues et gourde" loading="lazy" />
+            <span class="rite__badge">Rituel 03</span>
+          </a>
+          <div class="rite__corps">
+            <h2 class="rite__nom" id="recup">La Récup'</h2>
+            <p class="rite__sous">La détente plantaire, après la journée debout.</p>
+            <ul class="rite__liste">
+            <li>Planche d'acupression The Board<span>49,90 €</span></li>
+            <li>Chaussettes The Socks<span>19,90 €</span></li>
+            <li>Gourde The Bottle<span>29,90 €</span></li>
+            </ul>
+            <div class="rite__prix">
+              <strong>85 €</strong>
+              <span class="rite__plein">99,70 €</span>
+              <i class="rite__eco">−14,70 €</i>
+            </div>
+            <a class="btn btn--dark btn--block" href="/products/rituel-recup">Découvrir le rituel</a>
+          </div>
+        </article>
+        </div>
+
+        <ul class="rituels__notes reveal">
+          <li><span class="ico" data-ico="truck"></span> Livraison offerte</li>
+          <li><span class="ico" data-ico="shield"></span> Garantie 30 jours — satisfait ou remboursé</li>
+          <li><span class="ico" data-ico="leaf"></span> Programme 21 jours offert</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+

@@ -1,0 +1,22 @@
+{% render 'entete' %}
+  <main id="top">
+    <section class="container" style="padding-block: clamp(48px,7vw,90px); max-width:820px;">
+      <h1 style="font-size:clamp(28px,4vw,44px); letter-spacing:-0.03em; margin-bottom:24px;">Recherche</h1>
+      <form action="{{ routes.search_url }}" method="get" style="display:flex; gap:10px; margin-bottom:36px;">
+        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Rechercher…" style="flex:1; padding:14px 18px; border:1px solid var(--line-strong); border-radius:100px;" />
+        <button type="submit" class="btn btn--dark">Rechercher</button>
+      </form>
+      {% if search.performed %}
+        {% if search.results_count > 0 %}
+          <p style="color:var(--grey-600); margin-bottom:20px;">{{ search.results_count }} résultat(s) pour « {{ search.terms }} ».</p>
+          <div style="display:grid; gap:18px;">
+            {% for item in search.results %}
+              <a href="{{ item.url }}"><strong>{{ item.title }}</strong></a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p style="color:var(--grey-600);">Aucun résultat pour « {{ search.terms }} ».</p>
+        {% endif %}
+      {% endif %}
+    </section>
+  </main>

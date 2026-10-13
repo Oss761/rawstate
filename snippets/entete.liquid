@@ -1,0 +1,37 @@
+  <!-- Announcement bar -->
+  <div class="announce" data-announce>
+    <div class="announce__track" data-announce-track></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" data-header>
+    <div class="container header__inner">
+      <button class="header__burger" aria-label="Ouvrir le menu" aria-expanded="false" data-menu-toggle>
+        <span></span><span></span>
+      </button>
+      <a href="/" class="logo" aria-label="Rawstate — accueil"><img src="{{ 'logo-light.png' | asset_url }}" alt="Rawstate" /></a>
+      <nav class="nav" aria-label="Navigation principale">
+        <a href="/">Boutique</a>
+        <a href="/pages/rituels">Rituels</a>
+        <a href="/#tapis">Tapis</a>
+        <a href="/#accessoires">Accessoires</a>
+        <a href="/#articles"{% if actif == 'journal' %} class="is-on"{% endif %}>Le Journal</a>
+      </nav>
+      <div class="header__actions">
+        <button class="header__cart" aria-label="Panier" data-cart-toggle>
+          <span class="ico" data-ico="cart"></span>
+          <span class="header__cart-count" data-cart-count hidden>0</span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="header__mobile" data-mobile-menu aria-label="Menu mobile">
+      <a href="/">Boutique</a>
+      <a href="/pages/rituels">Rituels</a>
+      <a href="/#tapis">Tapis</a>
+      <a href="/#accessoires">Accessoires</a>
+      <a href="/#articles"{% if actif == 'journal' %} class="is-on"{% endif %}>Le Journal</a>
+      <a href="/#tapis" class="btn btn--dark btn--block">Voir les tapis</a>
+    </nav>
+  </header>
+
