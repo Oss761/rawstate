@@ -327,10 +327,17 @@
       }
       if (!i.shop || !SHOP.sku) return { manque: i.nom };
       var p = i.shop.p || {}, cles = Object.keys(p);
-      // un seul exemplaire d'un seul coloris : s'il existe une variante de ce
-      // coloris (RAW-BLOC-LOT1-ROSE), on la prend, et le coloris n'a plus a
-      // etre repete en propriete. Sinon variante generique + proprietes.
-      var idC = cles.length === 1 && cles[0] === 'Coloris' && SHOP.sku[sku(i.shop.sku.replace(/^RAW-/, '') + '-' + p.Coloris)];
+      // Chaque combinaison de coloris est une variante Shopify (c'est ce que
+      // DSers sait relier a un fournisseur) : son SKU est le SKU de l'offre
+      // suivi des coloris, dans l'ordre des proprietes.
+      //   RAW-BLOC-LOT1-ROSE, RAW-GANTS-DUO-LILAS-ROSE, RAW-RITUEL-ESSENTIEL-FOG-ROSE-NOIR
+      // Lot d'un meme produit ("Coloris 1", "Coloris 2"...) : l'ordre ne compte
+      // pas, les coloris sont tries (RAW-BLOC-LOT2-BLEU-ROSE).
+      // Variante trouvee : les coloris n'ont plus a etre repetes en proprietes.
+      // Sinon variante generique de l'offre + proprietes.
+      var vals = cles.map(function (k) { return sku(p[k]).slice(4); });
+      if (cles.every(function (k) { return /^Coloris/.test(k); })) vals.sort();
+      var idC = vals.length && SHOP.sku[i.shop.sku + '-' + vals.join('-')];
       var idV = idC || SHOP.sku[i.shop.sku];
       if (!idV) return { manque: i.nom };
       var l = { id: idV, quantity: i.qty };
