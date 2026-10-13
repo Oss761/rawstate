@@ -1,10 +1,13 @@
 {% render 'entete', actif: 'journal' %}
   <main id="top">
+    {%- comment -%} le theme n'embarque que la locale en : mois traduits a la main {%- endcomment -%}
+    {%- assign mois_fr = 'janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre' | split: ',' -%}
+    {%- assign idx_mois = article.published_at | date: '%-m' | plus: 0 | minus: 1 -%}
     <article class="container" style="padding-block: clamp(48px,7vw,90px); max-width:760px;">
       <a href="{{ blog.url }}" style="color:var(--grey-600); font-size:14px;">← {{ blog.title }}</a>
       <h1 style="font-size:clamp(28px,4vw,48px); letter-spacing:-0.03em; margin:16px 0 10px;">{{ article.title }}</h1>
-      <p style="color:var(--grey-600); font-size:14px; margin-bottom:28px;">{{ article.published_at | date: '%d %B %Y' }}{% if article.author %} · {{ article.author }}{% endif %}</p>
+      <p style="color:var(--grey-600); font-size:14px; margin-bottom:28px;">{{ article.published_at | date: '%-d' }} {{ mois_fr[idx_mois] }} {{ article.published_at | date: '%Y' }}{% if article.author %} · {{ article.author }}{% endif %}</p>
       {% if article.image %}<img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.title | escape }}" style="border-radius:var(--radius); margin-bottom:28px;" />{% endif %}
-      <div class="legal" style="padding:0; max-width:none;">{{ article.content }}</div>
+      <div class="legal journal-article" style="padding:0; max-width:none;">{{ article.content }}</div>
     </article>
   </main>
