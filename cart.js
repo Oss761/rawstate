@@ -325,10 +325,16 @@
         }
         continue;
       }
-      var idV = i.shop && SHOP.sku && SHOP.sku[i.shop.sku];
+      if (!i.shop || !SHOP.sku) return { manque: i.nom };
+      var p = i.shop.p || {}, cles = Object.keys(p);
+      // un seul exemplaire d'un seul coloris : s'il existe une variante de ce
+      // coloris (RAW-BLOC-LOT1-ROSE), on la prend, et le coloris n'a plus a
+      // etre repete en propriete. Sinon variante generique + proprietes.
+      var idC = cles.length === 1 && cles[0] === 'Coloris' && SHOP.sku[sku(i.shop.sku.replace(/^RAW-/, '') + '-' + p.Coloris)];
+      var idV = idC || SHOP.sku[i.shop.sku];
       if (!idV) return { manque: i.nom };
       var l = { id: idV, quantity: i.qty };
-      if (i.shop.p && Object.keys(i.shop.p).length) l.properties = i.shop.p;
+      if (!idC && cles.length) l.properties = p;
       items.push(l);
     }
     return { items: items };
