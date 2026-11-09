@@ -32,15 +32,18 @@ ARTICLES = [
 PRODUITS = [
     dict(slug="the-fold", page="the-fold.html", cat="tapis", vedette=True,
          nom="Tapis pliable The Fold", accroche="Le tapis pliable qui se range partout",
+         # nom affiche sur les cartes de l'accueil et dans les listes des rituels ;
+         # `nom` reste celui du panier, du nom court ("The Fold") et de Shopify
+         nom_vitrine="Tapis de yoga pliable The Fold",
          prix=69.90, img="assets/mat-grey.webp",
-         alt="Tapis de yoga pliable Tapis pliable The Fold",
+         alt="Tapis de yoga pliable The Fold",
          # coloris repris a l'identique de VARIANTS dans script.js (fiche The Fold).
          # Sert au choix des coloris dans les rituels ; la fiche The Fold garde son propre JS.
          coloris=[("Fog",    "#383b3e", "assets/swatch-grey.webp", 0),
                   ("Lagoon", "#a9cfe3", "assets/swatch-blue.webp", 0),
                   ("Dusk",   "#ebc7d2", "assets/swatch-pink.webp", 0)],
          resume="Se plie comme une serviette, se range dans un placard ou un sac. 183 × 61 cm, 4 mm, 700 g.",
-         bullets=["Pliable en 10 secondes", "Format cabine, 700 g", "TPE écoresponsable"]),
+         bullets=["Pliable en 10 secondes", "Format cabine, 700 g", "TPE"]),
 
     dict(slug="liege", page="tapis-liege.html", cat="tapis",
          sans_cross=True,   # pas de section « Ça va bien ensemble »
@@ -307,6 +310,8 @@ PRODUITS = [
     dict(slug="chaussettes", page="chaussettes-antiderapantes.html", cat="accessoires",
          sans_cross=True,   # pas de section « Ça va bien ensemble »
          nom="Chaussettes The Socks", accroche="La stabilité, sans les pieds nus",
+         # nom affiche dans les puces et "Composez votre rituel" des packs
+         nom_rituel="Chaussettes anti-dérapantes The Socks",
          prix=19.90, img="assets/chaussettes-1.webp",
          # galerie de la fiche produit, dans l'ordre fourni
          imgs=[("assets/chaussettes-1.webp", "Paire de chaussettes antiderapantes noir et blanc, semelle a picots silicone"),
@@ -520,8 +525,8 @@ RITUELS = [
                     "les chaussettes antidérapantes vous évitent de glisser sur le parquet. Pensé pour "
                     "débuter sans y laisser tout son salon, ni tout son budget.",
          # cadeaux du pack, affiches sous "Composez votre rituel" : une ligne par cadeau
-         cadeau=[("1 sac de rangement", "Offert", "assets/perk-bag.webp"),
-                 ("Programme 21 jours pour reprendre le yoga", "Offert", "assets/perk-guide.webp")],
+         cadeau=[("Programme 21 jours pour reprendre le yoga", "Offert", "assets/perk-guide.webp"),
+                 ("1 sac de rangement", "Offert", "assets/perk-bag.webp")],
          produits=["the-fold", "bloc", "chaussettes"], prix=99.0,
          # date de livraison estimee sous le titre : (mini, maxi) jours ajoutes a aujourd'hui
          livraison=(6, 12),

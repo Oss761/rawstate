@@ -411,7 +411,7 @@ main section[id] { scroll-margin-top: 66px; }
   .hero__sub { margin-bottom: 18px; line-height: 1.5; }
   .hero__cta { margin-bottom: 16px; }
   .hero__perks { margin-bottom: 20px; }
-  .gallery__thumbs { grid-template-columns: repeat(10, 1fr); }
+  .gallery__thumbs { grid-template-columns: repeat(9, 1fr); }
   .footer__grid { grid-template-columns: 1fr; gap: 36px; }
   .footer__news { grid-column: auto; }
   .footer__bottom { flex-direction: column; text-align: center; }
@@ -554,26 +554,25 @@ main section[id] { scroll-margin-top: 66px; }
 
         <!-- Info -->
         <div class="pinfo reveal">
-          <h1 class="pinfo__title">Tapis pliable The Fold</h1>
+          <h1 class="pinfo__title">Tapis de yoga pliable The Fold</h1>
 
-          <p class="pinfo__delivery">
-            <span class="ico" data-ico="truck"></span>
-            <span data-delivery>Estimation du délai de livraison…</span>
-          </p>
-
-          <p class="pinfo__ship">Livraison offerte</p>
-
-          <ul class="pinfo__bullets">
-            <li><span class="ico" data-ico="check"></span> Pliable en 10 secondes</li>
-            <li><span class="ico" data-ico="check"></span> Facile à transporter</li>
-            <li><span class="ico" data-ico="check"></span> Idéal pour les séances à la maison</li>
-          </ul>
+          <p class="pdp__price"><strong>69,90 €</strong><span>Livraison offerte</span></p>
 
           <p class="pinfo__desc">
-            Un tapis qui se plie comme une serviette et se range partout :
-            dans un placard, une étagère, un sac de voyage. Adhérence supérieure,
-            matériaux responsables, fini soigné. Pensé pour ceux qui refusent
-            de sacrifier leur pratique, chez eux comme en déplacement.
+            Le tapis de yoga qui se plie comme une serviette. Il se range dans un
+            tiroir et part dans une valise cabine. Vous ne ratez plus une séance
+            parce que votre tapis prend toute la place.
+          </p>
+
+          <ul class="pinfo__bullets">
+            <li><span class="ico" data-ico="check"></span> Se plie en moins de 10 secondes, sans sangle ni tube</li>
+            <li><span class="ico" data-ico="check"></span> Plié : 36,6 × 30 cm et 700 g, il entre dans une valise cabine</li>
+            <li><span class="ico" data-ico="check"></span> Grip double face, même quand les mains transpirent</li>
+          </ul>
+
+          <p class="pinfo__eta">
+            <span class="ico" data-ico="truck"></span>
+            <span data-delivery>Expédié sous 48 h · estimation du délai de livraison…</span>
           </p>
 
           <!-- Offers -->
@@ -622,6 +621,10 @@ main section[id] { scroll-margin-top: 66px; }
                     <span class="perk__ico ico" data-ico="shield"></span>
                     <span class="perk__name">Garantie 30 jours</span>
                   </li>
+                  <li>
+                    <span class="perk__ico ico" data-ico="truck"></span>
+                    <span class="perk__name">Peut arriver en plusieurs colis</span>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -655,18 +658,18 @@ main section[id] { scroll-margin-top: 66px; }
 
           <!-- Cadeaux communs aux 3 offres, sous les offres et avant le bouton -->
           <div class="offerts">
-            <img class="offerts__ico" src="assets/ico-cadeau-rouge.png" alt="" aria-hidden="true" />
+            <p class="offerts__titre">Inclus dans votre commande</p>
             <ul class="offerts__liste" data-offerts>
               <li>
-                <input type="checkbox" class="cadeau__case" checked aria-label="Sac de rangement : inclus" />
-                <img class="perk__img" src="assets/perk-bag.webp" alt="" loading="lazy" />
-                <span class="perk__name" data-offerts-sac>1 sac de rangement</span>
+                <img class="perk__img" src="assets/perk-guide.webp" alt="" loading="lazy" />
+                <span class="perk__name">Programme 21 jours pour reprendre le yoga
+                  <small class="offerts__sous">24 postures expliquées, pas à pas</small></span>
                 <i class="perk__free">Offert</i>
               </li>
               <li>
-                <input type="checkbox" class="cadeau__case" checked aria-label="Programme 21 jours : inclus" />
-                <img class="perk__img" src="assets/perk-guide.webp" alt="" loading="lazy" />
-                <span class="perk__name">Programme 21 jours pour reprendre le yoga</span>
+                <img class="perk__img" src="assets/perk-bag.webp" alt="" loading="lazy" />
+                <span class="perk__name"><span data-offerts-sac>1 sac de rangement</span>
+                  <small class="offerts__sous">Pour le ranger ou l’emporter</small></span>
                 <i class="perk__free">Offert</i>
               </li>
             </ul>
@@ -679,7 +682,7 @@ main section[id] { scroll-margin-top: 66px; }
               <div class="acc__a"><div class="acc__body">
                 <p>Vous ne ratez plus une séance parce que votre tapis prend toute la place.</p>
                 <p>The Fold a été pensé pour celles et ceux qui veulent pratiquer où bon leur semble, sans y penser à deux fois. Compact une fois plié, il se range dans un placard, une étagère ou un tiroir, et se déroule en quelques secondes partout où vous en avez besoin : le salon, la chambre, le bureau et, à l'occasion, la valise.</p>
-                <p>Fabriqué en TPE écoresponsable, il offre un grip fiable même en pleine transpiration, sans sacrifier le confort articulaire. Pas de compromis entre praticité et qualité : juste un tapis qui suit votre rythme, où que vous le dépliez.</p>
+                <p>Fabriqué en TPE, il offre un grip fiable même en pleine transpiration, sans sacrifier le confort articulaire. Pas de compromis entre praticité et qualité : juste un tapis qui suit votre rythme, où que vous le dépliez.</p>
               </div></div>
             </div>
             <div class="acc">
@@ -692,7 +695,6 @@ main section[id] { scroll-margin-top: 66px; }
                   <li><strong>Poids :</strong> 700 g</li>
                   <li><strong>Matériau :</strong> TPE sans phtalates</li>
                   <li><strong>Adhérence :</strong> surface texturée double face, grip optimal à sec comme humide</li>
-                  <li><strong>Entretien :</strong> lavable à l'eau savonneuse, séchage à l'air libre</li>
                 </ul>
               </div></div>
             </div>
@@ -717,7 +719,7 @@ main section[id] { scroll-margin-top: 66px; }
 
           <!-- Buy -->
           <button class="btn btn--dark btn--block btn--buy" data-buy>
-            <span>Saisir cette offre</span>
+            <span>Ajouter au panier</span>
             <span class="btn__price">— 69,90&nbsp;€</span>
           </button>
           <p class="buy-guarantee"><span class="ico" data-ico="shield"></span> Garantie 30 jours — satisfait ou remboursé</p>
@@ -732,13 +734,13 @@ main section[id] { scroll-margin-top: 66px; }
             <img src="assets/ugc-bag.webp" width="480" height="853" loading="lazy" alt="Tapis Rawstate bleu plié posé sur un lit à côté d'un sac de transport" />
             <img src="assets/ugc-floor.webp" width="480" height="853" loading="lazy" alt="Tapis Rawstate gris déplié sur un parquet" />
             <img src="assets/ugc-woman.webp" width="480" height="853" loading="lazy" alt="Cliente tenant son tapis Rawstate rose plié" />
-            <img src="assets/ugc-man.webp" width="480" height="853" loading="lazy" alt="Client portant son tapis Rawstate gris plié sous le bras" />
+            <img src="assets/ugc-yoga.webp" width="480" height="858" loading="lazy" alt="Pratiquante en posture du guerrier sur son tapis Dusk rose déplié dans le salon" />
           </div>
 
           <div class="pinfo__reassure">
             <div><span class="ico" data-ico="balance"></span> 700 g</div>
             <div><span class="ico" data-ico="shield"></span> Forte résistance</div>
-            <div><span class="ico" data-ico="leaf"></span> TPE écoresponsable</div>
+            <div><span class="ico" data-ico="leaf"></span> TPE</div>
           </div>
         </div>
       </div>
@@ -781,33 +783,85 @@ main section[id] { scroll-margin-top: 66px; }
       </div>
     </section>
 
-    <!-- ============ BENEFITS CARDS ============ -->
-    <section class="benefits">
+    <!-- ============ PLIE OU ROULE ============ -->
+    <section class="plie" id="comparatif">
       <div class="container">
-        <div class="benefits__grid">
-          <article class="bcard reveal">
-            <span class="ico ico--lg" data-ico="fold"></span>
-            <h3>Ultra pliable</h3>
-            <p>Se plie comme une serviette, en trois secondes, sans plis marqués.</p>
-          </article>
-          <article class="bcard reveal">
-            <span class="ico ico--lg" data-ico="bag"></span>
-            <h3>Prêt à voyager</h3>
-            <p>Se glisse dans n'importe quel sac. Format cabine, 700 grammes.</p>
-          </article>
-          <article class="bcard reveal">
-            <span class="ico ico--lg" data-ico="grip"></span>
-            <h3>Adhérence supérieure</h3>
-            <p>Adhérence maximale, même en yoga dynamique et transpiration.</p>
-          </article>
-          <article class="bcard reveal">
-            <span class="ico ico--lg" data-ico="leaf"></span>
-            <h3>Matériaux responsables</h3>
-            <p>TPE écoresponsable et microfibre recyclée. Sans PVC, sans toxines.</p>
-          </article>
+        <div class="plie__head reveal">
+          <span class="eyebrow">Pourquoi plié plutôt que roulé</span>
+          <h2>The Fold ou un tapis roulé&nbsp;?</h2>
+        </div>
+        <div class="plie__cadre reveal">
+          <table class="plie__table">
+            <thead>
+              <tr>
+                <td></td>
+                <th scope="col" class="plie__fold">The Fold</th>
+                <th scope="col">Tapis roulé</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Rangement</th>
+                <td class="plie__fold">36,6 × 30&nbsp;cm, à plat dans un tiroir</td>
+                <td>Un rouleau de 61&nbsp;cm de long</td>
+              </tr>
+              <tr>
+                <th scope="row">En voyage</th>
+                <td class="plie__fold">Dans la valise cabine, 700&nbsp;g</td>
+                <td>À l'épaule, avec une sangle</td>
+              </tr>
+              <tr>
+                <th scope="row">Mise en place</th>
+                <td class="plie__fold">Se déplie à plat, d'un geste</td>
+                <td>Se déroule&nbsp;; les bords peuvent rebiquer</td>
+              </tr>
+              <tr>
+                <th scope="row">Matière</th>
+                <td class="plie__fold">TPE, sans PVC</td>
+                <td>Variable selon la marque</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="section-cta reveal">
-          <a href="#product" class="btn btn--dark btn--lg">Découvrir dès maintenant</a>
+          <a href="#offers" class="btn btn--dark btn--lg plie__cta">Choisir mon coloris</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ UN TAPIS QUI SUIT VOTRE RYTHME ============ -->
+    <section class="rythme">
+      <div class="container">
+        <h2 class="rythme__titre reveal">Un tapis qui suit votre rythme</h2>
+        <div class="rythme__grid">
+          <article class="rcard reveal">
+            <span class="ico" data-ico="fold"></span>
+            <div>
+              <h3>Pliez, rangez.</h3>
+              <p>En accordéon, le long des plis d'origine, en moins de 10 secondes.</p>
+            </div>
+          </article>
+          <article class="rcard reveal">
+            <span class="ico" data-ico="bag"></span>
+            <div>
+              <h3>Il part avec vous.</h3>
+              <p>700&nbsp;g, 36,6 × 30&nbsp;cm plié&nbsp;: la place d'un pull dans la valise.</p>
+            </div>
+          </article>
+          <article class="rcard reveal">
+            <span class="ico" data-ico="grip"></span>
+            <div>
+              <h3>Il ne glisse pas.</h3>
+              <p>Surface texturée double face.</p>
+            </div>
+          </article>
+          <article class="rcard reveal">
+            <span class="ico" data-ico="minus"></span>
+            <div>
+              <h3>Une matière simple.</h3>
+              <p>TPE, sans PVC.</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -821,37 +875,58 @@ main section[id] { scroll-margin-top: 66px; }
         </div>
         <div class="accordion" data-accordion>
           <div class="acc">
-            <button class="acc__q">Le tapis rentre-t-il dans un sac cabine ?<span class="acc__ico"></span></button>
-            <div class="acc__a"><p>Oui. Plié, Rawstate mesure 30 × 30 cm et pèse 700 g. Il se glisse dans un sac à dos, une valise cabine ou même un tote bag sans occuper d'espace.</p></div>
+            <button class="acc__q">Est-ce assez confortable pour mes genoux&nbsp;?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>4&nbsp;mm d'épaisseur, c'est ce qui lui permet de se plier. Pour les postures à genoux, repliez un panneau sur lui-même&nbsp;: vous avez 8&nbsp;mm sous les genoux.</p></div>
           </div>
           <div class="acc">
-            <button class="acc__q">Quels sont les délais de livraison ?<span class="acc__ico"></span></button>
-            <div class="acc__a"><p>Votre commande est préparée avec soin sous 48 h. Elle vous est ensuite livrée en 6 à 8 jours ouvrés, directement à l'adresse de votre choix.</p></div>
+            <button class="acc__q">Est-ce que je sens les plis sous les mains&nbsp;?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>À la réception, laissez-le déplié une nuit&nbsp;: les plis se détendent.</p></div>
           </div>
           <div class="acc">
-            <button class="acc__q">Peut-on le plier quotidiennement ?<span class="acc__ico"></span></button>
-            <div class="acc__a"><p>Absolument. Le TPE écoresponsable a été traité pour supporter des milliers de pliages sans marque permanente ni perte d'adhérence. C'est précisément ce pour quoi il est conçu.</p></div>
+            <button class="acc__q">Le tapis rentre-t-il dans une valise cabine&nbsp;?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>Oui. Plié, The Fold mesure 36,6 × 30&nbsp;cm et pèse 700&nbsp;g. Il se glisse à plat entre vos vêtements.</p></div>
           </div>
           <div class="acc">
-            <button class="acc__q">Comment le nettoyer ?<span class="acc__ico"></span></button>
-            <div class="acc__a"><p>Un coup d'éponge humide suffit au quotidien. Pour un nettoyage complet, il passe en machine à 30°C et sèche à l'air libre en quelques minutes.</p></div>
+            <button class="acc__q">Et s'il ne me convient pas&nbsp;?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>Vous avez 30&nbsp;jours pour l'essayer chez vous (90&nbsp;jours avec l'offre 2&nbsp;tapis). Écrivez-nous&nbsp;: on vous envoie une étiquette de retour prépayée, et vous êtes remboursée sous 14&nbsp;jours.</p></div>
           </div>
           <div class="acc">
-            <button class="acc__q">Quelle est son épaisseur ?<span class="acc__ico"></span></button>
-            <div class="acc__a"><p>4 mm optimisés : assez fin pour se plier et rester léger, assez dense pour protéger vos articulations sur toute surface.</p></div>
+            <button class="acc__q">Peut-on le plier tous les jours&nbsp;?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>Oui, il est conçu pour ça.</p></div>
           </div>
           <div class="acc">
-            <button class="acc__q">Est-il adapté au yoga dynamique ?<span class="acc__ico"></span></button>
-            <div class="acc__a"><p>Oui. Sa surface à micro-adhérence garde une accroche maximale même en transpiration, pour le vinyasa, l'ashtanga ou le power yoga.</p></div>
+            <button class="acc__q">A-t-il une odeur au déballage&nbsp;?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>Une légère odeur peut se dégager les premiers jours, comme pour la plupart des tapis neufs. Laissez-le aérer 24&nbsp;h, déplié.</p></div>
           </div>
           <div class="acc">
-            <button class="acc__q">Le tapis glisse-t-il ?<span class="acc__ico"></span></button>
-            <div class="acc__a"><p>Non. La surface texturée du tapis a été pensée pour offrir une adhérence optimale, même en pleine transpiration. Vos mains et vos pieds restent stables à chaque posture, sans compromis sur le confort.</p></div>
+            <button class="acc__q">Est-il adapté au yoga dynamique&nbsp;?<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>Sa surface texturée double face est faite pour tenir quand les mains transpirent, en vinyasa comme en power yoga.</p></div>
           </div>
           <div class="acc">
-            <button class="acc__q">Quelle est la garantie ?<span class="acc__ico"></span></button>
-            <div class="acc__a"><p>Garantie qualité 2 ans, retour offert sous 30 jours et satisfaction garantie. Si le tapis ne vous convient pas, nous le reprenons sans condition.</p></div>
+            <button class="acc__q">J'ai une autre question<span class="acc__ico"></span></button>
+            <div class="acc__a"><p>Écrivez-nous à <a href="mailto:info@rawstate.fr">info@rawstate.fr</a>&nbsp;: nous répondons sous 24&nbsp;h ouvrées.</p></div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DERNIER APPEL (sous la FAQ) ============ -->
+    <section class="appel">
+      <div class="container">
+        <div class="appel__carte reveal">
+          <div class="appel__tete">
+            <span class="appel__vignette"><img src="assets/fold-pile.webp" alt="" width="160" height="129" loading="lazy" /></span>
+            <div>
+              <h2 class="appel__titre">Prête à le déplier&nbsp;?</h2>
+              <p class="appel__sous">Tapis de yoga pliable The Fold</p>
+            </div>
+          </div>
+          <ul class="appel__liste">
+            <li><span class="ico" data-ico="check"></span> 69,90&nbsp;€ · livraison offerte</li>
+            <li><span class="ico" data-ico="check"></span> Programme 21 jours et sac de rangement offerts</li>
+            <li><span class="ico" data-ico="check"></span> 30 jours pour l'essayer, retour prépayé</li>
+          </ul>
+          <a href="#offers" class="btn btn--dark btn--lg btn--block appel__cta">Choisir mon coloris</a>
         </div>
       </div>
     </section>
@@ -907,7 +982,7 @@ main section[id] { scroll-margin-top: 66px; }
   <!-- Sticky mobile add to cart -->
   <div class="sticky-cart" data-sticky-cart>
     <div class="sticky-cart__info">
-      <strong>Tapis pliable The Fold</strong>
+      <strong>Tapis de yoga pliable The Fold</strong>
       <span data-sticky-variant>Fog · 128€</span>
     </div>
     <button class="btn btn--dark btn--sm" data-buy>Ajouter</button>

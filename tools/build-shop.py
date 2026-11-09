@@ -29,6 +29,18 @@ _m = re.search(r'<div class="pay-badges".*?</div>', MAIN_FOLD, re.S)
 assert _m, "bloc pay-badges introuvable dans main-the-fold.html"
 PAY_BADGES = _m.group(0)
 
+# precision affichee sous chaque cadeau (meme texte que la fiche The Fold)
+SOUS_CADEAU = {
+    'perk-guide.webp': '24 postures expliquées, pas à pas',
+    'perk-bag.webp': 'Pour le ranger ou l’emporter',
+}
+
+# Nom long affiche dans les packs (puces, "Composez votre rituel"). Le nom du
+# produit (`nom`) reste celui du panier, des proprietes de commande et de Shopify.
+PAR_SLUG = {q['slug']: q for q in P.PRODUITS}
+def nom_affiche(q):
+    return q.get('nom_rituel') or q.get('nom_vitrine') or q['nom']
+
 def eur(v):
     return ('%.2f' % v).replace('.', ',') + ' €'
 
@@ -98,7 +110,7 @@ def carte(p):
             </span>
           </a>""".format(page=p['page'], img=p['img'], alt=p['alt'],
                          cat='Tapis' if p['cat'] == 'tapis' else 'Accessoire',
-                         nom=p['nom'], resume=p['resume'], prix=prix)
+                         nom=p.get('nom_vitrine') or p['nom'], resume=p['resume'], prix=prix)
 
 
 def bloc_articles(titre_h2='Nos articles'):
@@ -347,7 +359,7 @@ def carte_rituel(r):
     # inventaire du pack : texte seul, volontairement non cliquable (seuls le
     # visuel et le bouton menent a la fiche du rituel)
     lignes = '\n'.join(
-        '            <li>%s<span>%s</span></li>' % (q['nom'], eur(q['prix']))
+        '            <li>%s<span>%s</span></li>' % (q.get('nom_vitrine') or q['nom'], eur(q['prix']))
         for q in (P.par_slug(s) for s in r['produits']))
     return """        <article class="rite reveal{vedette}">
           <a class="rite__visuel" href="#{slug}" aria-hidden="true" tabindex="-1">
@@ -409,7 +421,7 @@ def produit_rituel(r):
         mention_prix="Économisez %s" % eur(eco),
         mention_badge=True,
         prix_sur_bouton=True,
-        bullets=[q['nom'] for q in items],
+        bullets=[nom_affiche(q) for q in items],
         # le tableau se lit comme un calcul : prix plein barre, livraison offerte,
         # economie, puis le prix du lot sur une ligne appuyee
         specs=[(q['nom'], eur(q['prix'])) for q in items]
@@ -768,11 +780,13 @@ def page_produit(p):
                 '                  <button type="button" class="swatch%s" data-color="%s" data-vignette="%s"'
                 ' aria-label="%s : %s" style="background:%s;border-color:%s">'
                 '<img class="swatch__img" src="%s" alt="" aria-hidden="true" /></button>'
-                % (' is-active' if i == 0 else '', nom, vign, nom_c, nom, hexa, hexa, vign)
+                % (' is-active' if i == 0 else '', nom, vign,
+                   nom_affiche(PAR_SLUG[slug_c]) if slug_c in PAR_SLUG else nom_c, nom, hexa, hexa, vign)
                 for i, (nom, hexa, vign) in enumerate(cols))
             lignes.append(
                 '              <div class="composer__ligne" data-composer-item="%s" data-produit="%s">' % (slug_c, nom_c) + nl8
-                + '                <div class="composer__label">%s — <span data-composer-nom>%s</span>%s</div>' % (nom_c, cols[0][0], mention_c) + nl8
+                + '                <div class="composer__label">%s — <span data-composer-nom>%s</span>%s</div>' % (
+                    nom_affiche(PAR_SLUG[slug_c]) if slug_c in PAR_SLUG else nom_c, cols[0][0], mention_c) + nl8
                 + '                <div class="variants__list">' + nl8 + puces + nl8
                 + '                </div>' + nl8
                 + '              </div>')
@@ -791,19 +805,25 @@ def page_produit(p):
         # une seule ligne (3 chaines) ou une liste de lignes
         lignes_c = [cad_r] if isinstance(cad_r[0], str) else list(cad_r)
         nl9 = chr(10)
+        # meme bloc que "Inclus dans votre commande" de la fiche The Fold
+        # (classes .offerts* de styles.css) : vignette, nom + precision, OFFERT en vert
+        def precision(vignette):
+            return SOUS_CADEAU.get(vignette.split('/')[-1], '')
         rangs = nl9.join(
-            '              <div class="cadeau__ligne">' + nl9
-            + '                <input type="checkbox" class="cadeau__case" checked'
-              ' aria-label="%s : inclus" />' % titre_c + nl9
-            + '                <span class="cadeau__img"><img src="%s" alt="" loading="lazy" /></span>' % vignette_c + nl9
-            + '                <span class="cadeau__txt">%s</span>' % titre_c + nl9
-            + '                <span class="cadeau__free">%s</span>' % mention_c + nl9
-            + '              </div>'
+            '                <li>' + nl9
+            + '                  <img class="perk__img" src="%s" alt="" loading="lazy" />' % vignette_c + nl9
+            + '                  <span class="perk__name">%s' % titre_c
+            + ('<small class="offerts__sous">%s</small>' % precision(vignette_c) if precision(vignette_c) else '')
+            + '</span>' + nl9
+            + '                  <i class="perk__free">%s</i>' % mention_c + nl9
+            + '                </li>'
             for titre_c, mention_c, vignette_c in lignes_c)
         cadeau_rituel = (
-            '            <div class="cadeau cadeau--offert">' + nl9
-            + '              <img class="cadeau__ico" src="assets/ico-cadeau-rouge.png" alt="" aria-hidden="true" />' + nl9
+            '            <div class="offerts">' + nl9
+            + '              <p class="offerts__titre">Inclus dans votre commande</p>' + nl9
+            + '              <ul class="offerts__liste">' + nl9
             + rangs + nl9
+            + '              </ul>' + nl9
             + '            </div>' + nl9)
 
     # a cote du prix : "Livraison offerte", ou le prix plein barre pour les packs
@@ -1020,7 +1040,7 @@ def page_the_fold():
         """  <!-- Sticky mobile add to cart -->
   <div class="sticky-cart" data-sticky-cart>
     <div class="sticky-cart__info">
-      <strong>Tapis pliable The Fold</strong>
+      <strong>Tapis de yoga pliable The Fold</strong>
       <span data-sticky-variant>Fog · 128€</span>
     </div>
     <button class="btn btn--dark btn--sm" data-buy>Ajouter</button>

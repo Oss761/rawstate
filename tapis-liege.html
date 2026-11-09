@@ -411,7 +411,7 @@ main section[id] { scroll-margin-top: 66px; }
   .hero__sub { margin-bottom: 18px; line-height: 1.5; }
   .hero__cta { margin-bottom: 16px; }
   .hero__perks { margin-bottom: 20px; }
-  .gallery__thumbs { grid-template-columns: repeat(10, 1fr); }
+  .gallery__thumbs { grid-template-columns: repeat(9, 1fr); }
   .footer__grid { grid-template-columns: 1fr; gap: 36px; }
   .footer__news { grid-column: auto; }
   .footer__bottom { flex-direction: column; text-align: center; }
@@ -577,14 +577,15 @@ main section[id] { scroll-margin-top: 66px; }
             <li><span class="ico" data-ico="check"></span> Base TPE antidérapante</li>
             </ul>
 
-            <div class="cadeau cadeau--offert">
-              <img class="cadeau__ico" src="assets/ico-cadeau-rouge.png" alt="" aria-hidden="true" />
-              <div class="cadeau__ligne">
-                <input type="checkbox" class="cadeau__case" checked aria-label="Programme 21 jours pour reprendre le yoga : inclus" />
-                <span class="cadeau__img"><img src="assets/perk-guide.webp" alt="" loading="lazy" /></span>
-                <span class="cadeau__txt">Programme 21 jours pour reprendre le yoga</span>
-                <span class="cadeau__free">Offert</span>
-              </div>
+            <div class="offerts">
+              <p class="offerts__titre">Inclus dans votre commande</p>
+              <ul class="offerts__liste">
+                <li>
+                  <img class="perk__img" src="assets/perk-guide.webp" alt="" loading="lazy" />
+                  <span class="perk__name">Programme 21 jours pour reprendre le yoga<small class="offerts__sous">24 postures expliquées, pas à pas</small></span>
+                  <i class="perk__free">Offert</i>
+                </li>
+              </ul>
             </div>
             <div class="pdp__buy">
               <div class="qty" data-qty>
