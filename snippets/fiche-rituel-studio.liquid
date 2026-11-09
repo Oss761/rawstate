@@ -118,14 +118,15 @@
                 </div>
               </div>
             </div>
-            <div class="cadeau cadeau--offert">
-              <img class="cadeau__ico" src="{{ 'ico-cadeau-rouge.png' | asset_url }}" alt="" aria-hidden="true" />
-              <div class="cadeau__ligne">
-                <input type="checkbox" class="cadeau__case" checked aria-label="Programme 21 jours pour reprendre le yoga : inclus" />
-                <span class="cadeau__img"><img src="{{ 'perk-guide.webp' | asset_url }}" alt="" loading="lazy" /></span>
-                <span class="cadeau__txt">Programme 21 jours pour reprendre le yoga</span>
-                <span class="cadeau__free">Offert</span>
-              </div>
+            <div class="offerts">
+              <p class="offerts__titre">Inclus dans votre commande</p>
+              <ul class="offerts__liste">
+                <li>
+                  <img class="perk__img" src="{{ 'perk-guide.webp' | asset_url }}" alt="" loading="lazy" />
+                  <span class="perk__name">Programme 21 jours pour reprendre le yoga<small class="offerts__sous">24 postures expliquées, pas à pas</small></span>
+                  <i class="perk__free">Offert</i>
+                </li>
+              </ul>
             </div>
             <div class="pdp__buy">
               <button class="btn btn--dark btn--block btn--buy"

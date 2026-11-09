@@ -17,37 +17,38 @@
   ];
   var current = 0;
 
-  /* ---------- Gallery (9 photos + 1 vidéo, 1:1, ordre fixe) ----------
-     Une entrée est soit une string (image), soit { video, poster }. La vignette
-     n'affiche jamais que le poster : la vidéo n'est téléchargée qu'au moment où
-     l'on ouvre sa vue. Les index 0-2 restent les 3 coloris (utilisés par le
-     sélecteur de couleur et par les lignes du panier). */
+  /* ---------- Gallery (9 photos, 1:1, ordre fixe) ----------
+     Une entrée est soit { src, alt }, soit { video, poster } (code vidéo
+     conservé, plus utilisé). Les photos ne suivent plus un coloris par vue :
+     le choix d'un coloris affiche la vue VUE_COLORIS (les 3 coloris côte à
+     côte), et le panier prend ses vignettes dans FOLD_IMGS. */
   var GALLERY = [
-    RAW_ASSET('mat-grey.webp'),   // 1 — tapis gris déplié
-    RAW_ASSET('mat-blue.webp'),   // 2 — tapis bleu déplié
-    RAW_ASSET('mat-pink.webp'),   // 3 — tapis rose déplié
-    RAW_ASSET('colors.webp'),     // 4 — les 3 coloris pliés + badge garantie 30 jours
-    RAW_ASSET('carousel-sofa.webp'),    // 5 — rangé sous le canapé (« Le tapis facile à ranger chez soi »)
-    RAW_ASSET('carousel-yoga.webp'),    // 6 — pile de tapis rose plié (+ tapis bleu)
-    RAW_ASSET('carousel-stack.webp'),   // 7 — comparatif « Tapis plié » / « Tapis déplié » au sol
-    RAW_ASSET('carousel-texture.webp'), // 8 — tableau comparatif The Fold vs tapis roulés
-    RAW_ASSET('dimensions.webp'), // 9 — dimensions
-    { video: RAW_ASSET('programme-21jours.mp4'),        // 10 — le programme 21 jours feuilleté
-      poster: RAW_ASSET('programme-21jours-poster.webp') }
+    { src: RAW_ASSET('fold-1.webp'), alt: 'Tapis de yoga pliable The Fold Fog déplié au sol, à côté de son format plié et d’une valise cabine' },
+    { src: RAW_ASSET('fold-2.webp'), alt: 'Plié en moins de 10 secondes : déplié, en accordéon, plié et rangé' },
+    { src: RAW_ASSET('fold-3.webp'), alt: 'Les 3 coloris pliés : Fog gris, Lagoon bleu, Dusk rose. Essai 30 jours, retour offert' },
+    { src: RAW_ASSET('fold-4.webp'), alt: 'Pratiquante assise sur le tapis Lagoon au milieu du salon' },
+    { src: RAW_ASSET('fold-5.webp'), alt: 'Dimensions : 183 × 61 cm déplié, 36,6 × 30 cm plié' },
+    { src: RAW_ASSET('fold-6.webp'), alt: 'Le tapis plié tient dans une valise cabine : 700 g, 36,6 × 30 cm plié' },
+    { src: RAW_ASSET('fold-7.webp'), alt: 'Gros plan sur le grip : surface texturée sur les deux faces' },
+    { src: RAW_ASSET('fold-8.webp'), alt: 'Tapis rangé dans son sac sur une étagère : sac de rangement offert' },
+    { src: RAW_ASSET('fold-9.webp'), alt: 'Offerts avec le tapis : programme 21 jours pour reprendre le yoga et sac de rangement' }
   ];
+  var VUE_COLORIS = 2;   // fold-3 : Fog, Lagoon et Dusk côte à côte
+  // vignettes du panier, une par coloris (même ordre que VARIANTS)
+  var FOLD_IMGS = [RAW_ASSET('mat-grey.webp'), RAW_ASSET('mat-blue.webp'), RAW_ASSET('mat-pink.webp')];
 
   var mainEl = document.querySelector('[data-gallery-main]');
   var stageEl = document.querySelector('[data-gallery-stage]');
   var thumbsEl = document.querySelector('[data-gallery-thumbs]');
   var activeThumb = 0;
 
-  function imgTag(src) {
-    return '<img src="' + src + '" alt="Tapis pliable The Fold" loading="lazy" />';
+  function imgTag(src, alt) {
+    return '<img src="' + src + '" alt="' + (alt || 'Tapis de yoga pliable The Fold').replace(/"/g, '&quot;') + '" loading="lazy" />';
   }
-  function isVideo(item) { return typeof item !== 'string'; }
-  function posterOf(item) { return isVideo(item) ? item.poster : item; }
+  function isVideo(item) { return !!item.video; }
+  function posterOf(item) { return isVideo(item) ? item.poster : item.src; }
   function mainTag(item) {
-    if (!isVideo(item)) return imgTag(item);
+    if (!isVideo(item)) return imgTag(item.src, item.alt);
     // muted + playsinline sont indispensables : sans eux les navigateurs
     // refusent la lecture automatique.
     return '<video src="' + item.video + '" poster="' + item.poster + '"' +
@@ -59,7 +60,7 @@
       return '<button class="gallery__thumb' + (i === activeThumb ? ' is-active' : '') +
         (isVideo(item) ? ' is-video' : '') +
         '" data-thumb="' + i + '" aria-label="Vue ' + (i + 1) +
-        (isVideo(item) ? ' (vidéo)' : '') + '">' + imgTag(posterOf(item)) + '</button>';
+        (isVideo(item) ? ' (vidéo)' : '') + '">' + imgTag(posterOf(item), '') + '</button>';
     }).join('');
     setMain(activeThumb);
   }
@@ -157,9 +158,9 @@
       pickRow('duo0', 'Tapis 1', VARIANTS, state.duo[0]) + pickRow('duo1', 'Tapis 2', VARIANTS, state.duo[1]);
     var pickRit = offersEl.querySelector('[data-pick="rituel"]');
     if (pickRit) {
-      pickRit.innerHTML = pickRow('rit-fold', 'Tapis The Fold', VARIANTS, state.rit.fold)
-        + pickRow('rit-bloc', 'Bloc The Block', BLOC, state.rit.bloc)
-        + pickRow('rit-socks', 'Chaussettes The Socks', SOCKS, state.rit.socks, '(Taille : 37-43)');
+      pickRit.innerHTML = pickRow('rit-fold', 'Tapis de yoga pliable The Fold', VARIANTS, state.rit.fold)
+        + pickRow('rit-bloc', 'Bloc de yoga The Block', BLOC, state.rit.bloc)
+        + pickRow('rit-socks', 'Chaussettes anti-dérapantes The Socks', SOCKS, state.rit.socks, '(Taille : 37-43)');
     }
     // le sac offert suit le nombre de tapis de l'offre choisie
     var sacEl = document.querySelector('[data-offerts-sac]');
@@ -204,7 +205,7 @@
       else if (group === 'rit-bloc') { state.rit.bloc = idx; tapis = false; }
       else if (group === 'rit-socks') { state.rit.socks = idx; tapis = false; }
       renderOffers();
-      if (tapis) setMain(idx); // galerie sur le coloris choisi (0/1/2)
+      if (tapis) setMain(VUE_COLORIS); // galerie sur la vue des 3 coloris
       return;
     }
     var card = e.target.closest('.offer');
@@ -229,6 +230,7 @@
     bag: '<path d="M6 8h12l-1 12H7zM9 8V6a3 3 0 0 1 6 0v2"/>',
     grip: '<path d="M5 5h4v4H5zM10 5h4v4h-4zM15 5h4v4h-4zM5 10h4v4H5zM10 10h4v4h-4zM15 10h4v4h-4zM5 15h4v4H5zM10 15h4v4h-4zM15 15h4v4h-4z"/>',
     leaf: '<path d="M4 20C4 10 12 4 20 4c0 10-7 16-16 16zM4 20c4-8 8-11 12-13"/>',
+    minus: '<circle cx="12" cy="12" r="9"/><path d="M8 12h8"/>',
     plane: '<path d="M10 4l2 6 8 3-8 2-2 6-2-6-4-2 4-2z"/>',
     sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
     balance: '<path d="M12 3v18M5 21h14M6 7h12M6 7l-3 6a3 3 0 0 0 6 0zM18 7l-3 6a3 3 0 0 0 6 0z"/>',
@@ -274,10 +276,10 @@
     function day(d) { return d.toLocaleDateString('fr-FR', { day: 'numeric' }); }
     function dayMonth(d) { return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }); }
     var sameMonth = d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear();
-    var txt = sameMonth
-      ? 'Livré entre le ' + day(d1) + ' et le ' + dayMonth(d2)
-      : 'Livré entre le ' + dayMonth(d1) + ' et le ' + dayMonth(d2);
-    Array.prototype.forEach.call(els, function (el) { el.textContent = txt; });
+    // "Expédié sous 48 h · livré entre le <b>10</b> et le <b>12 novembre</b>"
+    var txt = 'Expédié sous 48 h · livré entre le <strong>' + (sameMonth ? day(d1) : dayMonth(d1))
+      + '</strong> et le <strong>' + dayMonth(d2) + '</strong>';
+    Array.prototype.forEach.call(els, function (el) { el.innerHTML = txt; });
   })();
 
   /* ---------- Formulaire d'avis (jeune marque) ----------
@@ -448,8 +450,8 @@
   // ce dont le panier a besoin pour proposer un duo, hors de cette page
   function foldMeta(cols) {
     return { c: cols,
-             v: VARIANTS.map(function (v, i) { return { n: v.name, color: v.color, img: GALLERY[i] }; }),
-             duo: { nom: 'Tapis pliable The Fold · Duo', prix: 118.80 } };
+             v: VARIANTS.map(function (v, i) { return { n: v.name, color: v.color, img: FOLD_IMGS[i] }; }),
+             duo: { nom: 'Tapis de yoga pliable The Fold · Duo', prix: 118.80 } };
   }
   function cle(t) { return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-'); }
 
@@ -469,8 +471,8 @@
     }
     if (state.offer === 1) {
       var v = VARIANTS[state.single];
-      return { id: 'o1-' + state.single, nom: 'Tapis pliable The Fold', detail: 'Coloris : ' + v.name,
-        prix: 69.90, imgs: [GALLERY[state.single]], sw: [v.color],
+      return { id: 'o1-' + state.single, nom: 'Tapis de yoga pliable The Fold', detail: 'Coloris : ' + v.name,
+        prix: 69.90, imgs: [FOLD_IMGS[state.single]], sw: [v.color],
         sacs: 1, programme: true, livr: FOLD_LIVR, fold: foldMeta([state.single]) };
     }
     return window.RawCart.foldDuo(foldMeta([]), state.duo[0], state.duo[1], FOLD_LIVR);
